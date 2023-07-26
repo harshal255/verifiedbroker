@@ -9,7 +9,14 @@ export default withMT({
     "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#c2410c',
+        primaryhover: '#9a3412',
+       
+        
+      },
+    }
   },
   plugins: [],
 });
