@@ -1,10 +1,11 @@
 
-
+import React from 'react'
 
 const Home = () => {
     return (
-        <>hom</>
-        
+        <section className='h-screen my-20 md:p-10 lg:p-48'>
+            Hello Developers
+        </section>
     )
 }
 

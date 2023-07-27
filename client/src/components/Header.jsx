@@ -11,6 +11,7 @@ import {
 } from "@material-tailwind/react";
 import { useState } from 'react';
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     const [openRight, setOpenRight] = useState(false);
@@ -32,18 +33,19 @@ const Header = () => {
                 <div className='xl:order-2'><span className="font-bold text-primary text-xl">Logo</span></div>
                 <div>
                     <ul className="font-semibold hidden xl:flex xl:order-1 justify-between sm:gap-6 md:gap-8 xl:gap-10 ">
-                        <li className='cursor-pointer'>Buy</li>
-                        <li className='cursor-pointer'> Rent</li>
-                        <li className='cursor-pointer'>Sell</li>
-                        <li className='cursor-pointer'>Find Agent</li>
+                        <Link to="/property"><li className='cursor-pointer'>Property</li></Link>
+                        <Link to="/rent"><li className='cursor-pointer'> Rent</li></Link>
+                        <Link to="/sell"> <li className='cursor-pointer'>Sell</li></Link>
+                        <Link to="/agents"> <li className='cursor-pointer'>Find Agent</li></Link>
                     </ul>
                 </div>
 
                 <div className='flex items-center xl:order-3'>
                     <ul className="font-semibold hidden xl:flex justify-between sm:gap-6 md:gap-8 xl:gap-10">
-                        <li className='cursor-pointer'>Blogs</li>
-                        <li className='cursor-pointer'>Become Agent</li>
-                        <li className='cursor-pointer'>Sign in</li>
+                        <Link to="/blogs"> <li className='cursor-pointer'>Blogs</li></Link>
+                        <Link to="/becomeagent"> <li className='cursor-pointer'>Become Agent</li></Link>
+                        <Link to="/signin"> <li className='cursor-pointer'>Sign in</li></Link>
+
                     </ul>
                     <span onClick={openDrawerRight} className='cursor-pointer'><RiMenuFoldFill></RiMenuFoldFill></span>
 
@@ -184,7 +186,7 @@ const Header = () => {
                     </ListItem>
                     <ListItem>
                         <ListItemPrefix>
-                           <UserCircleIcon className='h-5 w-5'></UserCircleIcon>
+                            <UserCircleIcon className='h-5 w-5'></UserCircleIcon>
                         </ListItemPrefix>
                         Sign in
                     </ListItem>
