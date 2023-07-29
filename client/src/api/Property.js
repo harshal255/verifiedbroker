@@ -8,7 +8,7 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
@@ -17,6 +17,7 @@ const Properties = [
             startingyear: "2019",
             endingyear: "2023",
         },
+        name: "Ali Tufan",
 
 
     },
@@ -29,15 +30,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Broker Name"
     },
     {
         id: 3,
@@ -48,15 +50,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Ali Tufan"
     },
     {
         id: 4,
@@ -67,15 +70,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Broker Name"
     },
     {
         id: 5,
@@ -86,15 +90,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Ali Tufan"
     },
     {
         id: 6,
@@ -105,15 +110,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Broker Name"
     },
     {
         id: 7,
@@ -124,15 +130,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Broker Name"
     },
     {
         id: 8,
@@ -143,15 +150,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Broker Name"
     },
     {
         id: 9,
@@ -162,15 +170,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Broker Name"
     },
     {
         id: 10,
@@ -181,15 +190,16 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, 
+        name: "Broker Name"
     },
     {
         id: 11,
@@ -200,15 +210,15 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, name: "Ali Tufan"
     },
     {
         id: 12,
@@ -219,15 +229,15 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, name: "Broker Name"
     },
     {
         id: 13,
@@ -238,15 +248,15 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, name: "Broker Name"
     },
     {
         id: 14,
@@ -257,15 +267,15 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, name: "Broker Name"
     },
     {
         id: 15,
@@ -276,15 +286,15 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, name: "Ali Tufan"
     },
     {
         id: 16,
@@ -295,15 +305,15 @@ const Properties = [
             state: "CA",
             country: "USA",
         },
-        catogory: "for Rent",
+        category: "for Rent",
         bed: "3",
         bath: "4",
         sqft: "1200",
-        price: "14,000", 
+        price: "14,000",
         year: {
             startingyear: "2019",
             endingyear: "2023",
-        }
+        }, name: "Broker Name"
     },
 ]
 

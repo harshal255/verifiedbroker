@@ -8,6 +8,7 @@ import Becomeagent from './pages/Becomeagent'
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Property from './pages/Property'
+import Oneagent from './pages/Oneajent'
 
 
 
@@ -43,6 +44,16 @@ function App() {
           element={
             <>
               <Agents></Agents>
+              <MobileFooter></MobileFooter>
+              <Footer></Footer>
+            </>
+          }
+        ></Route>
+        <Route
+          path="/agent"
+          element={
+            <>
+              <Oneagent></Oneagent>
               <MobileFooter></MobileFooter>
               <Footer></Footer>
             </>

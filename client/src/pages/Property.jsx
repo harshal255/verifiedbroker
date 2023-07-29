@@ -394,7 +394,7 @@ const Property = () => {
                       </span>
                       <hr className="border-gray-800" />
                       <div className="flex justify-evenly">
-                        <span className="text-sm">{element.catogory}</span>
+                        <span className="text-sm">{element.category}</span>
                         <span className="text-sm">{element.year.startingyear}-{element.year.endingyear}</span>
                       </div>
 
