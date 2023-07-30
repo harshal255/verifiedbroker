@@ -9,6 +9,7 @@ import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Property from './pages/Property'
 import AgentDashboard from './pages/Agent/AgentDashboard'
+import Oneagent from './pages/Oneajent'
 
 function App() {
 
@@ -44,6 +45,16 @@ function App() {
             <>
               <Header />
               <Agents></Agents>
+              <MobileFooter></MobileFooter>
+              <Footer></Footer>
+            </>
+          }
+        ></Route>
+        <Route
+          path="/agent"
+          element={
+            <>
+              <Oneagent></Oneagent>
               <MobileFooter></MobileFooter>
               <Footer></Footer>
             </>

@@ -8,6 +8,8 @@ import { Button, IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 const Agents = () => {
+
+  //for pagination
   const [active, setActive] = useState(1);
 
   const getItemProps = (index) => ({
@@ -86,11 +88,11 @@ const Agents = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5">
         {brokersToShow.map((element) => {
           return (
-            <div className="flex flex-col gap-1" key={element.id}>
+            <Link to="/agent" className="flex flex-col gap-1" key={element.id}>
               <img src={element.img} alt={element.id} />
               <h1 className="text-xl font-bold">{element.Name}</h1>
               <span className="text-base">{element.category}</span>
-            </div>
+            </Link>
           );
         })}
       </div>
