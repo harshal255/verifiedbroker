@@ -36,7 +36,7 @@ const Agents = () => {
   };
 
   return (
-    <div className="pt-0 mt-20">
+    <div className="pt-0 mt-20 xl:mx-20">
       <h1 className="text-4xl text-start">Agents</h1>
       <Breadcrumbs className="my-2">
         <Link to="/" className="opacity-60">

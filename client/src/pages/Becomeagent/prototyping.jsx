@@ -8,7 +8,7 @@ const prototyping = () => {
     const [email, setEmail] = useState("");
     const onChange = ({ target }) => setEmail(target.value);
     return (
-        <div className='flex flex-col lg:flex-row items-center justify-between gap-5 my-5 lg:my-10'>
+        <div className='flex flex-col lg:flex-row items-center justify-evenly gap-5 my-5 lg:my-10'>
             <div>
                 <img src="/images/prototype.png" alt="" />
             </div>

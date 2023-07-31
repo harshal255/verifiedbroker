@@ -28,7 +28,7 @@ const feature = () => {
 
 
   return (
-    <div className="lg:my-20 w-full overflow-clip">
+    <div className="lg:my-28 w-full overflow-clip xl:px-10">
       <div className="flex flex-col gap-5 items-center">
         <h1 className="text-center text-4xl">Features</h1>
         <span className="text-center text-xl lg:w-[28rem] flex-wrap">Most calendars are designed for teams. Slate is designed for freelancers</span>
@@ -61,7 +61,7 @@ const feature = () => {
         </video>
       </Dialog>
 
-      <div className="flex flex-col lg:flex-row justify-between items-center my-5 lg:my-10 gap-5">
+      <div className="flex flex-col lg:flex-row justify-evenly items-center my-5 lg:my-10 gap-5">
         <div className='flex-col gap-5 '>
           <h1 className='text-3xl font-semibold'>Fastest way to organize</h1>
           <span>Most calendars are designed for teams. Slate is designed for freelancers</span>

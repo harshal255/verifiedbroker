@@ -38,7 +38,7 @@ function DashBoardBody() {
     };
 
     return (
-        <div className="body flex flex-col mt-4 overflow-y-auto flex-1 text-left">
+        <div className="body flex flex-col my-28 overflow-y-auto flex-1 text-left">
             <h2 className="text-2xl font-bold">Howdy, Ali!</h2>
             <p className="text-gray-600 mt-2">We are glad to see you again!</p>
             <DashboardAnalitics />
@@ -64,8 +64,8 @@ function DashBoardBody() {
                 </Tabs>
                 <div className="mt-4">{renderChartComponent()}</div>
             </div>
-            {/* <BarChartHours /> */}
-            {/* <AreaChartWeekly /> */}
+            <BarChartHours />
+            <AreaChartWeekly />
         </div>
     )
 }

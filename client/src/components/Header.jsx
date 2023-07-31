@@ -29,7 +29,7 @@ const Header = () => {
     }
     return (
         <>
-            <div className="fixed top-0 flex h-20 w-screen bg-white justify-around items-center z-20 xl:-ml-[10rem]">
+            <div className="fixed top-0 flex h-20 w-screen bg-white justify-around items-center z-20">
                 <div className='xl:order-2'><span className="font-bold text-primary text-xl">Logo</span></div>
                 <div>
                     <ul className="font-semibold hidden xl:flex xl:order-1 justify-between sm:gap-6 md:gap-8 xl:gap-10 ">
@@ -42,7 +42,7 @@ const Header = () => {
 
                 <div className='flex items-center xl:order-3'>
                     <ul className="font-semibold hidden xl:flex justify-between sm:gap-6 md:gap-8 xl:gap-10">
-                        <Link to="/blogs"> <li className='cursor-pointer'>Blogs</li></Link>
+                        <Link to="/agentdash"> <li className='cursor-pointer'>Desh</li></Link>
                         <Link to="/becomeagent"> <li className='cursor-pointer'>Become Agent</li></Link>
                         <Link to="/signin"> <li className='cursor-pointer'>Sign in</li></Link>
 

@@ -31,7 +31,7 @@ function CheckIcon() {
 
 const priceCard = ({ plan, price, features }) => {
     return (
-        <Card variant="gradient" className="lg:max-w-[20rem] p-8 bg-white text-orange-600">
+        <Card variant="gradient" className="lg:w-[25rem] p-8 bg-white text-orange-600">
             <CardHeader
                 floated={false}
                 shadow={false}

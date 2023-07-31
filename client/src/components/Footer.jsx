@@ -6,7 +6,7 @@ const currentYear = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="hidden md:block mt-5 bg-black text-white w-screen -ml-[2.25rem] xl:-ml-[10rem]">
+    <footer className="hidden md:block mt-5 bg-black text-white w-screen">
       <div className="w-full p-6">
         <div className="flex flex-wrap -mt-1 ts:-mx-2">
           {SITEMAP.map(({ title, links }, index) => (

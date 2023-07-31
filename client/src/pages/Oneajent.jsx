@@ -23,7 +23,7 @@ import {
 
 const Oneajent = () => {
   return (
-    <div className='flex h-full justify-start border border-black flex-col'>
+    <div className='flex h-full justify-start border border-black flex-col xl:mx-20'>
       <div className="bg-red-50/50 w-full max-h-fit xl:h-56 mt-20">
         <div className="flex flex-col xl:flex-row m-10 gap-10 items-center">
           <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80" alt="" className='rounded-full h-40 w-40' />
