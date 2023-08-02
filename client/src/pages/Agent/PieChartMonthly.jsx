@@ -1,29 +1,26 @@
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from 'recharts';
+import Chart from 'react-apexcharts';
 
-const data01 = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 }
-];
+const options = {
+    labels: ['Series 1', 'Series 2', 'Series 3', 'Series 4', 'Series 5'],
+    responsive: [
+        {
+            breakpoint: 480, // Define the breakpoint at which the configuration will be overridden
+            options: {
+                // Configure options for screens with a max-width of 480px
+                chart: {
+                    width: '100%' // Adjust the width of the chart
+                }
+            }
+        }
+    ]
+};
+const series = [44, 55, 13, 43, 22];
 
 const PieChartMonthly = () => {
 
     return (
-        <ResponsiveContainer width="100%" height="100%">
-            <PieChart width={400} height={400}>
-                <Pie
-                    dataKey="value"
-                    isAnimationActive={false}
-                    data={data01}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    fill="#8884d8"
-                    label
-                />
-                <Tooltip />
-            </PieChart>
-        </ResponsiveContainer>
+
+        <> <Chart options={options} series={series} type="pie" width="700" /></>
     );
 }
 export default PieChartMonthly;

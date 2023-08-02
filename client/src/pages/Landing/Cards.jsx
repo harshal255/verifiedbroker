@@ -1,6 +1,6 @@
 const Cards = [
     {
-      imgSrc: "./src/assets/images/listings/g1-15.jpg",
+      imgSrc: "/images/listings/g1-15.jpg",
       tag: "FEATURED",
       price: "$14,000 / mo",
       title: "Equestrian Family Home",
@@ -10,7 +10,7 @@ const Cards = [
       sqft: "1200 sqft",
     },
     {
-      imgSrc: "./src/assets/images/listings/g1-16.jpg",
+      imgSrc: "/images/listings/g1-16.jpg",
       tag: "",
       price: "$82,000 / mo",
       title: "Luxury villa in Rego Park",
@@ -20,7 +20,7 @@ const Cards = [
       sqft: "1200 sqft",
     },
     {
-      imgSrc: "./src/assets/images/listings/g1-17.jpg",
+      imgSrc: "/images/listings/g1-17.jpg",
       tag: "",
       price: "$63,000 / mo",
       title: "Villa on Hollywood Boulevard",
@@ -30,7 +30,7 @@ const Cards = [
       sqft: "1200 sqft",
     },
     {
-      imgSrc: "./src/assets/images/listings/g1-10.jpg",
+      imgSrc: "/images/listings/g1-10.jpg",
       tag: "FEATURED",
       price: "$63,000 / mo",
       title: "Villa on Hollywood Boulevard",
@@ -40,7 +40,7 @@ const Cards = [
       sqft: "1200 sqft",
     },
     {
-      imgSrc: "./src/assets/images/listings/g1-11.jpg",
+      imgSrc: "/images/listings/g1-11.jpg",
       tag: "FEATURED",
       price: "$14,000 / mo",
       title: "Triple Story House for Rent",
@@ -50,7 +50,7 @@ const Cards = [
       sqft: "1200 sqft",
     },
     {
-      imgSrc: "./src/assets/images/listings/g1-12.jpg",
+      imgSrc: "/images/listings/g1-12.jpg",
       tag: "",
       price: "$82,000 / mo",
       title: "Northwest Office Space",
@@ -60,7 +60,7 @@ const Cards = [
       sqft: "1200 sqft",
     },
     {
-      imgSrc: "./src/assets/images/listings/g1-13.jpg",
+      imgSrc: "/images/listings/g1-13.jpg",
       tag: "",
       price: "$63,000 / mo",
       title: "Affordable Green Villa House",
@@ -70,7 +70,7 @@ const Cards = [
       sqft: "1200 sqft",
     },
     {
-      imgSrc: "./src/assets/images/listings/g1-14.jpg",
+      imgSrc: "/images/listings/g1-14.jpg",
       tag: "FEATURED",
       price: "$63,000 / mo",
       title: "Sky Pool Villa House",

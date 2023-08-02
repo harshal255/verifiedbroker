@@ -7,7 +7,7 @@ const CTPVD = () => {
         <>
             <DashbordHeader></DashbordHeader>
             <Sidebar></Sidebar>
-            <div className='w-4/5 h-full mt-28 ml-[17.5rem] border border-black p-5 flex flex-col gap-5'>
+            <div className='w-4/5 h-full xl:ml-[17.5rem] border border-black p-5 flex flex-col gap-5'>
 
                 <iframe
                     src="https://tpvd.openprp.in/ctpvd/index.html?geo_extent=35BOX"

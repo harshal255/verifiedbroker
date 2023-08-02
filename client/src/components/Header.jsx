@@ -34,8 +34,8 @@ const Header = () => {
                 <div>
                     <ul className="font-semibold hidden xl:flex xl:order-1 justify-between sm:gap-6 md:gap-8 xl:gap-10 ">
                         <Link to="/property"><li className='cursor-pointer'>Property</li></Link>
-                        <Link to="/rent"><li className='cursor-pointer'> Rent</li></Link>
-                        <Link to="/sell"> <li className='cursor-pointer'>Sell</li></Link>
+                        <Link to="/login"><li className='cursor-pointer'> Login</li></Link>
+                        <Link to="/signup"> <li className='cursor-pointer'>Signup</li></Link>
                         <Link to="/agents"> <li className='cursor-pointer'>Find Agent</li></Link>
                     </ul>
                 </div>

@@ -20,8 +20,9 @@ import {
     ChevronRightIcon
 } from "@heroicons/react/24/solid";
 import { FaEnvelope, FaBell } from 'react-icons/fa';
-
 import Sidebar from "../../components/Dashboard/Sidebar";
+import { AiOutlineMenuUnfold } from 'react-icons/ai'
+
 
 const DashbordHeader = () => {
     const [activeTab, setActiveTab] = useState('Dashboard');
@@ -174,6 +175,7 @@ const DashbordHeader = () => {
                                 />
                             </ListItem>
                         </Typography>
+
                     </MenuHandler>
                     <MenuList className="hidden lg:block menu-ex ">
                         <ul className="text-center flex flex-col gap-3">
@@ -451,7 +453,7 @@ const DashbordHeader = () => {
         <div className="w-full fixed top-0 py-2 px-4 lg:px-8 lg:py-4 border-4 border-black mx-0 bg-white z-50">
             <nav className="my-0">
                 <div className="flex items-center justify-between text-blue-gray-900">
-                    <div className="p-4 text-left">
+                    <div className="p-4 text-left flex flex-row-reverse xl:flex-row items-center justify-center gap-5">
                         <Typography variant="h4" color="blue-gray">
                             Logo
                         </Typography>

@@ -4,11 +4,13 @@ import Explore from './Landing/Explore'
 import Realton from './Landing/Realton'
 import AboutUs from './Landing/AboutUs'
 import Discover from './Landing/Discover'
-import Property from './Landing/Discover'
+import Property from './Landing/Property'
+import Home from './Landing/index';
 
-const Home = () => {
+const HomeLeading = () => {
     return (
         <>
+            <Home />
             <About></About>
             <Explore></Explore>
             <Realton></Realton>
@@ -20,4 +22,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default HomeLeading

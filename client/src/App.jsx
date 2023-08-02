@@ -9,10 +9,9 @@ import Property from './pages/Property'
 import AgentDashboard from './pages/Agent/AgentDashboard'
 import Oneagent from './pages/Oneajent'
 import Myprofile from './pages/Agent/Myprofile'
-import DashBoardBody from './pages/Agent/DashBoardBody'
-import DashbordHeader from './components/Dashboard/Header'
-import Sidebar from './components/Dashboard/Sidebar'
 import CTPVD from './pages/Agent/CTPVD'
+import SignUp from './pages/Signup';
+import Login from './pages/Login';
 
 function App() {
 
@@ -29,6 +28,29 @@ function App() {
               <MobileFooter></MobileFooter>
               <Footer></Footer>
             </>
+          }
+        ></Route>
+        <Route
+          path="/login"
+          element={
+            <>
+              <Header />
+              <Login />
+              <MobileFooter></MobileFooter>
+              <Footer></Footer>
+            </>
+          }
+        ></Route>
+        <Route
+          path="/signup"
+          element={
+            <>
+              <Header />
+              <SignUp />
+              <MobileFooter></MobileFooter>
+              <Footer></Footer>
+            </>
+
           }
         ></Route>
         <Route

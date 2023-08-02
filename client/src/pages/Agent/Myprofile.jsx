@@ -11,11 +11,11 @@ const Myprofile = () => {
         <div className='h-fit flex flex-col'>
             <DashbordHeader></DashbordHeader>
             <Sidebar></Sidebar>
-            <div className='w-4/5 h-full mt-28 ml-[17.5rem] border border-black p-5 flex flex-col gap-5'>
+            <div className='w-4/5 h-full xl:ml-[17.5rem] p-5 flex flex-col gap-5'>
                 <h1 className='text-4xl font-bold text-start'>My Profile</h1>
                 <span className='text-sm'>We are glad to see you again!</span>
                 <div>
-                    <div className="flex gap-10">
+                    <div className="flex flex-col xl:flex-row gap-10">
                         <div className='relative'>
                             <img src="/images/profile.jpg" alt="" className='rounded-xl' />
                             <span className='absolute right-2 top-2 bg-white rounded-xl p-3 text-black z-10 text-2xl'>
@@ -33,7 +33,7 @@ const Myprofile = () => {
                     </div>
                 </div>
                 <div className="form1 mx-5">
-                    <div className="grid grid-cols-3 gap-4 justify-around">
+                    <div className="flex flex-col xl:grid xl:grid-cols-3 gap-4 justify-around">
                         <div className="w-72">
                             <Input label="Username" />
                         </div>
@@ -79,7 +79,7 @@ const Myprofile = () => {
                 <div className="form2 mx-5">
                     <h1 className='my-5'>Social Media</h1>
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="flex flex-col xl:grid xl:grid-cols-3 gap-4">
                         <div className="w-72">
                             <Input label="Facebook Url" />
                         </div>
@@ -108,7 +108,7 @@ const Myprofile = () => {
                 </div>
                 <div className="form3 mx-5">
                     <h1 className='my-5'>Change password</h1>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="flex flex-col xl:grid xl:grid-cols-3 gap-4">
                         <div className="w-72 col-span-3">
                             <Input label="Old Password" />
                         </div>

@@ -15,9 +15,9 @@ import Properties from '../api/Property';
 import { BiBed, BiBath } from 'react-icons/bi';
 import { TbRulerMeasure } from 'react-icons/tb';
 import { useState } from "react";
-import { BsFilterCircle } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr'
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { BsFilterCircle } from 'react-icons/bs'
 
 
 const Property = () => {
@@ -62,7 +62,7 @@ const Property = () => {
 
 
   return (
-    <div className="pt-0 mt-20">
+    <div className="pt-0 mt-20 xl:mx-20">
       <h1 className="text-4xl text-start">Property</h1>
       <Breadcrumbs className="my-2">
         <Link to="/" className="opacity-60">

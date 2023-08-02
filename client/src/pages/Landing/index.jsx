@@ -22,13 +22,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Divider } from "@mui/material";
 import { useCountries } from "use-react-countries";
 
-export function NavbarDefault() {
+const NavbarDefault = () => {
 
   const { countries } = useCountries();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const [advanceDrawer,setAdvancedDrawer] = useState(false)
+  const [advanceDrawer, setAdvancedDrawer] = useState(false)
 
 
 
@@ -40,32 +40,19 @@ export function NavbarDefault() {
     setDrawerOpen(true)
   }
 
-  const handleAdvancedDrawerClose = () =>{
+  const handleAdvancedDrawerClose = () => {
     setAdvancedDrawer(false)
   }
 
-  const handleAdvancedDrawerOpen = () =>{
+  const handleAdvancedDrawerOpen = () => {
     setAdvancedDrawer(true)
   }
 
   return (
     <>
-      <div className="container mx-auto">
-        <Navbar className="flex flex-row justify-between items-center">
-          <List className="hidden lg:flex lg:flex-row lg:w-2/5">
-            <ListItem className="hover:bg-transparent hover:text-black transition-all duration-100 ease-in-out"><Link to="/">Buy</Link></ListItem>
-            <ListItem className="hover:bg-transparent hover:text-black transition-all duration-100 ease-in-out"><Link to="/">Rent</Link></ListItem>
-            <ListItem className="hover:bg-transparent hover:text-black transition-all duration-100 ease-in-out"><Link to="/">Sell</Link></ListItem>
-            <ListItem className="hover:bg-transparent hover:text-black transition-all duration-100 ease-in-out"><Link to="/">Find Agent</Link></ListItem>
-          </List>
-          <Avatar src="./src/assets/images/apple-touch-icon-60x60.png" className="lg:ml-16"></Avatar>
-          <MenuIcon className="text-black lg:invisible" fontSize="large" onClick={handleOpen} />
-          <List className="hidden lg:flex lg:flex-row lg:w-2/5">
-            <ListItem className="hover:bg-transparent hover:text-black transition-all duration-100 ease-in-out"><Link to="/">Blogs</Link></ListItem>
-            <ListItem className="hover:bg-transparent hover:text-black transition-all duration-100 ease-in-out"><Link to="/">Become Agent</Link></ListItem>
-            <ListItem className="hover:bg-transparent hover:text-black transition-all duration-100 ease-in-out"><Link to="/">Signin</Link></ListItem>
-          </List>
-        </Navbar>
+      <div className="">
+
+        <div className="h-20"></div>
         <Drawer className="bg-opacity-0 transition-all duration-75 ease-in-out" open={drawerOpen} placement="right" onClose={handleClose}>
           <Card>
             <List className="text-2xl">
@@ -138,15 +125,14 @@ export function NavbarDefault() {
               </div>
             </div>
             <CloseIcon className="absolute top-6 right-16 bg-gray-300 rounded-full" fontSize="large" onClick={handleAdvancedDrawerClose} />
-
           </Card>
         </Drawer>
-        <div className="bg-[url('./src/assets/images/broker-giving-keys.jpg')] bg-center bg-cover pl-2 text-white flex flex-col justify-center w-auto h-[80vh] lg:h-[90vh]">
+        <div className="bg-[url('/images/broker-giving-keys.jpg')] bg-center bg-cover pl-2 text-white flex flex-col justify-center items-center w-auto h-[80vh] lg:h-[90vh]">
           <Typography className="text-[3rem] lg:text-[4rem]">Is Your Broker Verified?</Typography>
           <Typography className="text-2xl lg:text-[1rem] mt-3">Find Your Dream Property With a Trusted</Typography>
           <Typography className="text-2xl lg:text-[1rem]">Real Estate Marketplace!</Typography>
         </div>
-        <div className="selection absolute bottom-28 md:bottom-0 md:w-[50vh] mx-10 w-[27vh] bg-white shadow-2xl rounded-md lg:bottom-[-80px] lg:w-auto">
+        <div className="selection absolute bottom-5 md:bottom-0 md:w-[50vh] mx-10 w-[27vh] bg-white shadow-2xl rounded-md lg:bottom-[-80px] lg:w-auto ml-[12.5%]">
           <List className="flex flex-row w-fit items-center justify-center text-black border-solid border-black">
             <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Buy</Link></ListItem>
             <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Rent</Link></ListItem>
@@ -204,11 +190,10 @@ export function NavbarDefault() {
               </Select>
             </div>
             <div className="ml-10 flex flex-col justify-center items-center lg:hidden">
-              <TuneIcon onClick={handleAdvancedDrawerOpen}/>
+              <TuneIcon onClick={handleAdvancedDrawerOpen} />
               <Typography className="text-md mt-2">Advanced</Typography>
             </div>
             <div>
-
             </div>
             <div className="bg-red-400 w-20 h-16 ml-5 mr-12 flex flex-col items-center justify-center rounded-md">
               <SearchIcon />
@@ -220,3 +205,5 @@ export function NavbarDefault() {
     </>
   );
 }
+
+export default NavbarDefault;

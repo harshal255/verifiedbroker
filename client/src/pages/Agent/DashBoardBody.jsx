@@ -1,9 +1,24 @@
 import { useState } from 'react';
-import { Tabs, TabsHeader, Tab } from '@material-tailwind/react';
+import { Tabs, TabsHeader, Tab, } from '@material-tailwind/react';
 import DashboardAnalitics from "./DashboardAnalitics";
+import PieChartMonthly from './PieChartMonthly';
 import BarChartHours from './BarChartHours';
 import AreaChartWeekly from './AreaChartWeekly';
-import PieChartMonthly from './PieChartMonthly';
+import { AiOutlineClose } from 'react-icons/ai';
+import { Link } from 'react-router-dom'
+import { LuMessagesSquare, LuPackage2 } from 'react-icons/lu'
+import { BsHouseAdd } from 'react-icons/bs'
+import { BiHomeAlt2, BiMessageDetail } from 'react-icons/bi'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { CiSearch } from 'react-icons/ci'
+import { CgProfile } from 'react-icons/cg'
+import {
+    PresentationChartBarIcon,
+    PowerIcon,
+    ChevronDownIcon,
+    ChevronRightIcon
+} from "@heroicons/react/24/solid";
+
 
 const data = [
     {
@@ -20,7 +35,9 @@ const data = [
     },
 ];
 
-function DashBoardBody() {
+
+
+const DashBoardBody = () => {
     const [activeTab, setActiveTab] = useState('hours');
 
     const renderChartComponent = () => {
@@ -38,9 +55,9 @@ function DashBoardBody() {
     };
 
     return (
-        <div className="body flex flex-col my-28 overflow-y-auto flex-1 text-left">
+        <div className="w-full xl:w-4/5 h-full xl:ml-[17.5rem] border border-black p-5 flex flex-col gap-2">
             <h2 className="text-2xl font-bold">Howdy, Ali!</h2>
-            <p className="text-gray-600 mt-2">We are glad to see you again!</p>
+            <p className="text-gray-600">We are glad to see you again!</p>
             <DashboardAnalitics />
             <div>
                 <Tabs value={activeTab}>
@@ -62,10 +79,13 @@ function DashBoardBody() {
                         ))}
                     </TabsHeader>
                 </Tabs>
-                <div className="mt-4">{renderChartComponent()}</div>
+                <div className="my-10 flex items-center justify-center flex-col gap-5">
+                    {
+                        renderChartComponent()
+                    }
+                </div>
             </div>
-            <BarChartHours />
-            <AreaChartWeekly />
+
         </div>
     )
 }
