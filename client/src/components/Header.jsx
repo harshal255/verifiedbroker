@@ -10,7 +10,7 @@ import {
     Chip,
 } from "@material-tailwind/react";
 import { useState } from 'react';
-import { UserCircleIcon } from "@heroicons/react/24/solid";
+// import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -186,7 +186,7 @@ const Header = () => {
                     </ListItem>
                     <ListItem>
                         <ListItemPrefix>
-                            <UserCircleIcon className='h-5 w-5'></UserCircleIcon>
+                            {/* <UserCircleIcon className='h-5 w-5'></UserCircleIcon> */}
                         </ListItemPrefix>
                         Sign in
                     </ListItem>
