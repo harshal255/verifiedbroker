@@ -6,7 +6,7 @@ const Testimonials = () => {
         <div className="flex flex-col gap-20 my-10 ">
             <h1 className='text-3xl text-center'>Testimonials</h1>
             <div className="flex flex-col items-center justify-center m-auto gap-5">
-                <img src="/images/Partners/ibm.png" alt="ibm" />
+                <img src="/images/Partners/2.png" alt="amd" />
                 <span className='text-lg'>Most calendars are designed for teams. Slate is designed for freelancers who want a simple way to plan their schedule.</span>
                 <div className="flex items-center gap-4">
                     <Avatar src="/images/avtar.jpg" alt="avatar" />

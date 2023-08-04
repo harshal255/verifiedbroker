@@ -2,49 +2,49 @@ const Partners = [
     {
         id: 1,
         title: "Client",
-        img: "/images/Partners/google.png"
+        img: "/images/Partners/1.png"
        
     },
     {
         id: 2,
         title: "Client",
-        img: "/images/Partners/amazon.png"
+        img: "/images/Partners/2.png"
        
     },
     {
         id: 3,
         title: "Client",
-        img: "/images/Partners/microsoft.png"
+        img: "/images/Partners/3.png"
        
     },
     {
         id: 4,
         title: "Client",
-        img: "/images/Partners/uber.png"
+        img: "/images/Partners/4.png"
        
     },
     {
         id: 5,
         title: "Client",
-        img: "/images/Partners/dropbox.png"
+        img: "/images/Partners/5.png"
        
     },
     {
         id: 6,
         title: "Client",
-        img: "/images/Partners/google2.png"
+        img: "/images/Partners/6.png"
        
     },
     {
         id: 7,
         title: "Client",
-        img: "/images/Partners/uber.png"
+        img: "/images/Partners/1.png"
        
     },
     {
         id: 8,
         title: "Client",
-        img: "/images/Partners/amazon.png"
+        img: "/images/Partners/2.png"
        
     },
 ]
