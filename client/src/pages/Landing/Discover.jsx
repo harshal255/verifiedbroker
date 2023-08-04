@@ -53,7 +53,7 @@ const Discover = () => {
 
     return (
         <>
-            <div className='container mx-auto w-auto h-[53vh] md:h-[85vh] lg:h-[90vh] bg-gray-300'>
+            <div className='container mx-auto w-auto h-[54vh] md:h-[85vh] lg:h-[90vh] bg-gray-300'>
                 <Typography className="text-[2rem] ml-6 pt-6 font-bold">Discover Our Featured Listings</Typography>
                 <Typography className="text-[1.2rem] ml-6">Aliquam lacinia diam quis lacus euismod</Typography>
                 <Slider {...settings} className='w-full p-2 mt-6'>
