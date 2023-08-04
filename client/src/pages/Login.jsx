@@ -5,7 +5,7 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 export default function Login() {
@@ -13,8 +13,6 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-
 
     return (
         <Card color="transparent" className="h-screen flex justify-center items-center" shadow={false}>
