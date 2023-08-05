@@ -2,6 +2,14 @@ const ErrorHandler = require('../utils/errorhandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require("../Schema/userSchema");
 const sendToken = require("../utils/jwtTokens");
+const cloudinary = require("cloudinary").v2;
+
+
+cloudinary.config({
+    cloud_name: process.env.cloudName ,
+    api_key: process.env.apiKey ,
+    api_secret: process.env.apiSecret,
+});
 
 
 // Register a user
@@ -162,3 +170,5 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
         message: "User deleted successfully"
     })
 })
+
+// module.exports = cloudinary
