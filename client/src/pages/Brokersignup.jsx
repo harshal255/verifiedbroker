@@ -6,38 +6,8 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'
 
-export default function Register() {
-
-    const navigate = useNavigate();
-
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleRegister = async (e) => {
-        console.log("Hello");
-        e.preventDefault();
-
-        try {
-            console.log(name, email, password);
-            const response = await axios.post('http://localhost:3000/api/register', {
-                name,
-                email,
-                password,
-            });
-            alert('Registration successful');
-            console.log(response);
-            navigate('/login');
-
-        } catch (error) {
-            alert(error.response.data.message);
-            console.error('Registration failed:', error);
-        }
-    };
-
-
+const Brokersignup = () => {
     return (
         <div>
             <Card color="transparent" className="h-screen flex justify-center items-center" shadow={false}>
@@ -52,8 +22,6 @@ export default function Register() {
                                 onChange={(e) => setName(e.target.value)}
                                 color="orange" label="Name" />
                             <Input type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
                                 size="lg" color="orange" label={
                                     <>
                                         Email <span className="text-red-500">*</span>
@@ -62,7 +30,6 @@ export default function Register() {
                             <Input
                                 size="lg"
                                 type="password"
-                                value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 color="orange"
                                 label={
@@ -72,18 +39,20 @@ export default function Register() {
                                 }
                             />
                         </div>
-                        <Button className="mt-6" color="orange" type="submit" onClick={handleRegister} fullWidth>
+                        <Button className="mt-6" color="orange" type="submit" fullWidth>
                             Register
                         </Button>
                     </form>
                 </div>
 
                 <Typography color="gray" className="mt-4 mx-auto font-normal">
-                    <Link to="/login" className="underline font-medium text-black-500 transition-colors hover:text-orange-700">
+                    <Link to="/brokerlogin" className="underline font-medium text-black-500 transition-colors hover:text-orange-700">
                         Already have an account? Sign In
                     </Link>
                 </Typography>
             </Card>
         </div>
-    );
+    )
 }
+
+export default Brokersignup
