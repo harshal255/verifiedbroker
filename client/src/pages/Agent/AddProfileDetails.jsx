@@ -42,7 +42,7 @@ const AddBrokerDetails = () => {
                         <div className="w-full">
                             <Textarea label="Description" />
                         </div>
-                        <div className="grid grid-cols-3 gap-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                             <div className="w-full">
                                 <Select label="Select Category">
                                     <Option>Apartments</Option>
@@ -115,7 +115,7 @@ const AddBrokerDetails = () => {
                                 <input type="file" ref={fileInputRef} onChange={handleFileInputChange} className="invisible" />
                             </div>
                         </div>
-                        <div className="grid grid-cols-5 gap-5">
+                        <div className="grid grid-cols-2  sm:grid-cols-5 gap-5">
                             <div className="relative">
                                 <img src="/images/Properties/1.jpg" alt="1" className="rounded-xl h-40 w-52" />
                                 <span className="absolute top-5 left-5 p-3 bg-white rounded-md">
@@ -149,12 +149,12 @@ const AddBrokerDetails = () => {
         {
             label: 'Location',
             content: (
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-5 ">
                     <h1 className="text-2xl font-bold">Listing Location</h1>
                     <div className="w-full">
                         <Input label="Address" />
                     </div>
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="w-full">
                             <Select label="Country/State">
                                 <Option>Belgiul</Option>
@@ -207,7 +207,7 @@ const AddBrokerDetails = () => {
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.2547158278226!2d73.91419611127971!3d18.562551782466336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20-%20Viman%20Nagar!5e0!3m2!1sen!2sin!4v1681696533582!5m2!1sen!2sin"
                         allowFullScreen="" height={450} loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade" className='w-full'></iframe></div>
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="w-full">
                             <Input label="Latitude" />
                         </div>
@@ -224,7 +224,7 @@ const AddBrokerDetails = () => {
             content: (
                 <div className="flex flex-col gap-5">
                     <h1 className="text-2xl font-bold">Listing Location</h1>
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="w-full">
                             <Input label="Size in ft (only numbers)" />
                         </div>
@@ -294,7 +294,7 @@ const AddBrokerDetails = () => {
                     <div className="w-full">
                         <Textarea label="Owner/ Agent nots (not visible on front end)" />
                     </div>
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="w-full">
                             <Select label="Energy Class">
                                 <Option>All Listing</Option>
@@ -322,8 +322,8 @@ const AddBrokerDetails = () => {
             content: (
                 <div>
                     <h1 className="text-2xl font-bold">Select Amenities</h1>
-                    <div className="w-1/2">
-                        <div className="grid grid-cols-3 gap-5 my-5">
+                    <div className="w-full sm:w-1/2">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 my-5">
                             <Checkbox label="Attic" />
                             <Checkbox label="Basketball court" />
                             <Checkbox label="Air Conditioning" />
@@ -371,11 +371,10 @@ const AddBrokerDetails = () => {
         <>
             <DashbordHeader></DashbordHeader>
             <Sidebar></Sidebar>
-
-            <div className="w-4/5 h-full xl:ml-[17.5rem] border border-black p-5 flex flex-col gap-5">
+            <div className="w-4/5 h-full overflow-scroll xl:ml-[17.5rem] border border-black p-5  gap-5">
                 <Tabs value={activeTab}>
                     <TabsHeader
-                        className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+                        className="rounded-none border-b border-blue-gray-50 bg-transparent p-0 overflow-scroll"
                         indicatorProps={{
                             className: 'bg-transparent border-b-2 border-blue-500 shadow-none rounded-none',
                         }}
@@ -399,7 +398,7 @@ const AddBrokerDetails = () => {
                         ))}
                     </TabsBody>
                 </Tabs>
-                <div className="flex justify-around w-full">
+                <div className="flex flex-col sm:flex-row justify-around w-full gap-5">
                     {activeTab > 0 && <Button color="orange" onClick={handlePrev}>Prev</Button>}
                     {activeTab < formSteps.length - 1 ? (
                         <Button color="orange" onClick={handleNext}>Next</Button>
