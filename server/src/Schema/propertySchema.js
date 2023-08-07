@@ -10,16 +10,16 @@ const propertySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // p_Images: [{
-    //     public_id: {
-    //         type: String,
-    //         required: true
-    //     },
-    //     url: {
-    //         type: String,
-    //         required: true
-    //     }
-    // }],
+    p_Images: [{
+        public_id: {
+            type: String,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        }
+    }],
     bedroom: {
         type: Number,
         required: true

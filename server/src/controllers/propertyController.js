@@ -2,33 +2,36 @@ const ErrorHandler = require('../utils/errorhandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const Property = require("../Schema/propertySchema")
 const User = require("../Schema/userSchema");
-const cloudinary = require("cloudinary").v2;
-
+const cloudinary = require("../utils/cloudinary");
 
 exports.addProperties = catchAsyncErrors(async (req, res, next) => {
     try {
-        // const propertyImages = req.files.propertyPhotos;
+
+        const propertyImages = req.files.propertyPhotos;
 
         const propertyToBeAdd = new Property(req.body);
         propertyToBeAdd.broker_id = req.params.brokerId;
         const amenitiesArray = req.body.amenities.split(',').map(item => item.trim());
         propertyToBeAdd.amenities = amenitiesArray;
 
-        // const propertyImagesArray = Array.isArray(propertyImages) ? propertyImages : [propertyImages];
+        const propertyImagesArray = Array.isArray(propertyImages) ? propertyImages : [propertyImages];
+        console.log(propertyImagesArray);
 
-        // for (const photo of propertyImagesArray) {
-        //     try {
-        //         const propertyImage = await cloudinary.uploader.upload(photo.tempFilePath, {folder: 'VerifiedBroker' });
-        //         const uploadImage = {
-        //             public_id: propertyImage.public_id,
-        //             url: propertyImage.url
-        //         }
-        //         propertyToBeAdd.p_Images.push(uploadImage);
-        //     } catch (error) {
-        //         console.error(error);
-        //         return next(new ErrorHandler('Unable to upload image(s) to Cloudinary', 400));
-        //     }
-        // }
+        for (const photo of propertyImagesArray) {
+            console.log(photo);
+            try {
+                const propertyImage = await cloudinary.uploader.upload(photo.path, { folder: 'Property' });
+                const uploadImage = {
+                    public_id: propertyImage.public_id,
+                    url: propertyImage.url
+                }
+                propertyToBeAdd.p_Images.push(uploadImage);
+            } catch (error) {
+                console.error(error);
+                return next(new ErrorHandler('Unable to upload image(s) to Cloudinary', 400));
+            }
+        }
+
 
         await propertyToBeAdd.save();
 
@@ -42,6 +45,54 @@ exports.addProperties = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Failed to add property', 400));
     }
 });
+
+exports.updateImages = catchAsyncErrors(async (req, res, next) => {
+    try {
+
+        const existProperty = await Property.find({ _id: req.params.propertyId });
+        console.log(existProperty);
+
+        const propertyImages = req.files.propertyPhotos;
+        console.log(propertyImages);
+
+        const propertyImagesArray = Array.isArray(propertyImages) ? propertyImages : [propertyImages];
+
+        const updatedPhotos = [];
+
+        for (let i = 0; i < existProperty[0].p_Images[0].length; i++) {
+            await cloudinary.uploader.destroy(existProperty[0].p_Images[i].public_id);
+        }
+
+
+        for (const photo of propertyImagesArray) {
+            try {
+                const propertyImage = await cloudinary.uploader.upload(photo.path, { folder: 'Property' });
+                const uploadImage = {
+                    public_id: propertyImage.public_id,
+                    url: propertyImage.url
+                }
+                updatedPhotos.push(uploadImage);
+            } catch (error) {
+                console.error(error);
+                return next(new ErrorHandler('Unable to upload image(s) to Cloudinary', 400));
+            }
+        }        
+
+        existProperty[0].p_Images = updatedPhotos;
+
+        await existProperty[0].save();
+
+        res.status(200).json({
+            success: true,
+            data: "Updated Successfully",
+        });
+
+
+    } catch (error) {
+        console.error(error);
+        return next(new ErrorHandler('Failed to update property images', 400));
+    }
+})
 
 
 exports.updateProperties = catchAsyncErrors(async (req, res, next) => {
@@ -71,9 +122,11 @@ exports.updateProperties = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.addAmenities = catchAsyncErrors(async (req, res, next) => {
-
+    console.log(req.body);
     try {
         const existProperty = await Property.findOne({ _id: req.params.propertyId });
+
+        // console.log(req.body.amenities);
 
         const amenitiesArray = req.body.amenities.split(',').map(item => item.trim());
 
@@ -92,6 +145,7 @@ exports.addAmenities = catchAsyncErrors(async (req, res, next) => {
         });
 
     } catch (error) {
+        console.log(error);
         return next(new ErrorHandler('Unable to find property', 400));
     }
 
@@ -120,6 +174,7 @@ exports.deleteAmenities = catchAsyncErrors(async (req, res, next) => {
             amenities: existProperty.amenities
         });
     } catch (error) {
+        console.log(error);
         return next(new ErrorHandler('Error deleting amenities', 500));
     }
 });
@@ -130,12 +185,14 @@ exports.deleteAmenities = catchAsyncErrors(async (req, res, next) => {
 exports.addReviews = catchAsyncErrors(async (req, res, next) => {
     try {
         const existProperty = await Property.findOne({ _id: req.params.propertyId });
+        console.log(existProperty);
 
         if (!existProperty) {
             return next(new ErrorHandler('Unable to find property', 400));
         }
 
         const user = await User.findOne({ _id: req.params.userId });
+        console.log(user);
 
         if (!user) {
             return next(new ErrorHandler('Unable to find user', 400));

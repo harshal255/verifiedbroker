@@ -3,7 +3,7 @@ const express = require('express');
 require("./src/db/connection");
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const fileupload = require("express-fileupload");
+// const fileupload = require("express-fileupload");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -18,9 +18,9 @@ process.on("uncaughtException", (err) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(fileupload({
-    useTempFiles: true
-}))
+// app.use(fileupload({
+//     useTempFiles: true
+// }))
 
 app.use(cors());
 
