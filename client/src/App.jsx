@@ -13,6 +13,10 @@ import CTPVD from './pages/Agent/CTPVD'
 import SignUp from './pages/Signup';
 import Login from './pages/Login';
 import Admin from './pages/Admin'
+import Home1 from './pages/Home1'
+import Brokerlogin from './pages/Brokerlogin'
+import Brokersignup from './pages/Brokersignup'
+import AddProfileDetails from './pages/Agent/AddProfileDetails'
 
 function App() {
 
@@ -54,7 +58,7 @@ function App() {
 
           }
         ></Route>
-        <Route path="/admin" element={<Admin/>}></Route>
+        <Route path="/admin" element={<Admin />}></Route>
         <Route
           path="/becomeagent"
           element={
@@ -121,8 +125,53 @@ function App() {
           </>
         }>
         </Route>
+        <Route path="/agentdash/addnewproperty" element={
+          <>
+            <AddProfileDetails></AddProfileDetails>
+          </>
+        }>
+        </Route>
+        <Route path="/agentdash/addprofiledetails"
+          element={
+            <>
+              <AddProfileDetails></AddProfileDetails>
+            </>
+          }>
+        </Route>
+        <Route
+          path="/landing"
+          element={
+            <>
+              <Header></Header>
+              <Home1></Home1>
+              <MobileFooter></MobileFooter>
+              <Footer></Footer>
+            </>
+          }
+        >
+        </Route>
+        <Route
+          path="/brokersignup"
+          element={
+            <>
+              <Brokersignup></Brokersignup>
+            </>
+          }
+        >
+        </Route>
+        <Route
+          path="/brokerlogin"
+          element={
+            <>
+              <Brokerlogin></Brokerlogin>
+            </>
+          }
+        >
+        </Route>
+
+
       </Routes>
-    </div>
+    </div >
   )
 }
 

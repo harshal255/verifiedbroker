@@ -78,7 +78,7 @@ const Sidebar = () => {
                     </Link>
                     <hr className="my-2 border-blue-gray-50" />
                     <p className="text-left">MANAGE LISTINGS</p>
-                    <Link className={` transition ease-in rounded-lg ${selectedButton === 'AddNewProperties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('AddNewProperties')}>
+                    <Link to="/agentdash/addnewproperty" className={` transition ease-in rounded-lg ${selectedButton === 'AddNewProperties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('AddNewProperties')}>
                         <ListItem>
                             <ListItemPrefix>
                                 <BsHouseAdd className="h-5 w-5" />
@@ -174,7 +174,7 @@ const Sidebar = () => {
                         </Link>
                         <hr className="my-2 border-blue-gray-50" />
                         <p className="text-left">MANAGE LISTINGS</p>
-                        <Link className={` transition ease-in rounded-lg ${selectedButton === 'AddNewProperties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('AddNewProperties')}>
+                        <Link to="/agentdash/addnewproperty" className={` transition ease-in rounded-lg ${selectedButton === 'AddNewProperties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('AddNewProperties')}>
                             <ListItem>
                                 <ListItemPrefix>
                                     <BsHouseAdd className="h-5 w-5" />
