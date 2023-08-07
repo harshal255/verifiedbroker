@@ -5,12 +5,37 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 export default function Register() {
+
+    const navigate = useNavigate();
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const handleRegister = async (e) => {
+        console.log("Hello");
+        e.preventDefault();
+
+        try {
+            console.log(name, email, password);
+            const response = await axios.post('http://localhost:3000/api/register', {
+                name,
+                email,
+                password,
+            });
+            alert('Registration successful');
+            console.log(response);
+            navigate('/login');
+
+        } catch (error) {
+            alert(error.response.data.message);
+            console.error('Registration failed:', error);
+        }
+    };
 
 
     return (
@@ -46,7 +71,7 @@ export default function Register() {
                         }
                     />
                 </div>
-                <Button className="mt-6" color="orange" type="submit" fullWidth>
+                <Button className="mt-6" color="orange" type="submit" onClick={handleRegister} fullWidth>
                     Register
                 </Button>
             </form>

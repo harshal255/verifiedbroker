@@ -5,7 +5,9 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'; 
 
 
 export default function Login() {
@@ -13,6 +15,43 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigate = useNavigate(); 
+
+    const handleLogin = async (e) => {
+        console.log("Hello");
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('http://localhost:3000/api/login', {
+                email,
+                password,
+            });
+            console.log(response);
+
+            // Set the refresh token in the cookie
+            alert("Log In Successfull");
+            localStorage.setItem("role",response.data.user.role);
+            const Token = response.data.token;
+            Cookies.set('tokenjwt', Token);
+
+            if (response.data.user.role === 'admin') {
+                navigate('/admin');
+                window.location.href = '/admin';
+            } else {
+                navigate('/');
+            }
+
+
+            // setIsLoggedIn(true); // Update isLoggedIn state in the Navbar component
+        } catch (error) {
+            console.log(error);
+            alert(error.response.data.message);
+            console.error('Login failed:', error);
+        }
+    };
+
+
 
     return (
         <Card color="transparent" className="h-screen flex justify-center items-center" shadow={false}>
@@ -50,7 +89,7 @@ export default function Login() {
                             Forgot your password?
                         </Link>
                     </Typography>
-                    <Button className="mt-6" color="orange" type="submit" fullWidth>
+                    <Button className="mt-6" color="orange" type="submit" onClick={handleLogin} fullWidth>
                         SIGN IN
                     </Button>
                 </form>

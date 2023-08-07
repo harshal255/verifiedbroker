@@ -132,7 +132,7 @@ const NavbarDefault = () => {
           <Typography className="text-2xl lg:text-[1rem] mt-3">Find Your Dream Property With a Trusted</Typography>
           <Typography className="text-2xl lg:text-[1rem]">Real Estate Marketplace!</Typography>
         </div>
-        <div className="selection absolute bottom-5 md:bottom-0 md:w-[50vh] mx-10 w-[27vh] bg-white shadow-2xl rounded-md lg:bottom-[-80px] lg:w-auto ml-[12.5%]">
+        <div className="selection absolute bottom-20 md:bottom-0 md:w-[50vh] mx-10 w-[27vh] bg-white shadow-2xl rounded-md lg:bottom-[-80px] lg:w-auto ml-[12.5%]">
           <List className="flex flex-row w-fit items-center justify-center text-black border-solid border-black">
             <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Buy</Link></ListItem>
             <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Rent</Link></ListItem>

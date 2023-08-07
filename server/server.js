@@ -3,7 +3,6 @@ const express = require('express');
 require("./src/db/connection");
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const fileupload = require("express-fileupload");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -17,9 +16,6 @@ process.on("uncaughtException", (err) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(fileupload({
-    useTempFiles: true
-}))
 
 app.use(cors());
 
@@ -32,8 +28,10 @@ app.get("/", async (req, res) => {
 });
 
 const user = require("./src/Routes/userRoute");
+const property = require("./src/Routes/propertyRoute")
 
 app.use("/api",user);
+app.use("/api",property);
 
 // unhandled promise rejection
 process.on("unhandledRejection",(err)=>{

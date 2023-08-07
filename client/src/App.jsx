@@ -12,6 +12,7 @@ import Myprofile from './pages/Agent/Myprofile'
 import CTPVD from './pages/Agent/CTPVD'
 import SignUp from './pages/Signup';
 import Login from './pages/Login';
+import Admin from './pages/Admin'
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
 
           }
         ></Route>
+        <Route path="/admin" element={<Admin/>}></Route>
         <Route
           path="/becomeagent"
           element={

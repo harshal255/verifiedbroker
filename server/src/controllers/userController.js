@@ -2,6 +2,14 @@ const ErrorHandler = require('../utils/errorhandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require("../Schema/userSchema");
 const sendToken = require("../utils/jwtTokens");
+const cloudinary = require("cloudinary").v2;
+
+
+cloudinary.config({
+    cloud_name: "dijdjkiqv" ,
+    api_key: "772671317228152" ,
+    api_secret: "G0Yxb_-1oQNDpFZTyuvH0v35LyA"
+});
 
 
 // Register a user
