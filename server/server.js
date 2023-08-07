@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 
 // Handling uncaught exception
 process.on("uncaughtException", (err) => {
+    console.log(err);
     console.log(`Error : ${err.message}`);
     console.log(`Shutting down the server due to Uncaught Exception`);
     process.exit(1);
