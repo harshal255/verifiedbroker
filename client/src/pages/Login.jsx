@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import { toast, Toaster } from 'react-hot-toast'
 
 
 export default function Login() {
@@ -19,7 +20,6 @@ export default function Login() {
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-        console.log("Hello");
         e.preventDefault();
 
         try {
@@ -30,23 +30,25 @@ export default function Login() {
             console.log(response);
 
             // Set the refresh token in the cookie
-            alert("Log In Successfull");
+            toast.success("Log In Successfull");
             localStorage.setItem("role", response.data.user.role);
             const Token = response.data.token;
             Cookies.set('tokenjwt', Token);
 
-            if (response.data.user.role === 'admin') {
-                navigate('/admin');
-                window.location.href = '/admin';
-            } else {
-                navigate('/');
-            }
+            setTimeout(() => {
+                if (response.data.user.role === 'admin') {
+                    navigate('/admin');
+                    window.location.href = '/admin';
+                } else {
+                    navigate('/');
+                }
+            },2000)
+
 
 
             // setIsLoggedIn(true); // Update isLoggedIn state in the Navbar component
         } catch (error) {
-            console.log(error);
-            alert(error.response.data.message);
+            toast.error(error.response.statusText);
             console.error('Login failed:', error);
         }
     };
@@ -54,16 +56,15 @@ export default function Login() {
 
 
     return (
-        <div>
+        <>
+            <Toaster position="top-center"></Toaster>
             <Card color="transparent" className="h-screen flex justify-center items-center" shadow={false}>
-                <img src="/images/Login/login.png" alt="bg" className="absolute h-screen w-screen -z-10 opacity-60" />
-
-                <div className="bg-white p-10 rounded-xl">
-                    <div className="py-4">
-                        <Typography variant="h4" color="orange" className="px-4 text-center">
-                            LOGIN
-                        </Typography>
-                    </div>
+                <div className="bg-gray-200 py-4">
+                    <Typography variant="h4" color="orange" className="px-4 text-center">
+                        LOGIN
+                    </Typography>
+                </div>
+                <>
                     <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 mx-auto">
                         <div className="mb-4 flex flex-col gap-6  items-center justify-center">
                             <Input type="email"
@@ -101,8 +102,8 @@ export default function Login() {
                             New customer? Create your account
                         </Link>
                     </Typography>
-                </div>
+                </>
             </Card>
-        </div>
+        </>
     );
 }

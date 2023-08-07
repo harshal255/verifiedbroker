@@ -2,7 +2,7 @@ const ErrorHandler = require('../utils/errorhandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require("../Schema/userSchema");
 const sendToken = require("../utils/jwtTokens");
-
+const cloudinary = require("../utils/cloudinary");
 
 // Register a user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -162,3 +162,5 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
         message: "User deleted successfully"
     })
 })
+
+// module.exports = cloudinary
