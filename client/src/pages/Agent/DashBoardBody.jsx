@@ -1,23 +1,9 @@
 import { useState } from 'react';
 import { Tabs, TabsHeader, Tab, } from '@material-tailwind/react';
 import DashboardAnalitics from "./DashboardAnalitics";
-import PieChartMonthly from './PieChartMonthly';
-import BarChartHours from './BarChartHours';
-import AreaChartWeekly from './AreaChartWeekly';
-import { AiOutlineClose } from 'react-icons/ai';
-import { Link } from 'react-router-dom'
-import { LuMessagesSquare, LuPackage2 } from 'react-icons/lu'
-import { BsHouseAdd } from 'react-icons/bs'
-import { BiHomeAlt2, BiMessageDetail } from 'react-icons/bi'
-import { AiOutlineHeart } from 'react-icons/ai'
-import { CiSearch } from 'react-icons/ci'
-import { CgProfile } from 'react-icons/cg'
-import {
-    PresentationChartBarIcon,
-    PowerIcon,
-    ChevronDownIcon,
-    ChevronRightIcon
-} from "@heroicons/react/24/solid";
+import PieChartMonthly from './charts/PieChartMonthly';
+import BarChartHours from './charts/BarChartHours';
+import AreaChartWeekly from './charts/AreaChartWeekly';
 
 
 const data = [
