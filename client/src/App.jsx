@@ -17,6 +17,7 @@ import Home1 from './pages/Home1'
 import Brokerlogin from './pages/Brokerlogin'
 import Brokersignup from './pages/Brokersignup'
 import AddProfileDetails from './pages/Agent/AddProfileDetails'
+import Singleproperty from './pages/Singleproperty'
 
 function App() {
 
@@ -103,6 +104,14 @@ function App() {
             </>
           }
         ></Route>
+        <Route path="singleproperty" element={
+          <>
+            <Header />
+            <Singleproperty />
+            <MobileFooter></MobileFooter>
+            <Footer></Footer>
+          </>
+        }></Route>
         <Route
           path="/agentdash"
           element={

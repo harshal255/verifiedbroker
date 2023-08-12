@@ -379,7 +379,7 @@ const Property = () => {
             {
               propertiesToShow.map((element) => {
                 return (
-                  <div className="flex flex-col" key={element.id}>
+                  <Link to="/singleproperty" className="flex flex-col" key={element.id}>
                     <div className="relative w-fit h-fit overflow-hidden rounded-lg">
                       <img src={element.img} alt={element.title} className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl" />
                       <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">{element.price} $/month</div>
@@ -400,7 +400,7 @@ const Property = () => {
 
                     </div>
 
-                  </div>
+                  </Link>
                 )
               })
             }
