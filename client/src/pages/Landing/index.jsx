@@ -119,7 +119,7 @@ const NavbarDefault = () => {
                   <Option>50000$</Option>
                 </Select>
               </div>
-              <div className="bg-red-400 w-28 h-16 mx-auto flex flex-row items-center justify-center rounded-md">
+              <div className="bg-red-300 w-28 h-16 mx-auto flex flex-row items-center justify-center rounded-md">
                 <SearchIcon />
                 <Typography>Search</Typography>
               </div>
@@ -195,7 +195,7 @@ const NavbarDefault = () => {
             </div>
             <div>
             </div>
-            <div className="bg-red-400 w-20 h-16 ml-5 mr-12 flex flex-col items-center justify-center rounded-md">
+            <div className="w-20 h-16 bg-red-400 ml-5 mr-12 flex flex-col items-center justify-center rounded-md">
               <SearchIcon />
               <Typography>Search</Typography>
             </div>

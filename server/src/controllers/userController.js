@@ -2,6 +2,7 @@ const ErrorHandler = require('../utils/errorhandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require("../Schema/userSchema");
 const sendToken = require("../utils/jwtTokens");
+const nodemailer = require("nodemailer");
 const cloudinary = require("../utils/cloudinary");
 
 // Register a user
@@ -46,6 +47,220 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const token = user.getJWTToken();
 
     sendToken(user, 200, res);
+})
+
+// exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
+//     try {
+
+//         const { phone, address, experience, about, reference } = req.body;
+
+//         const user = await User.findOne({ _id: req.params.userId })
+
+//         if (!user) {
+//             return next(new ErrorHandler("Unable to find user", 401));
+//         }
+
+//         console.log(user);
+
+//         const A = req.files.a;
+//         const B = req.files.b;
+//         const C = req.files.c;
+//         const D = req.files.d;
+//         const E = req.files.e;
+//         const F = req.files.f;
+
+//         const aType = A[0].mimetype.startsWith('image') ? 'image' : 'pdf';
+//         const bType = B[0].mimetype.startsWith('image') ? 'image' : 'pdf';
+//         const cType = C[0].mimetype.startsWith('image') ? 'image' : 'pdf';
+//         const dType = D[0].mimetype.startsWith('image') ? 'image' : 'pdf';
+//         const eType = E[0].mimetype.startsWith('image') ? 'image' : 'pdf';
+//         const fType = F[0].mimetype.startsWith('image') ? 'image' : 'pdf';
+
+//         let imageOfA, imageOfB, imageOfC, imageOfD, imageOfE, imageOfF;
+
+//         try {
+//             imageOfA = await cloudinary.uploader.upload(A[0].path, {
+//                 resource_type: aType === 'image' ? 'image' : 'raw',
+//                 format: 'pdf',
+//                 folder: 'documents'
+//             });
+//             imageOfB = await cloudinary.uploader.upload(B[0].path, {
+//                 resource_type: bType === 'image' ? 'image' : 'raw',
+//                 format: 'pdf',
+//                 folder: 'documents'
+//             });
+//             imageOfC = await cloudinary.uploader.upload(C[0].path, {
+//                 resource_type: cType === 'image' ? 'image' : 'raw',
+//                 format: 'pdf',
+//                 folder: 'documents'
+//             });
+//             imageOfD = await cloudinary.uploader.upload(D[0].path, {
+//                 resource_type: dType === 'image' ? 'image' : 'raw',
+//                 format: 'pdf',
+//                 folder: 'documents'
+//             });
+//             imageOfE = await cloudinary.uploader.upload(E[0].path, {
+//                 resource_type: eType === 'image' ? 'image' : 'raw',
+//                 format: 'pdf',
+//                 folder: 'documents'
+//             });
+//             imageOfF = await cloudinary.uploader.upload(F[0].path, {
+//                 resource_type: fType === 'image' ? 'image' : 'raw',
+//                 format: 'pdf',
+//                 folder: 'documents'
+//             });
+//         } catch (error) {
+//             console.log(error);
+//             return next(new ErrorHandler("Unable to upload(s) in cloudinary", 401));
+//         }
+
+//         const documentOfA = {
+//             public_id: imageOfA.public_id,
+//             url: imageOfA.url
+//         }
+
+//         const documentOfB = {
+//             public_id: imageOfB.public_id,
+//             url: imageOfB.url
+//         }
+//         const documentOfC = {
+//             public_id: imageOfC.public_id,
+//             url: imageOfC.url
+//         }
+//         const documentOfD = {
+//             public_id: imageOfD.public_id,
+//             url: imageOfD.url
+//         }
+//         const documentOfE = {
+//             public_id: imageOfE.public_id,
+//             url: imageOfE.url
+//         }
+//         const documentOfF = {
+//             public_id: imageOfF.public_id,
+//             url: imageOfF.url
+//         }
+
+//         user.brokerDetails = {
+//             phone,
+//             address,
+//             experience,
+//             about,
+//             reference,
+//             documentOfA,
+//             documentOfB,
+//             documentOfC,
+//             documentOfD,
+//             documentOfE,
+//             documentOfF
+//         };
+
+
+//         console.log(user.brokerDetails);
+
+
+
+
+
+
+
+
+
+//         res.status(200).send({
+//             success: true,
+//             data: user
+//         })
+
+
+//     } catch (error) {
+//         console.log(error);
+//         return next(new ErrorHandler("Broker not registered", 401));
+//     }
+// })
+
+exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const { phone, address, experience, about, reference } = req.body;
+        const { a, b, c, d, e, f } = req.files;
+
+        const user = await User.findOne({ _id: req.params.userId });
+        if (!user) {
+            return next(new ErrorHandler("Unable to find user", 401));
+        }
+
+        const uploadAndCreateDocument = async (file) => {
+            try {
+                const type = file[0].mimetype.startsWith('image') ? 'image' : 'raw';
+                const image = await cloudinary.uploader.upload(file[0].path, {
+                    resource_type: type,
+                    format: type === 'image' ? 'jpg' : 'pdf', // Set default format to 'jpg'
+                    folder: 'documents'
+                });
+
+                return {
+                    public_id: image.public_id,
+                    url: image.url
+                };
+            } catch (error) {
+                console.log(error);
+                throw new ErrorHandler("Unable to upload(s) to Cloudinary", 401);
+            }
+        };
+
+        const brokerDetails = {
+            phone,
+            address,
+            experience,
+            about,
+            reference,
+        };
+
+        const properties = ['a', 'b', 'c', 'd', 'e', 'f'];
+
+        for (const prop of properties) {
+            if (req.files[prop]) {
+                brokerDetails[prop] = await uploadAndCreateDocument(req.files[prop]);
+            }
+        }
+
+        user.brokersDetails = brokerDetails;
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            data: user
+        });
+
+        next();
+
+    } catch (error) {
+        console.error(error);
+        return next(new ErrorHandler("Broker not registered", 401));
+    }
+});
+
+exports.sendMail = catchAsyncErrors(async (req, res, next) => {
+    let transporter = await nodemailer.createTransport({
+        host:'smtp.gmail.com',
+        port:587,
+        secure:false,
+        requireTLS:true,
+        auth: {
+            user: 'Darshanpanchal9292@gmail.com',
+            pass: 'tzyutbeyqlcurvzx'
+        }
+    });
+
+   await transporter.sendMail({
+        from: 'Darshanpanchal9292@gmail.com', // sender address
+        // to: "ridhamchauhan693@gmail.com", // list of receivers
+        subject: "Request Verification ✔", // Subject line
+        html: `<h1>Your registration is under inspection wait for approval....</h1>`, // plain text body
+    },function(data,error){
+        console.log(error);
+    })
+
+    
 })
 
 // logout user
@@ -163,4 +378,3 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
-// module.exports = cloudinary

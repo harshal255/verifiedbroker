@@ -6,7 +6,7 @@ import CallMadeIcon from '@mui/icons-material/CallMade';
 
 const AboutUs = () => {
     return (
-        <div className='container mx-auto w-auto lg:h-[85vh] bg-pink-50 bg-blend-lighten p-5 flex flex-col gap-4 mt-10 lg:flex-row lg:relative '>
+        <div className='container mx-auto w-auto lg:h-[85vh] bg-gray-200 p-5 flex flex-col gap-4 mt-10 lg:flex-row lg:relative '>
             <Card className='flex flex-col p-8 gap-5 lg:h-fit lg:w-96  lg:absolute lg:top-12 lg:left-24 lg:gap-2 lg:p-7'>
                 <Typography className="text-2xl font-bold"><span className='text-red-400'>200+</span> Exclusive Agents</Typography>
                 <Card className='flex flex-row gap-6 shadow-none items-center'>
@@ -60,8 +60,8 @@ const AboutUs = () => {
                     <CheckCircleIcon fontSize='large' />
                     <Typography className="text-[1.5rem] font-bold">List your own property</Typography>
                 </div>
-                <Button variant='outlined' className='w-52 mt-6 lg:mt-16 border-black text-black flex flex-row justify-between hover:bg-red-300' color='orange'>
-                    <Typography>How It Works</Typography>
+                <Button className='w-44 mt-6 lg:mt-16 text-white flex flex-row justify-between hover:bg-red-300' color='red'>
+                    <Typography>See More</Typography>
                     <CallMadeIcon />
                 </Button>
             </Card>

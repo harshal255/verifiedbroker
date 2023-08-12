@@ -6,10 +6,10 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 const About = () => {
   return (
     <div className='container mx-auto mt-20 w-auto h-fit flex flex-col lg:grid lg:grid-cols-2 lg:box-border lg:h-[80vh] md:h-fit '>
-      <Card className='h-fit w-auto p-10 m-5 bg-pink-50 text-black lg:h-[47%] flex flex-col items-center justify-center lg:bg-[url("./src/assets/images/about/home6-about-1.png")] bg-no-repeat bg-right-bottom bg-blend-hard-light'>
+      <Card className='h-fit w-auto p-10 m-5 bg-red-50 text-black lg:h-[47%] flex flex-col items-center lg:bg-[url("./images/about/home6-about-1.png")] bg-no-repeat bg-right-bottom'>
         <Typography className="text-[1.8rem] font-bold">The Way to Find Your Home</Typography>
         <Typography className="text-xl mt-2">From as low as $10 per day with limited time after discounts</Typography>
-        <Button className='w-52 mt-6 flex flex-row justify-between hover:bg-red-300 shadow-none' color='orange'>
+        <Button className='w-52 mt-6 flex flex-row justify-between hover:bg-red-400 shadow-none' color='red'>
           <Typography>How It Works</Typography>
           <CallMadeIcon />
         </Button>

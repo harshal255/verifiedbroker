@@ -30,7 +30,7 @@ const Header = () => {
     return (
         <>
             <div className="fixed top-0 flex h-20 w-screen bg-white justify-around items-center z-20">
-                <div className='xl:order-2'><span className="font-bold text-primary text-xl">Logo</span></div>
+                <div className='xl:order-2'><span className="font-bold text-red-400 text-xl">Logo</span></div>
                 <div>
                     <ul className="font-semibold hidden xl:flex xl:order-1 justify-between sm:gap-6 md:gap-8 xl:gap-10 ">
                         <Link to="/property"><li className='cursor-pointer'>Property</li></Link>
