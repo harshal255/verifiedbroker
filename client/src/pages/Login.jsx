@@ -43,9 +43,6 @@ export default function Login() {
                     navigate('/');
                 }
             },2000)
-
-
-
             // setIsLoggedIn(true); // Update isLoggedIn state in the Navbar component
         } catch (error) {
             toast.error(error.response.statusText);

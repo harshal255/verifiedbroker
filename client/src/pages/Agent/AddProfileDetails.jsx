@@ -3,17 +3,33 @@ import { Tabs, TabsHeader, TabsBody, Tab, TabPanel, Input, Textarea, Select, Opt
 import DashbordHeader from '../../components/Dashboard/Header';
 import Sidebar from '../../components/Dashboard/Sidebar';
 import { AiOutlineDelete } from 'react-icons/ai';
+import countryStateData from '../../api/countryStateData.json';
+import { toast, Toaster } from 'react-hot-toast'
+import axios from 'axios';
 
 const AddBrokerDetails = () => {
     // State to keep track of active tab and form data
     const [activeTab, setActiveTab] = useState(0);
-    const [formData, setFormData] = useState({
+    const [selectedAmenities, setSelectedAmenities] = useState([]);
+    const [propertyData, setPropertyData] = useState({
+        title: '',
         description: '',
-        media: null,
-        location: '',
-        detail: '',
-        amenities: [],
+        category: '',
+        propertyStatus: '',
+        price: '',
+        photofile: '',
+        size: '',
+        address: '',
+        city: '',
+        zip: '',
+        rooms: '',
+        bedrooms: '',
+        bathrooms: '',
+        garages: '',
+        yearBuilt: '',
     });
+    const [selectedCountry, setSelectedCountry] = useState("select country");
+    const [selectedState, setSelectedState] = useState("select state");
 
     // Ref for file input
     const fileInputRef = useRef(null);
@@ -23,67 +39,90 @@ const AddBrokerDetails = () => {
     };
 
     const handleFileInputChange = (event) => {
-        const file = event.target.files[0];
-        console.log('Selected file:', file);
+        propertyData.photofile = event.target.files[0];
+        console.log('Selected file:', propertyData.photofile);
         // Handle the selected file here
     };
 
-    // Define form steps
+    const handleCountryChange = (event) => {
+        setSelectedCountry(event.target.value);
+        setSelectedState('');
+    };
+
+    const handleStateChange = (event) => {
+        setSelectedState(event.target.value);
+    };
+
+    const handleAmenityChange = (amenity, event) => {
+        const isChecked = event.target.checked;
+
+        const updatedAmenities = isChecked
+            ? [...selectedAmenities, amenity]
+            : selectedAmenities.filter(a => a !== amenity);
+
+        setSelectedAmenities(updatedAmenities);
+    };
+
     const formSteps = [
         {
             label: 'Description',
-            content:
-                (
-                    <div className="flex flex-col gap-5">
-                        <h1 className="text-2xl font-bold">Property Description</h1>
-                        <div className="w-full">
-                            <Input label="Title" />
-                        </div>
-                        <div className="w-full">
-                            <Textarea label="Description" />
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                            <div className="w-full">
-                                <Select label="Select Category">
-                                    <Option>Apartments</Option>
-                                    <Option>Bungalow</Option>
-                                    <Option>Houses</Option>
-                                    <Option>Loft</Option>
-                                    <Option>Office</Option>
-                                    <Option>Townhome</Option>
-                                    <Option>Villa</Option>
-                                </Select>
-                            </div>
-                            <div className="w-full">
-                                <Select label="Listed in">
-                                    <Option>All Listing</Option>
-                                    <Option>Active</Option>
-                                    <Option>Sell</Option>
-                                    <Option>Processing</Option>
-                                </Select>
-                            </div>
-                            <div className="w-full">
-                                <Select label="Property Status">
-                                    <Option>All Cities</Option>
-                                    <Option>Pending</Option>
-                                    <Option>Processing</Option>
-                                    <Option>Published</Option>
-                                </Select>
-                            </div>
-                            <div className="w-full">
-                                <Input label="Price in $" />
-                            </div>
-                            <div className="w-full">
-                                <Input label="Yearly Tax Rate" />
-                            </div>
-                            <div className="w-full">
-                                <Input label="After Price Label" />
-                            </div>
-
-                        </div>
-
+            content: (
+                <div className="flex flex-col gap-5">
+                    <h1 className="text-2xl font-bold">Property Description</h1>
+                    <div className="w-full">
+                        <Input
+                            label="Title"
+                            value={propertyData.title}
+                            onChange={(e) => setPropertyData({ ...propertyData, title: e.target.value })}
+                        />
                     </div>
-                ),
+                    <div className="w-full">
+                        <Textarea
+                            label="Description"
+                            value={propertyData.description}
+                            onChange={(e) => setPropertyData({ ...propertyData, description: e.target.value })}
+                        />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div className="w-full">
+                            <label className="block text-sm font-medium text-gray-700">Select Category</label>
+                            <select
+                                value={propertyData.category}
+                                onChange={(e) => setPropertyData({ ...propertyData, category: e.target.value })}
+                                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            >
+                                <option value="Apartments">Apartments</option>
+                                <option value="Bungalow">Bungalow</option>
+                                <option value="Houses">Houses</option>
+                                <option value="Loft">Loft</option>
+                                <option value="Office">Office</option>
+                                <option value="Townhome">Townhome</option>
+                                <option value="Villa">Villa</option>
+                            </select>
+                        </div>
+                        <div className="w-full">
+                            <label className="block text-sm font-medium text-gray-700">Property Status</label>
+                            <select
+                                value={propertyData.propertyStatus}
+                                onChange={(e) => setPropertyData({ ...propertyData, propertyStatus: e.target.value })}
+                                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            >
+                                <option value="All Cities">All Cities</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Published">Published</option>
+                            </select>
+                        </div>
+                        <div className="w-full">
+                            <Input
+                                label="Price in $"
+                                value={propertyData.price}
+                                onChange={(e) => setPropertyData({ ...propertyData, price: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                </div>
+            ),
         },
         {
             label: 'Media',
@@ -112,9 +151,11 @@ const AddBrokerDetails = () => {
                                     </svg>
                                     Upload Files
                                 </Button>
-                                <input type="file" ref={fileInputRef} onChange={handleFileInputChange} className="invisible" />
+                                <input type="file" ref={fileInputRef} onChange={handleFileInputChange} className="hidden" multiple />
                             </div>
                         </div>
+
+                        {/* replacing this static image with dynamic remaining */}
                         <div className="grid grid-cols-2  sm:grid-cols-5 gap-5">
                             <div className="relative">
                                 <img src="/images/Properties/1.jpg" alt="1" className="rounded-xl h-40 w-52" />
@@ -152,54 +193,43 @@ const AddBrokerDetails = () => {
                 <div className="flex flex-col gap-5 ">
                     <h1 className="text-2xl font-bold">Listing Location</h1>
                     <div className="w-full">
-                        <Input label="Address" />
+                        <Input label="Address" value={propertyData.address} onChange={(e) => setPropertyData({ ...propertyData, address: e.target.value })} />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                        <div className="w-full">
-                            <Select label="Country/State">
-                                <Option>Belgiul</Option>
-                                <Option>France</Option>
-                                <Option>Kewait</Option>
-                                <Option>Qatar</Option>
-                                <Option>Netherland</Option>
-                                <Option>Germany</Option>
-                                <Option>Turkey</Option>
-                                <Option>UK</Option>
-                                <Option>USA</Option>
-                            </Select>
+                        <div id="coutnryState" className="mb-4 flex flex-col gap-4">
+                            <select
+                                value={selectedCountry}
+                                onChange={handleCountryChange}
+                                className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                            >
+                                <option value="select country">Select country</option>
+                                {countryStateData.map((country) => (
+                                    <option key={country.country_id} value={country.country_name}>
+                                        {country.country_name}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                value={selectedState}
+                                onChange={handleStateChange}
+                                className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                            >
+                                <option value="select state">Select state</option>
+                                {selectedCountry !== "select country" &&
+                                    countryStateData
+                                        .find((country) => country.country_name === selectedCountry)
+                                        ?.states.map((state) => (
+                                            <option key={state.state_id} value={state.state_name}>
+                                                {state.state_name}
+                                            </option>
+                                        ))}
+                            </select>
                         </div>
                         <div className="w-full">
-                            <Select label="City">
-                                <Option>California</Option>
-                                <Option>Chicago</Option>
-                                <Option>Los Angeles</Option>
-                                <Option>Manhattan</Option>
-                                <Option>New Jersey</Option>
-                                <Option>New York</Option>
-                                <Option>San Diego</Option>
-                                <Option>San Francisco</Option>
-                                <Option>Texas</Option>
-                            </Select>
-                        </div>
-
-                        <div className="w-full">
-                            <Input label="zip" />
+                            <Input label="City" value={propertyData.city} onChange={(e) => setPropertyData({ ...propertyData, city: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Select label="Country" animate={{
-                                mount: { y: 25 },
-                                unmount: { y: 50 },
-                            }}>
-                                <Option>Belgiul</Option>
-                                <Option>France</Option>
-                                <Option>Kewait</Option>
-                                <Option>Qatar</Option>
-                                <Option>Netherland</Option>
-                                <Option>Germany</Option>
-                                <Option>Turkey</Option>
-                                <Option>UK</Option>
-                                <Option>USA</Option>
-                            </Select>
+                            <Input label="zip" value={propertyData.zip} onChange={(e) => setPropertyData({ ...propertyData, zip: e.target.value })} />
                         </div>
                     </div>
                     <h1 className="text-2xl font-bold">Place the listing pin on the map</h1>
@@ -223,97 +253,30 @@ const AddBrokerDetails = () => {
             label: 'Detail',
             content: (
                 <div className="flex flex-col gap-5">
-                    <h1 className="text-2xl font-bold">Listing Location</h1>
+                    <h1 className="text-2xl font-bold">Add details</h1>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="w-full">
-                            <Input label="Size in ft (only numbers)" />
+                            <Input label="Rooms" value={propertyData.rooms} onChange={(e) => setPropertyData({ ...propertyData, rooms: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Lot size in ft (only numbers)" />
+                            <Input label="Bedrooms" value={propertyData.bedrooms} onChange={(e) => setPropertyData({ ...propertyData, bedrooms: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Rooms" />
+                            <Input label="Bathrooms" value={propertyData.bathrooms} onChange={(e) => setPropertyData({ ...propertyData, bathrooms: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Bedrooms" />
+                            <Input label="Garages" value={propertyData.garages} onChange={(e) => setPropertyData({ ...propertyData, garages: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Bathrooms" />
+                            <Input label="Year built (numeric)" value={propertyData.yearBuilt} onChange={(e) => setPropertyData({ ...propertyData, yearBuilt: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Custom ID (text)" />
+                            <Input label='size' value={propertyData.size} onChange={(e) => setPropertyData({ ...propertyData, size: e.target.value })} />
                         </div>
-                        <div className="w-full">
-                            <Input label="Garages" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Garage size" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Year built (numeric)" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Available from (date)" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Basement" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Extra details" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Roofing" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Exterior Material" />
-                        </div>
-                        <div className="w-full">
-                            <Select label="Structure type">
-                                <Option>Apartments</Option>
-                                <Option>Bungalow</Option>
-                                <Option>Houses</Option>
-                                <Option>Loft</Option>
-                                <Option>Office</Option>
-                                <Option>Townhome</Option>
-                                <Option>Villa</Option>
-                            </Select>
-                        </div>
-                        <div className="w-full">
-                            <Select label="Flours">
-                                <Option>1st</Option>
-                                <Option>2nd</Option>
-                                <Option>3rd</Option>
-                                <Option>4th</Option>
-                                <Option>5th</Option>
-                                <Option>6th</Option>
-                                <Option>7th</Option>
-                            </Select>
-                        </div>
-
                     </div>
-                    <div className="w-full">
+                    {/* <div className="w-full">
                         <Textarea label="Owner/ Agent nots (not visible on front end)" />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                        <div className="w-full">
-                            <Select label="Energy Class">
-                                <Option>All Listing</Option>
-                                <Option>Active</Option>
-                                <Option>Sold</Option>
-                                <Option>Processing</Option>
-                            </Select>
-                        </div>
-                        <div className="w-full">
-                            <Select label="Energy index in kWh/m2a">
-                                <Option>All Cities</Option>
-                                <Option>Pending</Option>
-                                <Option>Processing</Option>
-                                <Option>Published</Option>
-                            </Select>
-                        </div>
-                    </div>
-
-
+                    </div> */}
                 </div>
             ),
         },
@@ -324,27 +287,27 @@ const AddBrokerDetails = () => {
                     <h1 className="text-2xl font-bold">Select Amenities</h1>
                     <div className="w-full sm:w-1/2">
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 my-5">
-                            <Checkbox label="Attic" />
-                            <Checkbox label="Basketball court" />
-                            <Checkbox label="Air Conditioning" />
-                            <Checkbox label="Lawn" />
-                            <Checkbox label="Swimming Pool" />
-                            <Checkbox label="Barbeque" />
-                            <Checkbox label="Microwave" />
-                            <Checkbox label="TV Cable" />
-                            <Checkbox label="Dryer" />
-                            <Checkbox label="Outdoor Shower" />
-                            <Checkbox label="Washer" />
-                            <Checkbox label="Gym" />
-                            <Checkbox label="Ocean view" />
-                            <Checkbox label="Private space" />
-                            <Checkbox label="Lake view" />
-                            <Checkbox label="Wine cellar" />
-                            <Checkbox label="Front yard" />
-                            <Checkbox label="Refrigerator" />
-                            <Checkbox label="WiFi" />
-                            <Checkbox label="Laundry" />
-                            <Checkbox label="Sauna" />
+                            <Checkbox label="Attic" onChange={(event) => handleAmenityChange("Attic", event)} />
+                            <Checkbox label="Basketball court" onChange={(event) => handleAmenityChange("Basketball court", event)} />
+                            <Checkbox label="Air Conditioning" onChange={(event) => handleAmenityChange("Air Conditioning", event)} />
+                            <Checkbox label="Lawn" onChange={(event) => handleAmenityChange("Lawn", event)} />
+                            <Checkbox label="Swimming Pool" onChange={(event) => handleAmenityChange("Swimming Pool", event)} />
+                            <Checkbox label="Barbeque" onChange={(event) => handleAmenityChange("Barbeque", event)} />
+                            <Checkbox label="Microwave" onChange={(event) => handleAmenityChange("Microwave", event)} />
+                            <Checkbox label="TV Cable" onChange={(event) => handleAmenityChange("TV Cable", event)} />
+                            <Checkbox label="Dryer" onChange={(event) => handleAmenityChange("Dryer", event)} />
+                            <Checkbox label="Outdoor Shower" onChange={(event) => handleAmenityChange("Outdoor Shower", event)} />
+                            <Checkbox label="Washer" onChange={(event) => handleAmenityChange("Washer", event)} />
+                            <Checkbox label="Gym" onChange={(event) => handleAmenityChange("Gym", event)} />
+                            <Checkbox label="Ocean view" onChange={(event) => handleAmenityChange("Ocen view", event)} />
+                            <Checkbox label="Private space" onChange={(event) => handleAmenityChange("Private space", event)} />
+                            <Checkbox label="Lake view" onChange={(event) => handleAmenityChange("Lake view", event)} />
+                            <Checkbox label="Wine cellar" onChange={(event) => handleAmenityChange("Wine celler", event)} />
+                            <Checkbox label="Front yard" onChange={(event) => handleAmenityChange("Front yard", event)} />
+                            <Checkbox label="Refrigerator" onChange={(event) => handleAmenityChange("Refrigerator", event)} />
+                            <Checkbox label="WiFi" onChange={(event) => handleAmenityChange("WiFi", event)} />
+                            <Checkbox label="Laundry" onChange={(event) => handleAmenityChange("Laundry", event)} />
+                            <Checkbox label="Sauna" onChange={(event) => handleAmenityChange("Sauna", event)} />
 
                         </div>
                     </div>
@@ -354,21 +317,118 @@ const AddBrokerDetails = () => {
         },
     ];
 
-    const handleNext = () => {
-        setActiveTab((prevTab) => Math.min(prevTab + 1, formSteps.length - 1));
-    };
+    const handleAddProperty = async () => {
 
-    const handlePrev = () => {
-        setActiveTab((prevTab) => Math.max(prevTab - 1, 0));
-    };
+        const formData = new FormData();
+        formData.append('pName', propertyData.title);
+        formData.append('desc', propertyData.description);
+        formData.append('bedroom', parseInt(propertyData.bedrooms));
+        formData.append('bath', parseInt(propertyData.bathrooms));
+        formData.append('buildYear', propertyData.yearBuilt);
+        formData.append('garage', parseInt(propertyData.garages));
+        formData.append('pSize', parseInt(propertyData.size));
+        formData.append('propertyType', propertyData.category);
+        formData.append('status', propertyData.propertyStatus);
+        formData.append('price', parseInt(propertyData.price));
+        formData.append('Address', propertyData.address);
+        formData.append('ZipCode', propertyData.zip);
+        formData.append('city', propertyData.city);
+        formData.append('state', selectedState);
+        formData.append('country', selectedCountry);
+        formData.append('Rooms', propertyData.rooms);
 
-    const handleSubmit = () => {
-        // Handle form submission with formData here
-        console.log('Form data:', formData);
-    };
+        if (propertyData.photofile) {
+            formData.append('propertyPhotos', propertyData.photofile);
+        }
+        try {
+            const res = await axios.post(
+                `http://localhost:3000/api/add/property/3`,
+                formData,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            console.log('Response from API:', res.data);
+            toast.success("Property Data Added Successfully");
+        } catch (error) {
+            console.error('Error:', error);
 
+            if (error.response) {
+                console.error('Response Status:', error.response.status);
+                console.error('Response Data:', error.response.data);
+                toast.error(error.response.statusText);
+            } else {
+                toast.error("An error occurred while communicating with the server.");
+            }
+        }
+
+        // console.log(propertyData);
+    }
+
+    const handleAddAminites = () => {
+        // console.log(selectedAmenities);
+        const data = JSON.stringify({
+            amenities: selectedAmenities.join(', ') // Convert to comma-separated string
+        });
+
+        const config = {
+            method: 'put',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/api/amenities/64d3d03b63f8a4d0d3fc8edc',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            data: data
+        };
+
+        axios.request(config)
+            .then((response) => {
+                toast.success("Amenities Data Added Successfully");
+                console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+                console.log(error);
+                // toast.error(error.response.data.message);
+            });
+    }
+
+    const handleDeleteAminites = () => {
+        // console.log(selectedAmenities);
+        if (selectedAmenities.length == 0) {
+            return toast.error("Please Select Something!");
+        }
+        let data = JSON.stringify({
+            "amenities": selectedAmenities.join(', ')
+        });
+
+        let config = {
+            method: 'delete',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/api/amenities/64d3d03b63f8a4d0d3fc8edc',
+            withCredentials : true,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        axios.request(config)
+            .then((response) => {
+                toast.success(selectedAmenities + " Deleted Successfully");
+                console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+                toast.error(error.response.data.message);
+                console.log(error);
+            });
+    }
     return (
         <>
+            <Toaster position="top-center"></Toaster>
             <DashbordHeader></DashbordHeader>
             <Sidebar></Sidebar>
             <div className="w-4/5 h-full overflow-scroll xl:ml-[17.5rem] border border-black p-5  gap-5">
@@ -379,31 +439,84 @@ const AddBrokerDetails = () => {
                             className: 'bg-transparent border-b-2 border-blue-500 shadow-none rounded-none',
                         }}
                     >
-                        {formSteps.map((step, index) => (
-                            <Tab
-                                key={step.label}
-                                value={index}
-                                onClick={() => setActiveTab(index)}
-                                className={activeTab === index ? 'text-blue-500' : ''}
-                            >
-                                {step.label}
-                            </Tab>
-                        ))}
+                        <Tab
+                            key={formSteps[0].label}
+                            value={0}
+                            onClick={() => setActiveTab(0)}
+                            className={activeTab === 0 ? 'text-blue-500' : ''}
+                        >
+                            {formSteps[0].label}
+                        </Tab>
+                        <Tab
+                            key={formSteps[1].label}
+                            value={1}
+                            onClick={() => setActiveTab(1)}
+                            className={activeTab === 1 ? 'text-blue-500' : ''}
+                        >
+                            {formSteps[1].label}
+                        </Tab>
+                        <Tab
+                            key={formSteps[2].label}
+                            value={2}
+                            onClick={() => setActiveTab(2)}
+                            className={activeTab === 2 ? 'text-blue-500' : ''}
+                        >
+                            {formSteps[2].label}
+                        </Tab>
+                        <Tab
+                            key={formSteps[3].label}
+                            value={3}
+                            onClick={() => setActiveTab(3)}
+                            className={activeTab === 3 ? 'text-blue-500' : ''}
+                        >
+                            {formSteps[3].label}
+                        </Tab>
+                        <Tab
+                            key={formSteps[4].label}
+                            value={4}
+                            onClick={() => setActiveTab(4)}
+                            className={activeTab === 4 ? 'text-blue-500' : ''}
+                        >
+                            {formSteps[4].label}
+                        </Tab>
                     </TabsHeader>
-                    <TabsBody>
-                        {formSteps.map((step, index) => (
-                            <TabPanel key={step.label} value={index}>
-                                {activeTab === index && step.content}
-                            </TabPanel>
-                        ))}
-                    </TabsBody>
                 </Tabs>
+
+                <div>
+                    <div key={formSteps[activeTab].label} value={activeTab}>
+                        {formSteps[activeTab].content}
+                    </div>
+                </div>
+
                 <div className="flex flex-col sm:flex-row justify-around w-full gap-5">
-                    {activeTab > 0 && <Button color="orange" onClick={handlePrev}>Prev</Button>}
-                    {activeTab < formSteps.length - 1 ? (
-                        <Button color="orange" onClick={handleNext}>Next</Button>
-                    ) : (
-                        <Button color="orange" onClick={handleSubmit}>Submit</Button>
+                    {activeTab > 0 && (
+                        <Button color="orange" onClick={() => setActiveTab(activeTab - 1)}>
+                            Prev
+                        </Button>
+                    )}
+
+                    {activeTab < formSteps.length - 2 && (
+                        <Button color="orange" onClick={() => setActiveTab(activeTab + 1)}>
+                            Next
+                        </Button>
+                    )}
+
+                    {activeTab === formSteps.length - 2 && (
+                        <Button color="orange" onClick={handleAddProperty}>
+                            Add Property
+                        </Button>
+                    )}
+
+                    {activeTab === formSteps.length - 1 && (
+                        <>
+                            <Button color="orange" onClick={handleAddAminites}>
+                                Add Aminites
+                            </Button>
+
+                            <Button color="orange" onClick={handleDeleteAminites}>
+                                Delete Aminites
+                            </Button>
+                        </>
                     )}
                 </div>
             </div>
@@ -412,13 +525,3 @@ const AddBrokerDetails = () => {
 };
 
 export default AddBrokerDetails;
-
-
-
-
-
-
-
-
-
-

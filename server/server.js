@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 require("./src/db/connection");
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const app = express();
@@ -14,11 +15,19 @@ process.on("uncaughtException", (err) => {
     process.exit(1);
 })
 
+const corsOptions = {
+    origin: ['http://127.0.0.1:5173', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify the allowed headers
+    credentials: true, // Enable credentials (cookies, authorization headers, etc)
+};
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.listen(port, () => {
     console.log(`connection is live at port no ${port}`);

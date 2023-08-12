@@ -11,11 +11,8 @@ exports.addProperties = catchAsyncErrors(async (req, res, next) => {
 
         const propertyToBeAdd = new Property(req.body);
         propertyToBeAdd.broker_id = req.params.brokerId;
-        const amenitiesArray = req.body.amenities.split(',').map(item => item.trim());
-        propertyToBeAdd.amenities = amenitiesArray;
 
         const propertyImagesArray = Array.isArray(propertyImages) ? propertyImages : [propertyImages];
-        console.log(propertyImagesArray);
 
         for (const photo of propertyImagesArray) {
             console.log(photo);
@@ -28,10 +25,9 @@ exports.addProperties = catchAsyncErrors(async (req, res, next) => {
                 propertyToBeAdd.p_Images.push(uploadImage);
             } catch (error) {
                 console.error(error);
-                return next(new ErrorHandler('Unable to upload image(s) to Cloudinary', 400));
+                return next(new ErrorHandler('Unable to upload images to Cloudinary', 400));
             }
         }
-
 
         await propertyToBeAdd.save();
 
@@ -76,7 +72,7 @@ exports.updateImages = catchAsyncErrors(async (req, res, next) => {
                 console.error(error);
                 return next(new ErrorHandler('Unable to upload image(s) to Cloudinary', 400));
             }
-        }        
+        }
 
         existProperty[0].p_Images = updatedPhotos;
 
@@ -152,6 +148,18 @@ exports.addAmenities = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.deleteAmenities = catchAsyncErrors(async (req, res, next) => {
+    function arraysAreEqual(arr1, arr2) {
+        if (arr1.length !== arr2.length) {
+            return false;
+        }
+
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr1[i] !== arr2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
     try {
         const existProperty = await Property.findOne({ _id: req.params.propertyId });
         if (!existProperty) {
@@ -164,6 +172,11 @@ exports.deleteAmenities = catchAsyncErrors(async (req, res, next) => {
 
         const updatedAmenities = existingAmenities.filter(amenity => !amenitiesToDelete.includes(amenity));
 
+        if (arraysAreEqual(updatedAmenities, existingAmenities)) {
+            return res.status(400).json({
+                message: "Selected Amenites not present!"
+            })
+        }
         existProperty.amenities = updatedAmenities;
 
         await existProperty.save();

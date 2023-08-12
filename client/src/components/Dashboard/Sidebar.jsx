@@ -10,8 +10,6 @@ import { CgProfile } from 'react-icons/cg'
 import {
     PresentationChartBarIcon,
     PowerIcon,
-    ChevronDownIcon,
-    ChevronRightIcon
 } from "@heroicons/react/24/solid";
 import { useState } from 'react'
 import { AiOutlineMenuFold } from 'react-icons/ai'
@@ -56,7 +54,7 @@ const Sidebar = () => {
                 </div>
                 <List>
                     <Link to="/agentdash" className={` transition ease-in rounded-lg hover:bg-black hover:text-white ${selectedButton === 'Dashboard' ? 'bg-black text-white' : 'bg:white text-black'}`}
-                        onClick={() => handleButtonClick('Dashboard')}>
+                        onClick={() => handleButtonClick('Dashboard')} >
                         <ListItem>
                             <ListItemPrefix>
                                 <PresentationChartBarIcon className="h-5 w-5" />

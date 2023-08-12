@@ -10,6 +10,10 @@ const propertySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    desc:{
+        type:String,
+        required:true,
+    },
     p_Images: [{
         public_id: {
             type: String,
@@ -20,6 +24,10 @@ const propertySchema = new mongoose.Schema({
             required: true
         }
     }],
+    Rooms:{
+        type:Number,
+        required: true
+    },
     bedroom: {
         type: Number,
         required: true
@@ -67,10 +75,6 @@ const propertySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    area: {
-        type: String,
-        required: true
-    },
     state: {
         type: String,
         required: true
@@ -81,7 +85,6 @@ const propertySchema = new mongoose.Schema({
     },
     amenities: [{
         type: String,
-        required: true
     }],
     ratings: {
         type: Number,
