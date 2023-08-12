@@ -53,7 +53,7 @@ const Discover = () => {
 
     return (
         <>
-            <div className='container mx-auto w-auto h-[54vh] md:h-[85vh] lg:h-[90vh] bg-gray-300'>
+            <div className='container mx-auto w-auto h-[54vh] md:h-[85vh] lg:h-[90vh]'>
                 <Typography className="text-[2rem] ml-6 pt-6 font-bold">Discover Our Featured Listings</Typography>
                 <Typography className="text-[1.2rem] ml-6">Aliquam lacinia diam quis lacus euismod</Typography>
                 <Slider {...settings} className='w-full p-2 mt-6'>
@@ -71,7 +71,7 @@ const Discover = () => {
 
                             <Typography className="text-xl left-4 absolute bottom-48 px-3 bg-white lg:px-4 lg:py-2 rounded-md font-bold">{card.price}</Typography>
 
-                            {card.tag && <Button className='absolute top-8 left-6 w-fit px-10' color='orange'>{card.tag}</Button>}
+                            {card.tag && <Button className='absolute top-8 left-6 w-fit px-10' color='red'>{card.tag}</Button>}
 
                             <div className='flex justify-between mt-2'>
                                 <Typography>For Rent</Typography>
