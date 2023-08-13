@@ -18,6 +18,10 @@ import Brokerlogin from './pages/Brokerlogin'
 import Brokersignup from './pages/Brokersignup'
 import AddProfileDetails from './pages/Agent/AddProfileDetails'
 import Singleproperty from './pages/Singleproperty'
+import MyFavourite from './pages/Agent/MyFavourite'
+import SavedSearch from './pages/Agent/SavedSearch'
+import Reviews from './pages/Agent/Reviews'
+import Myproperty from './pages/Agent/Myproperty'
 
 function App() {
 
@@ -140,10 +144,31 @@ function App() {
           </>
         }>
         </Route>
-        <Route path="/agentdash/addprofiledetails"
+        <Route path="/agentdash/myproperty"
           element={
             <>
-              <AddProfileDetails></AddProfileDetails>
+              <Myproperty></Myproperty>
+            </>
+          }>
+        </Route>
+        <Route path="/agentdash/myfavourite"
+          element={
+            <>
+              <MyFavourite></MyFavourite>
+            </>
+          }>
+        </Route>
+        <Route path="/agentdash/savedsearch"
+          element={
+            <>
+              <SavedSearch></SavedSearch>
+            </>
+          }>
+        </Route>
+        <Route path="/agentdash/reviews"
+          element={
+            <>
+              <Reviews></Reviews>
             </>
           }>
         </Route>

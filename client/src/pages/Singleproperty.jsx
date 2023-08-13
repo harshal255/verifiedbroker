@@ -249,6 +249,8 @@ const Singleproperty = () => {
                             }
 
                         </div>
+
+                        {/* Review Section */}
                         <div className='filter shadow-xl rounded-2xl p-5 flex flex-col xl:gap-10'>
                             <div className="flex flex-col xl:flex-row gap-5  items-center justify-between">
                                 <div className="flex items-center justify-evenly gap-3"><AiFillStar /> <span>5.0</span> <span>•</span><span>3 reviews</span></div>

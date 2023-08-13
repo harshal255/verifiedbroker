@@ -385,7 +385,7 @@ const Property = () => {
                       <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">{element.price} $/month</div>
                     </div>
                     <div className="my-2 flex flex-col gap-2">
-                      <span className="font-semibold text-start ml-2">{element.title}</span>
+                      <span className="font-bold text-start ml-2">{element.title}</span>
                       <span className="font-light text-start ml-2 text-sm text-gray-600">{element.address.city},{element.address.country},{element.address.state}</span>
                       <span className="flex justify-evenly text-sm">
                         <span className="flex items-center"><BiBed />{element.bed} Bed</span>

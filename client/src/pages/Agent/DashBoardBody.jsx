@@ -27,7 +27,7 @@ const DashBoardBody = () => {
     const [activeTab, setActiveTab] = useState('hours');
 
     const renderChartComponent = () => {
-        console.log(activeTab);
+        // console.log(activeTab);
         switch (activeTab) {
             case 'hours':
                 return <BarChartHours />;

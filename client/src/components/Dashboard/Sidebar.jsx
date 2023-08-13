@@ -29,7 +29,7 @@ const Sidebar = () => {
 
     return (
         <div className='mt-28'>
-            <span className='absolute top-28 right-5 block text-2xl border border-black cursor-pointer rounded-full p-2'><AiOutlineMenuFold onClick={openDrawer} /></span>
+            <span className='absolute top-28 right-5 block text-2xl border border-black cursor-pointer rounded-full p-2 z-10'><AiOutlineMenuFold onClick={openDrawer} /></span>
             <Drawer open={open} onClose={closeDrawer} className=" overflow-scroll ">
                 <div className="mb-6 flex items-center justify-between p-5">
                     <Typography variant="h5" color="blue-gray">
@@ -84,7 +84,7 @@ const Sidebar = () => {
                             Add new Property
                         </ListItem>
                     </Link>
-                    <Link className={` transition ease-in rounded-lg ${selectedButton === 'Properties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Properties')}>
+                    <Link to="/agentdash/myproperty" className={` transition ease-in rounded-lg ${selectedButton === 'Properties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Properties')}>
                         <ListItem>
                             <ListItemPrefix>
                                 <BiHomeAlt2 className="h-5 w-5" />
@@ -92,23 +92,23 @@ const Sidebar = () => {
                             My Properties
                         </ListItem>
                     </Link>
-                    <Link className={` transition ease-in rounded-lg ${selectedButton === 'Templates' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Templates')}>
+                    <Link to="/agentdash/myfavourite" className={` transition ease-in rounded-lg ${selectedButton === 'MyFavourites' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Templates')}>
                         <ListItem>
                             <ListItemPrefix>
                                 <AiOutlineHeart className="h-5 w-5" />
                             </ListItemPrefix>
-                            Templates
+                            My Favourites
                         </ListItem>
                     </Link>
-                    <Link className={` transition ease-in rounded-lg ${selectedButton === 'ERP' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('ERP')}>
+                    <Link to="/agentdash/savedsearch" className={`transition ease-in rounded-lg ${selectedButton === 'SavedSearch' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('ERP')}>
                         <ListItem>
                             <ListItemPrefix>
                                 <CiSearch className="h-5 w-5" />
                             </ListItemPrefix>
-                            ERP
+                            Saved Search
                         </ListItem>
                     </Link>
-                    <Link className={` transition ease-in rounded-lg ${selectedButton === 'Reviews' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Reviews')}>
+                    <Link to="/agentdash/reviews" className={` transition ease-in rounded-lg ${selectedButton === 'Reviews' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Reviews')}>
                         <ListItem >
                             <ListItemPrefix>
                                 <BiMessageDetail className="h-5 w-5" />
@@ -150,7 +150,7 @@ const Sidebar = () => {
 
                     <List>
                         <Link to="/agentdash" className={` transition ease-in rounded-lg hover:bg-black hover:text-white ${selectedButton === 'Dashboard' ? 'bg-black text-white' : 'bg:white text-black'}`}
-                            onClick={() => handleButtonClick('Dashboard')}>
+                            onClick={() => handleButtonClick('Dashboard')} >
                             <ListItem>
                                 <ListItemPrefix>
                                     <PresentationChartBarIcon className="h-5 w-5" />
@@ -180,7 +180,7 @@ const Sidebar = () => {
                                 Add new Property
                             </ListItem>
                         </Link>
-                        <Link className={` transition ease-in rounded-lg ${selectedButton === 'Properties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Properties')}>
+                        <Link to="/agentdash/myproperty" className={` transition ease-in rounded-lg ${selectedButton === 'Properties' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Properties')}>
                             <ListItem>
                                 <ListItemPrefix>
                                     <BiHomeAlt2 className="h-5 w-5" />
@@ -188,23 +188,23 @@ const Sidebar = () => {
                                 My Properties
                             </ListItem>
                         </Link>
-                        <Link className={` transition ease-in rounded-lg ${selectedButton === 'Templates' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Templates')}>
+                        <Link to="/agentdash/myfavourite" className={` transition ease-in rounded-lg ${selectedButton === 'MyFavourites' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Templates')}>
                             <ListItem>
                                 <ListItemPrefix>
                                     <AiOutlineHeart className="h-5 w-5" />
                                 </ListItemPrefix>
-                                Templates
+                                My Favourites
                             </ListItem>
                         </Link>
-                        <Link className={` transition ease-in rounded-lg ${selectedButton === 'ERP' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('ERP')}>
+                        <Link to="/agentdash/savedsearch" className={`transition ease-in rounded-lg ${selectedButton === 'SavedSearch' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('ERP')}>
                             <ListItem>
                                 <ListItemPrefix>
                                     <CiSearch className="h-5 w-5" />
                                 </ListItemPrefix>
-                                ERP
+                                Saved Search
                             </ListItem>
                         </Link>
-                        <Link className={` transition ease-in rounded-lg ${selectedButton === 'Reviews' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Reviews')}>
+                        <Link to="/agentdash/reviews" className={` transition ease-in rounded-lg ${selectedButton === 'Reviews' ? 'bg-black  text-white' : 'bg:white text-black'}`} onClick={() => handleButtonClick('Reviews')}>
                             <ListItem >
                                 <ListItemPrefix>
                                     <BiMessageDetail className="h-5 w-5" />
