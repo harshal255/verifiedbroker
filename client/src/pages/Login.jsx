@@ -42,7 +42,7 @@ export default function Login() {
                 } else {
                     navigate('/');
                 }
-            },2000)
+            }, 2000)
             // setIsLoggedIn(true); // Update isLoggedIn state in the Navbar component
         } catch (error) {
             toast.error(error.response.statusText);
@@ -56,12 +56,11 @@ export default function Login() {
         <>
             <Toaster position="top-center"></Toaster>
             <Card color="transparent" className="h-screen flex justify-center items-center" shadow={false}>
-                <div className="bg-gray-200 py-4">
+                <img src="/images/Login/login.png" alt="bg" className="absolute h-screen w-screen -z-10 opacity-60" />
+                <div className="bg-gray-200 p-10 rounded-xl">
                     <Typography variant="h4" color="orange" className="px-4 text-center">
                         LOGIN
                     </Typography>
-                </div>
-                <>
                     <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 mx-auto">
                         <div className="mb-4 flex flex-col gap-6  items-center justify-center">
                             <Input type="email"
@@ -94,12 +93,15 @@ export default function Login() {
                             SIGN IN
                         </Button>
                     </form>
-                    <Typography color="gray" className="mt-4 mx-auto font-normal">
-                        <Link to="/signup" className=" underline font-medium transition-colors hover:text-orange-700">
-                            New customer? Create your account
-                        </Link>
-                    </Typography>
-                </>
+                </div>
+
+
+                <Typography color="gray" className="mt-4 mx-auto font-normal">
+                    <Link to="/signup" className=" underline font-medium transition-colors hover:text-orange-700">
+                        New customer? Create your account
+                    </Link>
+                </Typography>
+
             </Card>
         </>
     );
