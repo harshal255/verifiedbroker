@@ -49,133 +49,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     sendToken(user, 200, res);
 })
 
-// exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
-//     try {
 
-//         const { phone, address, experience, about, reference } = req.body;
-
-//         const user = await User.findOne({ _id: req.params.userId })
-
-//         if (!user) {
-//             return next(new ErrorHandler("Unable to find user", 401));
-//         }
-
-//         console.log(user);
-
-//         const A = req.files.a;
-//         const B = req.files.b;
-//         const C = req.files.c;
-//         const D = req.files.d;
-//         const E = req.files.e;
-//         const F = req.files.f;
-
-//         const aType = A[0].mimetype.startsWith('image') ? 'image' : 'pdf';
-//         const bType = B[0].mimetype.startsWith('image') ? 'image' : 'pdf';
-//         const cType = C[0].mimetype.startsWith('image') ? 'image' : 'pdf';
-//         const dType = D[0].mimetype.startsWith('image') ? 'image' : 'pdf';
-//         const eType = E[0].mimetype.startsWith('image') ? 'image' : 'pdf';
-//         const fType = F[0].mimetype.startsWith('image') ? 'image' : 'pdf';
-
-//         let imageOfA, imageOfB, imageOfC, imageOfD, imageOfE, imageOfF;
-
-//         try {
-//             imageOfA = await cloudinary.uploader.upload(A[0].path, {
-//                 resource_type: aType === 'image' ? 'image' : 'raw',
-//                 format: 'pdf',
-//                 folder: 'documents'
-//             });
-//             imageOfB = await cloudinary.uploader.upload(B[0].path, {
-//                 resource_type: bType === 'image' ? 'image' : 'raw',
-//                 format: 'pdf',
-//                 folder: 'documents'
-//             });
-//             imageOfC = await cloudinary.uploader.upload(C[0].path, {
-//                 resource_type: cType === 'image' ? 'image' : 'raw',
-//                 format: 'pdf',
-//                 folder: 'documents'
-//             });
-//             imageOfD = await cloudinary.uploader.upload(D[0].path, {
-//                 resource_type: dType === 'image' ? 'image' : 'raw',
-//                 format: 'pdf',
-//                 folder: 'documents'
-//             });
-//             imageOfE = await cloudinary.uploader.upload(E[0].path, {
-//                 resource_type: eType === 'image' ? 'image' : 'raw',
-//                 format: 'pdf',
-//                 folder: 'documents'
-//             });
-//             imageOfF = await cloudinary.uploader.upload(F[0].path, {
-//                 resource_type: fType === 'image' ? 'image' : 'raw',
-//                 format: 'pdf',
-//                 folder: 'documents'
-//             });
-//         } catch (error) {
-//             console.log(error);
-//             return next(new ErrorHandler("Unable to upload(s) in cloudinary", 401));
-//         }
-
-//         const documentOfA = {
-//             public_id: imageOfA.public_id,
-//             url: imageOfA.url
-//         }
-
-//         const documentOfB = {
-//             public_id: imageOfB.public_id,
-//             url: imageOfB.url
-//         }
-//         const documentOfC = {
-//             public_id: imageOfC.public_id,
-//             url: imageOfC.url
-//         }
-//         const documentOfD = {
-//             public_id: imageOfD.public_id,
-//             url: imageOfD.url
-//         }
-//         const documentOfE = {
-//             public_id: imageOfE.public_id,
-//             url: imageOfE.url
-//         }
-//         const documentOfF = {
-//             public_id: imageOfF.public_id,
-//             url: imageOfF.url
-//         }
-
-//         user.brokerDetails = {
-//             phone,
-//             address,
-//             experience,
-//             about,
-//             reference,
-//             documentOfA,
-//             documentOfB,
-//             documentOfC,
-//             documentOfD,
-//             documentOfE,
-//             documentOfF
-//         };
-
-
-//         console.log(user.brokerDetails);
-
-
-
-
-
-
-
-
-
-//         res.status(200).send({
-//             success: true,
-//             data: user
-//         })
-
-
-//     } catch (error) {
-//         console.log(error);
-//         return next(new ErrorHandler("Broker not registered", 401));
-//     }
-// })
 
 exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
     try {
@@ -313,8 +187,7 @@ exports.rejectApproval = catchAsyncErrors(async (req, res, next) => {
         if (!updatedUser) {
             return next(new ErrorHandler("User not found", 400));
         }
-
-
+        
         res.status(200).json({
             success: true,
             data: "Rejected"
