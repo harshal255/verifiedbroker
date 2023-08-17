@@ -231,7 +231,11 @@ exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
             data: user
         });
 
-        next();
+        const to = user.email;
+        const subject = 'Approval request';
+        const html = `<h1>Your registration is under inspection wait for approval....</h1>`;
+
+        await exports.sendMail(to, subject, html);
 
     } catch (error) {
         console.error(error);
@@ -239,28 +243,153 @@ exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-exports.sendMail = catchAsyncErrors(async (req, res, next) => {
-    let transporter = await nodemailer.createTransport({
-        host:'smtp.gmail.com',
-        port:587,
-        secure:false,
-        requireTLS:true,
-        auth: {
-            user: 'Darshanpanchal9292@gmail.com',
-            pass: 'tzyutbeyqlcurvzx'
+exports.sendMail = async (to, subject, html) => {
+    try {
+        let transporter = await nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: 'Darshanpanchal9292@gmail.com',
+                pass: 'tzyutbeyqlcurvzx'
+            }
+        });
+
+        await transporter.sendMail({
+            from: 'Darshanpanchal9292@gmail.com',
+            to: to,
+            subject: subject,
+            html: html,
+        });
+
+        console.log('Email sent successfully');
+    } catch (error) {
+        console.log('Error sending email:', error);
+    }
+};
+
+exports.getApproval = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const user = await User.findOne({ _id: req.params.userId });
+
+        if (!user) {
+            return next(new ErrorHandler("User not found", 400));
         }
-    });
 
-   await transporter.sendMail({
-        from: 'Darshanpanchal9292@gmail.com', // sender address
-        // to: "ridhamchauhan693@gmail.com", // list of receivers
-        subject: "Request Verification ✔", // Subject line
-        html: `<h1>Your registration is under inspection wait for approval....</h1>`, // plain text body
-    },function(data,error){
+        user.brokersDetails.isVerified = "true"
+        user.role = "broker"
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            data: "Verified"
+        });
+
+        const to = user.email;
+        const subject = 'Approval Status';
+        const html = `<h1>Congratulations! You are approved as a broker</h1><br/>
+        <h2>You can now proceed with the payment and log in to access your dashboard.</h2>`;
+
+        await exports.sendMail(to, subject, html);
+
+
+    } catch (error) {
         console.log(error);
-    })
+        return next(new ErrorHandler("Unable to approve", 400));
+    }
+})
 
-    
+exports.rejectApproval = catchAsyncErrors(async (req, res, next) => {
+
+    try {
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $unset: { brokersDetails: 1 } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return next(new ErrorHandler("User not found", 400));
+        }
+
+
+        res.status(200).json({
+            success: true,
+            data: "Rejected"
+        });
+
+        const to = updatedUser.email;
+        const subject = 'Approval Status';
+        const html = `<h1>Your application to become a broker has been regretfully rejected</h1><br/>
+        <h2>We appreciate your interest, but your application did not meet our current requirements for approval.</h2><br/>
+        <h2>You are welcome to reapply after 7 days, ensuring all necessary documents are uploaded for verification.</h2>`;
+
+        await exports.sendMail(to, subject, html);
+
+
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("Unable to Reject", 400));
+    }
+});
+
+exports.updateBroker = catchAsyncErrors(async (req, res, next) => {
+    try {
+
+        const broker = await User.findOne({ _id: req.params.userId, role: "broker" });
+
+        if (!broker) {
+            return next(new ErrorHandler("Unable to find broker", 400));
+        }
+
+        for (const key in req.body) {
+            broker.brokersDetails[key] = req.body[key];
+        }
+
+        await broker.save();
+
+        res.status(200).send({
+            success: true,
+            broker
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("Unable to update broker", 400));
+    }
+})
+
+exports.getSingleBroker = catchAsyncErrors(async (req, res, next) => {
+    try {
+
+        const broker = await User.findOne({ _id: req.params.userId, role: "broker" });
+
+        res.status(200).send({
+            success: true,
+            broker
+        });
+
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("Unable to find broker", 400));
+    }
+})
+
+exports.getAllBrokers = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const brokers = await User.find({ role: "broker" });
+
+        res.status(200).send({
+            success: true,
+            brokers
+        });
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("No Brokers Found", 400));
+    }
 })
 
 // logout user
