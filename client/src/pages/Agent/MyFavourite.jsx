@@ -15,7 +15,6 @@ import { AiOutlineDelete } from 'react-icons/ai';
 
 const MyFavourite = () => {
 
-    //for pagination
     const [active, setActive] = useState(1);
 
     const getItemProps = (index) => ({
@@ -42,7 +41,7 @@ const MyFavourite = () => {
     };
 
 
-
+    console.log("I Think this is it");
     return (
         <>
             <DashbordHeader></DashbordHeader>

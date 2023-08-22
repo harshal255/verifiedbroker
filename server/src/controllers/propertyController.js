@@ -3,6 +3,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const Property = require("../Schema/propertySchema")
 const User = require("../Schema/userSchema");
 const cloudinary = require("../utils/cloudinary");
+const ApiFeatures = require("../utils/apiFeatures");
 
 exports.addProperties = catchAsyncErrors(async (req, res, next) => {
     try {
@@ -214,7 +215,10 @@ exports.addReviews = catchAsyncErrors(async (req, res, next) => {
             const existingReview = existProperty.reviews.find(review => review.userId.equals(user._id));
 
             if (existingReview) {
-                return next(new ErrorHandler('You have already added a review for this property', 400));
+                return res.status(400).json({
+                    success: false,
+                    message : "You have already added a review for this property",
+                })
             }
 
             const newRating = req.body.rating;
@@ -297,7 +301,6 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 exports.getSingleProperty = catchAsyncErrors(async (req, res, next) => {
     try {
         const existProperty = await Property.findOne({ _id: req.params.propertyId });
-
         res.status(200).send({
             success: true,
             data: existProperty
@@ -309,15 +312,46 @@ exports.getSingleProperty = catchAsyncErrors(async (req, res, next) => {
     }
 })
 
+exports.getPropertiesOfBroker = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const resultPerPage = 5;
+        
+        const apiFeatures = new ApiFeatures(Property.find({broker_id : req.params.brokerId}),req.query)
+        .search()
+        .filter()
+        .pagination(resultPerPage);
+
+        const property = await apiFeatures.query;
+
+        console.log(property);
+
+        res.status(200).json({
+            success: true,
+            property,
+        });
+
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("Property not found", 400))
+    }
+})
+
 
 exports.getAllProperty = catchAsyncErrors(async (req, res, next) => {
     try {
-        const properties = await Property.find();
+        const resultPerPage = 9;
+        
+        const apiFeatures = new ApiFeatures(Property.find(),req.query)
+        .search()
+        .filter()
+        .pagination(resultPerPage);
 
-        res.status(200).send({
+        const property = await apiFeatures.query;
+
+        res.status(200).json({
             success: true,
-            data: properties
-        })
+            property,
+        });
 
     } catch (error) {
         console.log(error);

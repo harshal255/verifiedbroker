@@ -10,16 +10,15 @@ import {
   Drawer,
   IconButton
 } from "@material-tailwind/react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Properties from '../api/Property';
 import { BiBed, BiBath } from 'react-icons/bi';
 import { TbRulerMeasure } from 'react-icons/tb';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrClose } from 'react-icons/gr'
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { BsFilterCircle } from 'react-icons/bs'
-
-
+import axios from "axios";
 const Property = () => {
 
 
@@ -30,12 +29,14 @@ const Property = () => {
 
   //for range slider filter
   const [value, setValue] = useState(12000);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setValue(e.target.value);
   };
 
   //for pagination
   const [active, setActive] = useState(1);
+  const [properties, setProperties] = useState([]);
 
   const getItemProps = (index) => ({
     variant: active === index ? "filled" : "text",
@@ -44,11 +45,30 @@ const Property = () => {
     className: "rounded-full text-white",
   });
 
+  useEffect(() => {
+    const fetchProperty = async () => {
+      let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:3000/api/property',
+        withCredentials: true,
+      };
+
+      await axios.request(config)
+        .then((res) => {
+          setProperties(res.data.property);
+        })
+        .catch((err) => {
+          toast.error(err.response.statusText);
+          console.error("failed to fetch property details", err);
+        });
+    }
+    fetchProperty();
+  }, []);
+
   const itemsPerPage = 9;
   const totalPages = Math.ceil(Properties.length / itemsPerPage);
   const startIndex = (active - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const propertiesToShow = Properties.slice(startIndex, endIndex);
 
   const next = () => {
     if (active === totalPages) return;
@@ -367,44 +387,35 @@ const Property = () => {
                 <Button className="min-w-fit" color="orange" variant="outlined">Reset Search</Button>
                 <Button className="min-w-fit" color="orange" variant="outlined">Save Search</Button>
               </div>
-
-
-
             </div>
           </Drawer>
-
-
-
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 m-5">
             {
-              propertiesToShow.map((element) => {
+              properties.map((element) => {
                 return (
-                  <Link to="/singleproperty" className="flex flex-col" key={element.id}>
+                  <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
                     <div className="relative w-fit h-fit overflow-hidden rounded-lg">
-                      <img src={element.img} alt={element.title} className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl" />
-                      <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">{element.price} $/month</div>
+                      <img src={element.p_Images[0].url} alt={element.pName} className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl" />
+                      <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">{element.price} ₹/month</div>
                     </div>
                     <div className="my-2 flex flex-col gap-2">
-                      <span className="font-bold text-start ml-2">{element.title}</span>
-                      <span className="font-light text-start ml-2 text-sm text-gray-600">{element.address.city},{element.address.country},{element.address.state}</span>
+                      <span className="font-bold text-start ml-2">{element.pName}</span>
+                      <span className="font-light text-start ml-2 text-sm text-gray-600">{element.city},{element.country},{element.state}</span>
                       <span className="flex justify-evenly text-sm">
-                        <span className="flex items-center"><BiBed />{element.bed} Bed</span>
+                        <span className="flex items-center"><BiBed />{element.bedroom} Bed</span>
                         <span className="flex items-center"><BiBath />{element.bath} Bath</span>
-                        <span className="flex items-center"><TbRulerMeasure />{element.sqft} Sqft</span>
+                        <span className="flex items-center"><TbRulerMeasure />{element.pSize} Sqft</span>
                       </span>
                       <hr className="border-gray-800" />
                       <div className="flex justify-evenly">
-                        <span className="text-sm">{element.category}</span>
-                        <span className="text-sm">{element.year.startingyear}-{element.year.endingyear}</span>
+                        <span className="text-sm">{element.propertyType}</span>
+                        <span className="text-sm">{new Date().getFullYear() - element.buildYear} year ago</span>
                       </div>
-
                     </div>
-
-                  </Link>
+                  </div>
                 )
               })
             }
-
           </div>
           {/* pagination */}
           <div className="flex items-center gap-2 lg:gap-4 justify-center my-10">

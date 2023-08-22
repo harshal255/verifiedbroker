@@ -1,6 +1,3 @@
-const AdminPropertyHead = ["Listing title", "Date Published", "Status", "View", "Action",];
-
-
 const AdminProperties = [
     {
         id: 1,
@@ -279,4 +276,3 @@ const AdminProperties = [
 ]
 
 export default AdminProperties;
-export { AdminPropertyHead };

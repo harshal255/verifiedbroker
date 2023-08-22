@@ -49,6 +49,20 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     sendToken(user, 200, res);
 })
 
+//Logout user 
+exports.logout = catchAsyncErrors(async(req,res,next)=>{
+   
+    res.cookie("tokenjwt",null,{
+        httponly : true,
+        expires : new Date(Date.now()),
+    });
+
+    res.status(200).json({
+        success : true,
+        message : "Logged Out Successfully",
+    })
+
+})
 
 
 exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
@@ -263,19 +277,6 @@ exports.getAllBrokers = catchAsyncErrors(async (req, res, next) => {
         console.log(error);
         return next(new ErrorHandler("No Brokers Found", 400));
     }
-})
-
-// logout user
-exports.logout = catchAsyncErrors(async (req, res, next) => {
-    res.cookie("tokenjwt", null, {
-        expires: new Date(Date.now()),
-        httponly: true,
-    });
-
-    res.status(200).json({
-        success: true,
-        message: "Logged out"
-    })
 })
 
 // Get user details
