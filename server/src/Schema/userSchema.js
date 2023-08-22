@@ -4,9 +4,26 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
 const brokerSchema = new mongoose.Schema({
+    photo: {
+        public_id: {
+            type: String,
+            default:"Avatar/pyvclwz03vy0ty88cunf",
+        },
+        url: {
+            type: String,
+            default:"https://res.cloudinary.com/dijdjkiqv/image/upload/v1692686408/Avatar/pyvclwz03vy0ty88cunf.jpg",
+        }
+    },
     isVerified: {
         type: Boolean,
-        default:false   
+        default: false
+    },
+    paymentStatus: {
+        type: Boolean,
+        default: false
+    },
+    package: {
+        type: Number,
     },
     phone: {
         type: Number,
@@ -21,7 +38,7 @@ const brokerSchema = new mongoose.Schema({
     },
     experience: {
         type: String,
-        required:true
+        required: true
     },
     about: {
         type: String,
@@ -29,7 +46,7 @@ const brokerSchema = new mongoose.Schema({
     },
     reference: {
         type: String,
-        required:true
+        required: true
     },
     a: {
         public_id: {
@@ -111,16 +128,6 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please enter your password"],
         minLength: [8, "Password should be more than 8 charachters"],
         select: true
-    },
-    avatar: {
-        public_id: {
-            type: String,
-            required: true
-        },
-        url: {
-            type: String,
-            required: true
-        }
     },
     role: {
         type: String,

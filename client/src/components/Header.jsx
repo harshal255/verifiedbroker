@@ -9,12 +9,25 @@ import {
     ListItemSuffix,
     Chip,
 } from "@material-tailwind/react";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 // import { UserCircleIcon } from "@heroicons/react/24/solid";
-import { Link } from 'react-router-dom';
+import { toast, Toaster } from "react-hot-toast";
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../pages/AuthContext';
+import Cookies from 'js-cookie';
+
+
 
 const Header = () => {
     const [openRight, setOpenRight] = useState(false);
+
+    const { user } = useContext(AuthContext);
+
+    console.log(user);
+
+    const navigate = useNavigate();
+
     const openDrawerRight = () => {
         setOpenRight(true);
         document.body.style.overflow = "hidden";
@@ -27,8 +40,20 @@ const Header = () => {
         document.body.style.height = "";
 
     }
+
+    const handleDashboard = () => {
+        if (!Cookies.get("tokenjwt")) {
+            toast.error("Please Log In");
+        } else if (user && user.brokersDetails && user.brokersDetails.paymentStatus) {
+            navigate("/agentdash");
+        } else {
+            toast.error("Please take a subcription");
+        }
+    }
+
     return (
         <>
+            <Toaster position='top-center'></Toaster>
             <div className="fixed top-0 flex h-20 w-screen bg-white justify-around items-center z-20">
                 <div className='xl:order-2'><span className="font-bold text-red-400 text-xl">Logo</span></div>
                 <div>
@@ -42,7 +67,7 @@ const Header = () => {
 
                 <div className='flex items-center xl:order-3'>
                     <ul className="font-semibold hidden xl:flex justify-between sm:gap-6 md:gap-8 xl:gap-10">
-                        <Link to="/agentdash"> <li className='cursor-pointer'>Desh</li></Link>
+                        <li className='cursor-pointer' onClick={handleDashboard}>Desh</li>
                         <Link to="/becomeagent"> <li className='cursor-pointer'>Become Agent</li></Link>
                         <Link to="/landing"> <li className='cursor-pointer'>Landing</li></Link>
 

@@ -13,10 +13,6 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         name,
         email,
         password,
-        avatar: {
-            public_id: "this is a sample id",
-            url: "profilePicUrl"
-        }
     });
 
     const token = user.getJWTToken();
@@ -54,11 +50,15 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
     try {
         const { phone, address, experience, about, reference } = req.body;
-        const { a, b, c, d, e, f } = req.files;
 
         const user = await User.findOne({ _id: req.params.userId });
+
         if (!user) {
-            return next(new ErrorHandler("Unable to find user", 401));
+            return res.status(401).send("User not found");
+        }
+
+        if (user.brokersDetails) {
+            return res.status(401).send("You have already been registered");
         }
 
         const uploadAndCreateDocument = async (file) => {
@@ -69,7 +69,6 @@ exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
                     format: type === 'image' ? 'jpg' : 'pdf', // Set default format to 'jpg'
                     folder: 'documents'
                 });
-
                 return {
                     public_id: image.public_id,
                     url: image.url
@@ -88,11 +87,13 @@ exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
             reference,
         };
 
-        const properties = ['a', 'b', 'c', 'd', 'e', 'f'];
 
-        for (const prop of properties) {
-            if (req.files[prop]) {
-                brokerDetails[prop] = await uploadAndCreateDocument(req.files[prop]);
+        const documents = ['a', 'b', 'c', 'd', 'e', 'f', 'photo'];
+
+
+        for (const doc of documents) {
+            if (req.files[doc]) {
+                brokerDetails[doc] = await uploadAndCreateDocument(req.files[doc]);
             }
         }
 
@@ -187,7 +188,7 @@ exports.rejectApproval = catchAsyncErrors(async (req, res, next) => {
         if (!updatedUser) {
             return next(new ErrorHandler("User not found", 400));
         }
-        
+
         res.status(200).json({
             success: true,
             data: "Rejected"

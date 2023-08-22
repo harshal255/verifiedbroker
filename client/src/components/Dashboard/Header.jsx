@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import {
     ListItem,
@@ -8,12 +8,13 @@ import {
     MobileNav,
     Typography
 } from "@material-tailwind/react";
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     ChevronDownIcon,
     ChevronRightIcon
 } from "@heroicons/react/24/solid";
 import { FaEnvelope, FaBell } from 'react-icons/fa';
+import AuthContext from "../../pages/AuthContext";
 
 
 const DashbordHeader = () => {
@@ -27,6 +28,7 @@ const DashbordHeader = () => {
     const [isDropdownOpen4, setIsDropdownOpen4] = useState(false);
     const [isDropdownOpen5, setIsDropdownOpen5] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -441,6 +443,11 @@ const DashbordHeader = () => {
         </ul >
     );
 
+    const { user } = useContext(AuthContext);
+
+    console.log(user);
+
+
     return (
         <div className="w-full fixed top-0 py-2 px-4 lg:px-8 lg:py-4 border-4 border-black mx-0 bg-white z-50">
             <nav className="my-0">
@@ -458,7 +465,7 @@ const DashbordHeader = () => {
                         <IconButton variant="outlined" className="rounded-full" style={{ backgroundColor: 'transparent' }}>
                             <FaBell color="black" />
                         </IconButton>
-                        <Avatar src="/images/avtar.jpg" alt="avatar" />
+                        {user && user.brokersDetails && <Avatar src={user.brokersDetails.photo.url} alt="avatar" />}
                     </div>
                 </div>
                 <MobileNav open={openNav}>
@@ -470,7 +477,7 @@ const DashbordHeader = () => {
                             <IconButton variant="outlined" className="rounded-full" style={{ backgroundColor: 'transparent' }}>
                                 <FaBell color="black" />
                             </IconButton>
-                            <Avatar src="/images/avtar.jpg" alt="avatar" />
+                            {user && user.brokersDetails && <Avatar src={user.brokersDetails.photo.url} alt="avatar" />}
                         </div>
                     </div>
                 </MobileNav>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Card,
     Input,
@@ -9,6 +9,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import { toast, Toaster } from 'react-hot-toast'
+import AuthContext from "./AuthContext";
 
 
 export default function Login() {
@@ -19,22 +20,27 @@ export default function Login() {
 
     const navigate = useNavigate();
 
+    const {setUser} = useContext(AuthContext);
+    
     const handleLogin = async (e) => {
         e.preventDefault();
+
 
         try {
             const response = await axios.post('http://localhost:3000/api/login', {
                 email,
                 password,
             });
-            console.log(response);
-
+            
+            localStorage.setItem("userId",response.data.user._id);
+            
+            
             // Set the refresh token in the cookie
             toast.success("Log In Successfull");
             localStorage.setItem("role", response.data.user.role);
             const Token = response.data.token;
-            Cookies.set('tokenjwt', Token);
-
+            Cookies.set('tokenjwt',Token);
+            
             setTimeout(() => {
                 if (response.data.user.role === 'admin') {
                     navigate('/admin');
@@ -43,7 +49,9 @@ export default function Login() {
                     navigate('/');
                 }
             }, 2000)
-            // setIsLoggedIn(true); // Update isLoggedIn state in the Navbar component
+            
+            setUser(response.data.user);
+
         } catch (error) {
             toast.error(error.response.statusText);
             console.error('Login failed:', error);
