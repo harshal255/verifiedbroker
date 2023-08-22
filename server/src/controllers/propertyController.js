@@ -325,10 +325,14 @@ exports.getAllProperty = catchAsyncErrors(async (req, res, next) => {
     }
 })
 
-
 exports.deleteProperty = catchAsyncErrors(async (req, res, next) => {
     try {
         await Property.findByIdAndDelete(req.params.propertyId);
+
+        for (let i = 0; i < Property[0].p_Images[0].length; i++) {
+            await cloudinary.uploader.destroy(Property[0].p_Images[i].public_id);
+        }
+
         res.status(200).send({
             success: true,
             data: "Property deleted suceessfully"

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Tabs, TabsHeader, Tab, } from '@material-tailwind/react';
 import DashboardAnalitics from "./DashboardAnalitics";
 import PieChartMonthly from './charts/PieChartMonthly';
 import BarChartHours from './charts/BarChartHours';
 import AreaChartWeekly from './charts/AreaChartWeekly';
+import AuthContext from '../AuthContext';
 
 
 const data = [
@@ -40,9 +41,12 @@ const DashBoardBody = () => {
         }
     };
 
+
+    const {user} = useContext(AuthContext);
+
     return (
         <div className="w-full xl:w-4/5 h-full xl:ml-[17.5rem] border border-black p-5 flex flex-col gap-2">
-            <h2 className="text-2xl font-bold">Howdy, Ali!</h2>
+            {user && <h2 className="text-2xl font-bold">Hello, {user.name}!</h2>}
             <p className="text-gray-600">We are glad to see you again!</p>
             <DashboardAnalitics />
             <div>

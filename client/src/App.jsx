@@ -22,9 +22,12 @@ import MyFavourite from './pages/Agent/MyFavourite'
 import SavedSearch from './pages/Agent/SavedSearch'
 import Reviews from './pages/Agent/Reviews'
 import Myproperty from './pages/Agent/Myproperty'
+import { useContext } from 'react'
+import AuthContext from './pages/AuthContext'
 
 function App() {
 
+  const { user } = useContext(AuthContext);
 
   return (
     <div className='w-full max-h-fit overflow-y-clip'>
@@ -116,17 +119,13 @@ function App() {
             <Footer></Footer>
           </>
         }></Route>
-        <Route
-          path="/agentdash"
-          element={
-            <>
-              <AgentDashboard />
-              <MobileFooter></MobileFooter>
-              <Footer></Footer>
-            </>
-          }
-        >
-        </Route>
+        <Route path="/agentdash" element={
+          <>
+            <AgentDashboard />
+            <MobileFooter></MobileFooter>
+            <Footer></Footer>
+          </>
+        } />
         <Route path="/agentdash/profile" element={
           <>
             <Myprofile></Myprofile>
