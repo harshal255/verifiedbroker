@@ -1,16 +1,22 @@
-import React, { useState, useRef } from 'react';
-import { Tabs, TabsHeader, TabsBody, Tab, TabPanel, Input, Textarea, Select, Option, Checkbox, Button } from '@material-tailwind/react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Tabs, TabsHeader, Tab, Input, Textarea, Checkbox, Button } from '@material-tailwind/react';
 import DashbordHeader from '../../components/Dashboard/Header';
 import Sidebar from '../../components/Dashboard/Sidebar';
 import { AiOutlineDelete } from 'react-icons/ai';
 import countryStateData from '../../api/countryStateData.json';
 import { toast, Toaster } from 'react-hot-toast'
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const AddBrokerDetails = () => {
-    // State to keep track of active tab and form data
+
+    const location = useLocation();
+    console.log(location.state?.pId);
+
     const [activeTab, setActiveTab] = useState(0);
     const [selectedAmenities, setSelectedAmenities] = useState([]);
+    const bId = localStorage.getItem('uId');
+    const [pId,setPId] = useState(location.state?.pId || "");
     const [propertyData, setPropertyData] = useState({
         title: '',
         description: '',
@@ -33,6 +39,11 @@ const AddBrokerDetails = () => {
 
     // Ref for file input
     const fileInputRef = useRef(null);
+
+    useEffect(()=>{
+        const pid = location.state?.pId;
+        if(pid) setActiveTab(4);
+     },[location.state]);
 
     const handleButtonClick = () => {
         fileInputRef.current.click(); // Simulate a click on the hidden file input element
@@ -85,12 +96,12 @@ const AddBrokerDetails = () => {
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="w-full">
-                            <label className="block text-sm font-medium text-gray-700">Select Category</label>
                             <select
                                 value={propertyData.category}
                                 onChange={(e) => setPropertyData({ ...propertyData, category: e.target.value })}
                                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             >
+                                <option value="Apartments">Select Category</option>
                                 <option value="Apartments">Apartments</option>
                                 <option value="Bungalow">Bungalow</option>
                                 <option value="Houses">Houses</option>
@@ -101,12 +112,12 @@ const AddBrokerDetails = () => {
                             </select>
                         </div>
                         <div className="w-full">
-                            <label className="block text-sm font-medium text-gray-700">Property Status</label>
                             <select
                                 value={propertyData.propertyStatus}
                                 onChange={(e) => setPropertyData({ ...propertyData, propertyStatus: e.target.value })}
                                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             >
+                                <option value="All Cities">Property Status</option>
                                 <option value="All Cities">All Cities</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Processing">Processing</option>
@@ -115,7 +126,7 @@ const AddBrokerDetails = () => {
                         </div>
                         <div className="w-full">
                             <Input
-                                label="Price in $"
+                                label="Price in ₹"
                                 value={propertyData.price}
                                 onChange={(e) => setPropertyData({ ...propertyData, price: e.target.value })}
                             />
@@ -342,7 +353,7 @@ const AddBrokerDetails = () => {
         }
         try {
             const res = await axios.post(
-                `http://localhost:3000/api/add/property/3`,
+                `http://localhost:3000/api/add/property/${bId}`,
                 formData,
                 {
                     withCredentials: true,
@@ -352,7 +363,9 @@ const AddBrokerDetails = () => {
                 }
             );
             console.log('Response from API:', res.data);
+            setPId(res.data.property._id);
             toast.success("Property Data Added Successfully");
+            setActiveTab(activeTab + 1);
         } catch (error) {
             console.error('Error:', error);
 
@@ -364,12 +377,9 @@ const AddBrokerDetails = () => {
                 toast.error("An error occurred while communicating with the server.");
             }
         }
-
-        // console.log(propertyData);
     }
 
     const handleAddAminites = () => {
-        // console.log(selectedAmenities);
         const data = JSON.stringify({
             amenities: selectedAmenities.join(', ') // Convert to comma-separated string
         });
@@ -377,7 +387,7 @@ const AddBrokerDetails = () => {
         const config = {
             method: 'put',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/api/amenities/64d3d03b63f8a4d0d3fc8edc',
+            url: `http://localhost:3000/api/amenities/${pId}`,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -408,7 +418,7 @@ const AddBrokerDetails = () => {
         let config = {
             method: 'delete',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/api/amenities/64d3d03b63f8a4d0d3fc8edc',
+            url: `http://localhost:3000/api/amenities/${pId}`,
             withCredentials : true,
             headers: {
                 'Content-Type': 'application/json'

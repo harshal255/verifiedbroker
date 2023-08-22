@@ -38,6 +38,7 @@ export default function Login() {
             // Set the refresh token in the cookie
             toast.success("Log In Successfull");
             localStorage.setItem("role", response.data.user.role);
+            localStorage.setItem("uId",response.data.user._id);
             const Token = response.data.token;
             Cookies.set('tokenjwt',Token);
             

@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, brokerRegister, loginUser, logout, getAllUser, getSingleUser, updateUserRole, deleteUser, sendMail,getApproval, rejectApproval,getAllBrokers, getSingleBroker, updateBroker } = require('../controllers/userController');
+const { registerUser, brokerRegister, loginUser, logout, getAllUser, getSingleUser, updateUserRole, deleteUser, sendMail,getApproval, rejectApproval,getAllBrokers, getSingleBroker, updateBroker} = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth')
 const router = express.Router();
 const upload = require('../utils/multer');
