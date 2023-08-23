@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `http://localhost:3000/api/admin/user/${localStorage.getItem("userId")}`,
+                url: `http://localhost:3000/api/admin/user/${localStorage.getItem("uId")}`,
                 withCredentials: true
             };
 

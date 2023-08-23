@@ -39,14 +39,14 @@ const priceCard = ({ plan, price, features }) => {
     const broker = {
         name: "Verified Broker",
         greet: "Glad to see you",
-        price: price, 
+        price: price,
     };
 
     const navigate = useNavigate();
 
-    const {user,setUser} = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
-    const initPayments = async (data, user) => { 
+    const initPayments = async (data, user) => {
         const options = {
             key: "rzp_test_6cA4Cj8nzFwqVO",
             amount: data.amount,
@@ -76,41 +76,49 @@ const priceCard = ({ plan, price, features }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `http://localhost:3000/api/admin/user/${localStorage.getItem("userId")}`,
-                withCredentials: true,
-            };
+        const uId = localStorage.getItem("uId");
 
-            const response = await axios.request(config);
-            const userData = response.data.user;
+        if (uId === null) {
+            toast.error("Please Login");
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+        }
 
-            if (!userData) {
-                toast.error("Please log in");
-            } else if (!userData.brokersDetails) {
-                toast.error("Please register as a broker");
-            } else if (!userData.brokersDetails.isVerified) {
-                toast.error("Your request is under approval");
-            } else if (!userData.brokersDetails.paymentStatus) {
-                const subscribeResponse = await axios.post("http://localhost:3000/api/subscribe", {price:price }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                initPayments(subscribeResponse.data.order, userData); // Pass 'userData' to initPayments
-            } else {
-                toast.error("You already have a package");
+        else {
+            try {
+                const config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: `http://localhost:3000/api/admin/user/${uId}`,
+                    withCredentials: true,
+                };
+
+                const response = await axios.request(config);
+                const userData = response.data.user;
+
+                if (!userData) {
+                    toast.error("Please log in");
+                } else if (!userData.brokersDetails) {
+                    toast.error("Please register as a broker");
+                } else if (!userData.brokersDetails.isVerified) {
+                    toast.error("Your request is under approval");
+                } else if (!userData.brokersDetails.paymentStatus) {
+                    const subscribeResponse = await axios.post("http://localhost:3000/api/subscribe", { price: price }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    initPayments(subscribeResponse.data.order, userData); // Pass 'userData' to initPayments
+                } else {
+                    toast.error("You already have a package");
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error("An error occurred");
             }
-        } catch (error) {
-            console.log(error);
-            toast.error("An error occurred");
         }
     };
-
-
-
 
     return (
         <>
