@@ -217,7 +217,7 @@ exports.addReviews = catchAsyncErrors(async (req, res, next) => {
             if (existingReview) {
                 return res.status(400).json({
                     success: false,
-                    message : "You have already added a review for this property",
+                    message: "You have already added a review for this property",
                 })
             }
 
@@ -295,6 +295,29 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
     }
 })
 
+exports.getLatLng = catchAsyncErrors(async (req, res, next) => {
+    const { city } = req.params;
+    fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const latitude = parseFloat(data[0].lat);
+                const longitude = parseFloat(data[0].lon);
+                res.status(200).send({
+                    success: true,
+                    data: {
+                        latitude,
+                        longitude
+                    }
+                })
+            } else {
+                return next(new ErrorHandler(`No results found for ${city}`, 400));
+            }
+        })
+        .catch(error => {
+            return next(new ErrorHandler('Error fetching data', 400));
+        });
+})
 
 
 
@@ -315,11 +338,11 @@ exports.getSingleProperty = catchAsyncErrors(async (req, res, next) => {
 exports.getPropertiesOfBroker = catchAsyncErrors(async (req, res, next) => {
     try {
         const resultPerPage = 5;
-        
-        const apiFeatures = new ApiFeatures(Property.find({broker_id : req.params.brokerId}),req.query)
-        .search()
-        .filter()
-        .pagination(resultPerPage);
+
+        const apiFeatures = new ApiFeatures(Property.find({ broker_id: req.params.brokerId }), req.query)
+            .search()
+            .filter()
+            .pagination(resultPerPage);
 
         const property = await apiFeatures.query;
 
@@ -340,11 +363,11 @@ exports.getPropertiesOfBroker = catchAsyncErrors(async (req, res, next) => {
 exports.getAllProperty = catchAsyncErrors(async (req, res, next) => {
     try {
         const resultPerPage = 9;
-        
-        const apiFeatures = new ApiFeatures(Property.find(),req.query)
-        .search()
-        .filter()
-        .pagination(resultPerPage);
+
+        const apiFeatures = new ApiFeatures(Property.find(), req.query)
+            .search()
+            .filter()
+            .pagination(resultPerPage);
 
         const property = await apiFeatures.query;
 
@@ -361,16 +384,18 @@ exports.getAllProperty = catchAsyncErrors(async (req, res, next) => {
 
 exports.deleteProperty = catchAsyncErrors(async (req, res, next) => {
     try {
+        
         await Property.findByIdAndDelete(req.params.propertyId);
 
-        for (let i = 0; i < Property[0].p_Images[0].length; i++) {
-            await cloudinary.uploader.destroy(Property[0].p_Images[i].public_id);
-        }
+        // for (let i = 0; i < Property[0].p_Images[0].length; i++) {
+        //     await cloudinary.uploader.destroy(Property[0].p_Images[i].public_id);
+        // }
 
         res.status(200).send({
             success: true,
             data: "Property deleted suceessfully"
         })
+
     } catch (error) {
         console.log(error);
         return next(new ErrorHandler("unable to delete property", 400))
