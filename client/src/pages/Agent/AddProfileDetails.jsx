@@ -1,7 +1,14 @@
+<<<<<<< Updated upstream
 import React, { useState, useRef, useEffect } from 'react';
 import { Tabs, TabsHeader, Tab, Input, Textarea, Checkbox, Button } from '@material-tailwind/react';
 import DashbordHeader from '../../components/Dashboard/Header';
 import Sidebar from '../../components/Dashboard/Sidebar';
+=======
+import React, { useState, useRef } from 'react';
+import { Tabs, TabsHeader, TabsBody, Tab, TabPanel, Input, Textarea, Select, Option, Checkbox, Button } from '@material-tailwind/react';
+import DashbordHeader from '../../components/AgentDashboard/Header';
+import Sidebar from '../../components/AgentDashboard/Sidebar';
+>>>>>>> Stashed changes
 import { AiOutlineDelete } from 'react-icons/ai';
 import countryStateData from '../../api/countryStateData.json';
 import { toast, Toaster } from 'react-hot-toast'
