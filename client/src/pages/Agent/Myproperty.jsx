@@ -1,6 +1,12 @@
+<<<<<<< Updated upstream
 import React, { useEffect, useRef, useState } from 'react'
 import DashbordHeader from '../../components/Dashboard/Header'
 import Sidebar from '../../components/Dashboard/Sidebar'
+=======
+import React, { useState } from 'react'
+import DashbordHeader from '../../components/AgentDashboard/Header'
+import Sidebar from '../../components/AgentDashboard/Sidebar'
+>>>>>>> Stashed changes
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
