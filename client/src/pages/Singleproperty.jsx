@@ -38,9 +38,7 @@ const Singleproperty = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
-    // const url = `https://maps.google.com/maps?q=${latlng.lat},${latlng.long}&hl=es;z=14&amp;output=embed`;
-    const url = "https://maps.google.com/maps?q=22.8278859,72.3684741&hl=es;z=14&amp;output=embed";
-    console.log(url);
+    
 
     useEffect(() => {
         const fetchData = async () => {

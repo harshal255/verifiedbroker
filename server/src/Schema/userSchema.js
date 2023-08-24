@@ -7,11 +7,11 @@ const brokerSchema = new mongoose.Schema({
     photo: {
         public_id: {
             type: String,
-            default:"Avatar/pyvclwz03vy0ty88cunf",
+            default: "Avatar/pyvclwz03vy0ty88cunf",
         },
         url: {
             type: String,
-            default:"https://res.cloudinary.com/dijdjkiqv/image/upload/v1692686408/Avatar/pyvclwz03vy0ty88cunf.jpg",
+            default: "https://res.cloudinary.com/dijdjkiqv/image/upload/v1692686408/Avatar/pyvclwz03vy0ty88cunf.jpg",
         }
     },
     isVerified: {
@@ -107,7 +107,44 @@ const brokerSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }
+    },
+    ratings: {
+        type: Number,
+        default: 0,
+    },
+    numOfReviews: {
+        type: Number,
+        default: 0,
+    },
+    reviews: [
+        {
+            userId: {
+                type: mongoose.Schema.ObjectId,
+                ref: "Users",
+                required: true,
+            },
+            userName: {
+                type: String,
+                required: true,
+            },
+            rating: {
+                type: Number,
+                required: true,
+            },
+            comment: {
+                type: String,
+                required: true,
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now(),
+            },
+        },
+    ],
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
 })
 
 const userSchema = new mongoose.Schema({

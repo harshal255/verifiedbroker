@@ -4,6 +4,7 @@ const User = require("../Schema/userSchema");
 const sendToken = require("../utils/jwtTokens");
 const nodemailer = require("nodemailer");
 const cloudinary = require("../utils/cloudinary");
+const ApiFeatures = require("../utils/apiFeatures");
 
 // Register a user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -152,7 +153,6 @@ exports.sendMail = async (to, subject, html) => {
             html: html,
         });
 
-        console.log('Email sent successfully');
     } catch (error) {
         console.log('Error sending email:', error);
     }
@@ -297,15 +297,23 @@ exports.getSingleBroker = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAllBrokers = catchAsyncErrors(async (req, res, next) => {
     try {
-        const brokers = await User.find({ role: "broker" });
+        const resultPerPage = 25;
 
-        res.status(200).send({
+        const apiFeatures = new ApiFeatures(User.find({ role: "broker" }), req.query)
+            .search()
+            .filter()
+            .pagination(resultPerPage);
+
+        const broker = await apiFeatures.query
+        
+        res.status(200).json({
             success: true,
-            brokers
+            broker,
         });
+
     } catch (error) {
         console.log(error);
-        return next(new ErrorHandler("No Brokers Found", 400));
+        return next(new ErrorHandler("Property not found", 400))
     }
 })
 
@@ -409,5 +417,102 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
         success: true,
         message: "User deleted successfully"
     })
+})
+
+exports.addReviews = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const broker = await User.findOne({ _id: req.params.brokerId });
+
+        if (!broker) {
+            return next(new ErrorHandler('Unable to find broker', 400));
+        }
+
+        const user = await User.findOne({ _id: req.params.userId });
+
+        if (!user) {
+            return next(new ErrorHandler('Unable to find user', 400));
+        } else {
+
+            const existingReview = broker.brokersDetails.reviews.find(review => review.userId.equals(user._id));
+
+            if (existingReview) {
+                return res.status(400).json({
+                    success: false,
+                    message: "You have already added a review for this property",
+                })
+            }
+
+            const newRating = req.body.rating;
+            const newReview = {
+                userId: user._id,
+                userName: user.name,
+                rating: newRating,
+                comment: req.body.comment
+            };
+
+            broker.brokersDetails.reviews.push(newReview);
+
+            const currentNumOfReviews = broker.brokersDetails.numOfReviews;
+            broker.brokersDetails.numOfReviews = currentNumOfReviews + 1;
+
+            const currentRatings =broker.brokersDetails.ratings;
+            const allRatingsSum = broker.brokersDetails.reviews.reduce((sum, review) => sum + review.rating, 0);
+            const newAverageRating = allRatingsSum / broker.brokersDetails.numOfReviews;
+
+            broker.brokersDetails.ratings = newAverageRating;
+
+            await broker.save();
+
+            res.status(201).json({
+                success: true,
+                message: broker
+            });
+        }
+
+    } catch (error) {
+        console.error(error);
+        return next(new ErrorHandler('Failed to add review', 400));
+    }
+})
+
+
+exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const broker = await User.findOne({ _id: req.params.brokerId });
+
+        if (!broker) {
+            return next(new ErrorHandler('Unable to find property', 400));
+        }
+
+        const reviewIndex = broker.brokersDetails.reviews.findIndex(review => review.userId.equals(req.params.userId));
+
+        if (reviewIndex === -1) {
+            return next(new ErrorHandler('Unable to find user and Failed to delete review', 400));
+        }
+
+        broker.brokersDetails.reviews.splice(reviewIndex, 1);
+
+        const currentNumOfReviews = broker.brokersDetails.numOfReviews;
+        broker.brokersDetails.numOfReviews = currentNumOfReviews - 1;
+
+        if (broker.brokersDetails.numOfReviews > 0) {
+            const allRatingsSum = broker.brokersDetails.reviews.reduce((sum, review) => sum + review.rating, 0);
+            const newAverageRating = allRatingsSum / broker.brokersDetails.numOfReviews;
+            broker.brokersDetails.ratings = newAverageRating;
+        } else {
+            broker.brokersDetails.ratings = 0;
+        }
+
+        await broker.save();
+
+        res.status(201).json({
+            success: true,
+            message: broker
+        });
+
+    } catch (error) {
+        console.error(error);
+        return next(new ErrorHandler('Failed to delete review', 400));
+    }
 })
 
