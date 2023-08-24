@@ -1,12 +1,6 @@
-<<<<<<< Updated upstream
-import React, { useEffect, useRef, useState } from 'react'
-import DashbordHeader from '../../components/Dashboard/Header'
-import Sidebar from '../../components/Dashboard/Sidebar'
-=======
-import React, { useState } from 'react'
+import  { useEffect, useRef, useState } from 'react'
 import DashbordHeader from '../../components/AgentDashboard/Header'
 import Sidebar from '../../components/AgentDashboard/Sidebar'
->>>>>>> Stashed changes
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -38,31 +32,25 @@ const Myproperty = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [propertyTobeModify, setPropertyTobeModify] = useState(null);
+  const [imagesTobeModify, setImagesTobeModify] = useState([]);
 
   const uId = localStorage.getItem('uId');
 
   const handleOpen = () => setOpen((cur) => !cur);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the selected file
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const imageUrl = e.target.result; // Get the data URL of the selected file
-      // Handle the selected image URL as needed
-      console.log(imageUrl);
-    };
-    reader.readAsDataURL(file); // Read the selected file as a data URL
-  };
-
   const fileInputRef = useRef(null);
-  const navigate = useNavigate();
 
-  console.log(fileInputRef);
+  const navigate = useNavigate();
 
   const handleImageClick = () => {
     fileInputRef.current.click(); // Simulate a click on the file input element
+  };
+
+  const handleFileInputChange = (event) => {
+    const filesArray = Array.from(event.target.files);
+    setImagesTobeModify(filesArray);
+    console.log("File array", filesArray);
+    console.log(propertyTobeModify);
   };
 
   useEffect(() => {
@@ -86,7 +74,7 @@ const Myproperty = () => {
     }
 
     fetchProperty();
-  }, [page]);
+  }, [page, uId]);
 
   const handleDeleteProperty = async (pId) => {
     try {
@@ -116,9 +104,9 @@ const Myproperty = () => {
     await axios.request(config)
       .then((res) => {
         setAdminProperties((prevProperties) =>
-        prevProperties.map((property) =>
-        property._id === propertyTobeModify._id ? res.data.property : property
-        )
+          prevProperties.map((property) =>
+            property._id === propertyTobeModify._id ? res.data.property : property
+          )
         );
         handleOpen();
         toast.success('Property Updated Succesfully')
@@ -130,6 +118,37 @@ const Myproperty = () => {
         }
       )
   };
+
+  const handleUpdateImage = () => {
+    let data = new FormData();
+
+    if (imagesTobeModify) {
+      imagesTobeModify.forEach((file) => {
+        data.append(`propertyPhotos`, file);
+      });
+    }
+    let config = {
+      method: 'put',
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/api/update/images/${propertyTobeModify._id}`,
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: data,
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(response.data);
+        handleOpen();
+        toast.success('Property Images Updated Succesfully');
+      })
+      .catch((error) => {
+        toast.error('Failed to Update Images in Property');
+        console.log(error);
+      });
+  }
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -373,15 +392,9 @@ const Myproperty = () => {
               alt="team"
               className="flex-shrink-0 my-4 w-[100px] h-[100px] object-cover object-center mb-4 m-auto hover:cursor-pointer"
               src={propertyTobeModify.p_Images[0].url}
-              onClick={handleImageClick} // Call the handleImageClick function when the image is clicked
+              onClick={handleImageClick}
             />
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              style={{ display: 'none' }} // Hide the file input element
-              onChange={handleFileChange} // Call the handleFileChange function when a file is selected
-            />
+            <input type="file" ref={fileInputRef} onChange={handleFileInputChange} className="hidden" multiple />
           </div>
 
           <DialogBody divider>
@@ -405,8 +418,9 @@ const Myproperty = () => {
             </div>
           </DialogBody>
           <DialogFooter className="space-x-2">
-            <button className="flex text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none rounded-full hover:bg-green-700 duration-300 hover:translate-y-2 my-2" onClick={handleUpdateProperty}>Update Profile</button>
-            <button className="flex text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none rounded-full hover:bg-green-700 duration-300 hover:translate-y-2 my-2" onClick={() => {navigate("/agentdash/addnewproperty",{ state: { pId: propertyTobeModify._id } })}}>Update Amenities</button>
+            <button className="flex text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none rounded-full hover:bg-green-700 duration-300 hover:translate-y-2 my-2" onClick={handleUpdateImage}>Update Images</button>
+            <button className="flex text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none rounded-full hover:bg-green-700 duration-300 hover:translate-y-2 my-2" onClick={handleUpdateProperty}>Update Property Data</button>
+            <button className="flex text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none rounded-full hover:bg-green-700 duration-300 hover:translate-y-2 my-2" onClick={() => { navigate("/agentdash/addnewproperty", { state: { pId: propertyTobeModify._id } }) }}>Update Amenities</button>
           </DialogFooter>
         </div>
       </Dialog>

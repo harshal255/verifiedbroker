@@ -1,14 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { Avatar, Button, Input, Dialog, DialogBody, DialogHeader, DialogFooter } from '@material-tailwind/react'
 import DashbordHeader from '../../components/AgentDashboard/Header'
 import Sidebar from '../../components/AgentDashboard/Sidebar'
-import { Button, Input } from '@material-tailwind/react'
 import { BiSolidRightTopArrowCircle } from 'react-icons/bi'
 import AuthContext from '../AuthContext'
 import { MdVerified } from 'react-icons/md'
 import { toast, Toaster } from 'react-hot-toast'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 
 
 const Myprofile = () => {
@@ -16,9 +14,6 @@ const Myprofile = () => {
     const [open, setOpen] = useState(false);
 
     const { user, setUser } = useContext(AuthContext);
-
-    // console.log(user);
-    const navigate = useNavigate();
 
     const [updatedUser, setUpdatedUser] = useState({
         name: "",
@@ -89,6 +84,7 @@ const Myprofile = () => {
                 (error) => {
                     setOpen(false);
                     toast.error('Failed to Update User');
+                    console.log(error);
                 }
             )
     }
@@ -104,7 +100,7 @@ const Myprofile = () => {
                     <h1 className='text-4xl font-bold text-start'>My Profile</h1>
                     <span className='text-sm'>We are glad to see you again!</span>
 
-                    <div divider className="flex flex-col items-center justify-center gap-10">
+                    <div className="flex flex-col items-center justify-center gap-10">
                         {user && user.brokersDetails && <Avatar src={user.brokersDetails.photo.url} size="xxl" alt="avatar"></Avatar>}
                         {user && user.brokersDetails &&
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 text-black">

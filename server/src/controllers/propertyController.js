@@ -345,9 +345,6 @@ exports.getPropertiesOfBroker = catchAsyncErrors(async (req, res, next) => {
             .pagination(resultPerPage);
 
         const property = await apiFeatures.query;
-
-        console.log(property);
-
         res.status(200).json({
             success: true,
             property,

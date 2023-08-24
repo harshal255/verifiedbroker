@@ -1,14 +1,7 @@
-<<<<<<< Updated upstream
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Tabs, TabsHeader, Tab, Input, Textarea, Checkbox, Button } from '@material-tailwind/react';
-import DashbordHeader from '../../components/Dashboard/Header';
-import Sidebar from '../../components/Dashboard/Sidebar';
-=======
-import React, { useState, useRef } from 'react';
-import { Tabs, TabsHeader, TabsBody, Tab, TabPanel, Input, Textarea, Select, Option, Checkbox, Button } from '@material-tailwind/react';
 import DashbordHeader from '../../components/AgentDashboard/Header';
 import Sidebar from '../../components/AgentDashboard/Sidebar';
->>>>>>> Stashed changes
 import { AiOutlineDelete } from 'react-icons/ai';
 import countryStateData from '../../api/countryStateData.json';
 import { toast, Toaster } from 'react-hot-toast'
@@ -23,14 +16,14 @@ const AddBrokerDetails = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const bId = localStorage.getItem('uId');
-    const [pId,setPId] = useState(location.state?.pId || "");
+    const [pId, setPId] = useState(location.state?.pId || "");
     const [propertyData, setPropertyData] = useState({
         title: '',
         description: '',
         category: '',
         propertyStatus: '',
         price: '',
-        photofile: '',
+        photofile: [],
         size: '',
         address: '',
         city: '',
@@ -47,20 +40,29 @@ const AddBrokerDetails = () => {
     // Ref for file input
     const fileInputRef = useRef(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         const pid = location.state?.pId;
-        if(pid) setActiveTab(4);
-     },[location.state]);
+        if (pid) setActiveTab(4);
+    }, [location.state]);
 
     const handleButtonClick = () => {
         fileInputRef.current.click(); // Simulate a click on the hidden file input element
     };
 
     const handleFileInputChange = (event) => {
-        propertyData.photofile = event.target.files[0];
-        console.log('Selected file:', propertyData.photofile);
-        // Handle the selected file here
+        const filesArray = Array.from(event.target.files);
+        setPropertyData((prevData) => ({
+            ...prevData,
+            photofile: [...prevData.photofile, ...filesArray],
+        }));
     };
+
+    const handleRemoveImage = (index) => {
+        setPropertyData((prevData) => ({
+            ...prevData,
+            photofile: prevData.photofile.filter((_, i) => i !== index),
+        }));
+    };    
 
     const handleCountryChange = (event) => {
         setSelectedCountry(event.target.value);
@@ -80,6 +82,10 @@ const AddBrokerDetails = () => {
 
         setSelectedAmenities(updatedAmenities);
     };
+
+    useEffect(()=>{
+      console.log(propertyData.photofile);
+    },[propertyData.photofile])
 
     const formSteps = [
         {
@@ -125,7 +131,6 @@ const AddBrokerDetails = () => {
                                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             >
                                 <option value="All Cities">Property Status</option>
-                                <option value="All Cities">All Cities</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Processing">Processing</option>
                                 <option value="Published">Published</option>
@@ -173,35 +178,16 @@ const AddBrokerDetails = () => {
                             </div>
                         </div>
 
-                        {/* replacing this static image with dynamic remaining */}
-                        <div className="grid grid-cols-2  sm:grid-cols-5 gap-5">
-                            <div className="relative">
-                                <img src="/images/Properties/1.jpg" alt="1" className="rounded-xl h-40 w-52" />
-                                <span className="absolute top-5 left-5 p-3 bg-white rounded-md">
-                                    <AiOutlineDelete className="text-xl" />
-                                </span>
-                            </div>
-                            <div className="relative">
-                                <img src="/images/Properties/1.jpg" alt="1" className="rounded-xl h-40 w-52" />
-                                <span className="absolute top-5 left-5 p-3 bg-white rounded-md">
-                                    <AiOutlineDelete className="text-xl" />
-                                </span>
-                            </div>
-                            <div className="relative">
-                                <img src="/images/Properties/1.jpg" alt="1" className="rounded-xl h-40 w-52" />
-                                <span className="absolute top-5 left-5 p-3 bg-white rounded-md">
-                                    <AiOutlineDelete className="text-xl" />
-                                </span>
-                            </div>
-                            <div className="relative">
-                                <img src="/images/Properties/1.jpg" alt="1" className="rounded-xl h-40 w-52" />
-                                <span className="absolute top-5 left-5 p-3 bg-white rounded-md">
-                                    <AiOutlineDelete className="text-xl" />
-                                </span>
-                            </div>
-
+                        <div className="grid grid-cols-2  sm:grid-cols-5 gap-5 overflow-auto whitespace-nowrap">
+                            {propertyData.photofile.map((file, index) => (
+                                <div className="relative inline-block mr-4" key={index}>
+                                    <img src={URL.createObjectURL(file)} alt={`Image ${index}`} className="rounded-xl h-40 w-52" />
+                                    <span className="absolute top-5 left-5 p-3 bg-white rounded-md">
+                                        <AiOutlineDelete className="text-xl" onClick={() => handleRemoveImage(index)}/>
+                                    </span>
+                                </div>
+                            ))}
                         </div>
-
                     </div>
                 ),
         },
@@ -255,15 +241,6 @@ const AddBrokerDetails = () => {
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.2547158278226!2d73.91419611127971!3d18.562551782466336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20-%20Viman%20Nagar!5e0!3m2!1sen!2sin!4v1681696533582!5m2!1sen!2sin"
                         allowFullScreen="" height={450} loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade" className='w-full'></iframe></div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                        <div className="w-full">
-                            <Input label="Latitude" />
-                        </div>
-                        <div className="w-full">
-                            <Input label="Longitude" />
-                        </div>
-                    </div>
-
                 </div>
             ),
         },
@@ -356,7 +333,9 @@ const AddBrokerDetails = () => {
         formData.append('Rooms', propertyData.rooms);
 
         if (propertyData.photofile) {
-            formData.append('propertyPhotos', propertyData.photofile);
+            propertyData.photofile.forEach((file) => {
+                formData.append(`propertyPhotos`, file);
+            });
         }
         try {
             const res = await axios.post(
@@ -426,7 +405,7 @@ const AddBrokerDetails = () => {
             method: 'delete',
             maxBodyLength: Infinity,
             url: `http://localhost:3000/api/amenities/${pId}`,
-            withCredentials : true,
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json'
             },

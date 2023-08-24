@@ -17,21 +17,16 @@ import Brokerlogin from './pages/Brokerlogin'
 import Brokersignup from './pages/Brokersignup'
 import AddProfileDetails from './pages/Agent/AddProfileDetails'
 import Singleproperty from './pages/Singleproperty'
-import MyFavourite from './pages/Agent/MyFavourite'
 import Reviews from './pages/Agent/Reviews'
 import Myproperty from './pages/Agent/Myproperty'
-<<<<<<< Updated upstream
-import { useContext } from 'react'
-import AuthContext from './pages/AuthContext'
-=======
+// import { useContext } from 'react'
+// import AuthContext from './pages/AuthContext'
 import Admin from './pages/Admin/Admin'
 
 
->>>>>>> Stashed changes
-
 function App() {
 
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
 
   return (
     <div className='w-full max-h-fit overflow-y-clip'>
@@ -150,13 +145,6 @@ function App() {
           element={
             <>
               <Myproperty></Myproperty>
-            </>
-          }>
-        </Route>
-        <Route path="/agentdash/myfavourite"
-          element={
-            <>
-              <MyFavourite></MyFavourite>
             </>
           }>
         </Route>
