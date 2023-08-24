@@ -46,16 +46,16 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 })
 
 //Logout user 
-exports.logout = catchAsyncErrors(async(req,res,next)=>{
-   
-    res.cookie("tokenjwt",null,{
-        httponly : true,
-        expires : new Date(Date.now()),
+exports.logout = catchAsyncErrors(async (req, res, next) => {
+
+    res.cookie("tokenjwt", null, {
+        httponly: true,
+        expires: new Date(Date.now()),
     });
 
     res.status(200).json({
-        success : true,
-        message : "Logged Out Successfully",
+        success: true,
+        message: "Logged Out Successfully",
     })
 
 })
@@ -232,15 +232,44 @@ exports.updateBroker = catchAsyncErrors(async (req, res, next) => {
             return next(new ErrorHandler("Unable to find broker", 400));
         }
 
-        for (const key in req.body) {
-            broker.brokersDetails[key] = req.body[key];
+        const { name, phone, experience, about, reference, address } = req.body;
+
+
+        if (req.files.photo != null) {
+            const updatedPhoto = req.files.photo;
+
+            let newPhoto;
+
+            try {
+                newPhoto = await cloudinary.uploader.upload(updatedPhoto[0].path, { folder: 'Avatar' });
+            } catch (error) {
+                console.log(error);
+                return next(new ErrorHandler("Unable to upload in cloudinary", 400));
+            }
+
+            const photoDetails = {
+                public_id: newPhoto.public_id,
+                url: newPhoto.url
+            }
+
+            broker.brokersDetails.photo = photoDetails;
+
         }
+
+        broker.name = name;
+        broker.brokersDetails.phone = phone;
+        broker.brokersDetails.experience = experience;
+        broker.brokersDetails.about = about;
+        broker.brokersDetails.reference = reference;
+        broker.brokersDetails.address = address;
+
 
         await broker.save();
 
+
         res.status(200).send({
             success: true,
-            broker
+            data: broker
         });
 
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const {isAuthenticatedUser} = require('../middleware/auth');
-const { addProperties, addReviews, getSingleProperty, getAllProperty, getPropertiesOfBroker, deleteProperty, deleteReview, updateProperties, addAmenities, deleteAmenities, updateImages } = require("../controllers/propertyController");
+const { addProperties, addReviews, getSingleProperty, getAllProperty, getPropertiesOfBroker, deleteProperty, deleteReview, updateProperties, addAmenities, deleteAmenities, updateImages, getLatLng } = require("../controllers/propertyController");
 const router = express.Router();
 const upload = require('../utils/multer');
 
@@ -12,5 +12,6 @@ router.route("/:userId/review/:propertyId").post(isAuthenticatedUser,addReviews)
 router.route("/property/:propertyId").get(getSingleProperty).delete(isAuthenticatedUser,deleteProperty);
 router.route("/property").get(getAllProperty);
 router.route("/properties/:brokerId").get(isAuthenticatedUser,getPropertiesOfBroker);
+router.route("/latlng/:city").get(isAuthenticatedUser,getLatLng);
 
 module.exports = router;

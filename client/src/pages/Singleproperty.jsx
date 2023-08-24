@@ -31,9 +31,16 @@ const Singleproperty = () => {
     const [broker, setBroker] = useState(null);
     const [rating, setRating] = useState('');
     const [comment, setComment] = useState('');
+    const [latlng, setLatLng] = useState({
+        lat: '',
+        long: ''
+    })
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
+    // const url = `https://maps.google.com/maps?q=${latlng.lat},${latlng.long}&hl=es;z=14&amp;output=embed`;
+    const url = "https://maps.google.com/maps?q=22.8278859,72.3684741&hl=es;z=14&amp;output=embed";
+    console.log(url);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,6 +74,32 @@ const Singleproperty = () => {
         };
         fetchData();
     }, [pId]);
+
+    useEffect(() => {
+        const fetchlatlng = async () => {
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `http://localhost:3000/api/latlng/${property.Address},${property.city}`,
+                withCredentials: true,
+            };
+
+            await axios.request(config)
+                .then((res) => {
+                    setLatLng({
+                        lat: res.data.data.latitude,
+                        long: res.data.data.longitude
+                    })
+                })
+                .catch((err) => {
+                    toast.error(err.response.statusText);
+                    console.error("failed to fetch property details", err);
+                });
+        }
+        fetchlatlng();
+
+    }, [property])
+
 
     const handleReviewClick = async () => {
         const data = {
@@ -273,9 +306,12 @@ const Singleproperty = () => {
                                 <div className='flex'><span className='font-semibold basis-1/2'>Country:</span>  <span className='basis-1/2'>{property.country}</span></div>
                             </div>
                             <div><iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.2547158278226!2d73.91419611127971!3d18.562551782466336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20-%20Viman%20Nagar!5e0!3m2!1sen!2sin!4v1681696533582!5m2!1sen!2sin"
-                                allowFullScreen="" loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade" className='w-full h-full xl:w-[740px] xl:h-[250px]'></iframe>
+                                src={`https://maps.google.com/maps?q=${latlng.lat},${latlng.long}&hl=es;z=14&output=embed`}
+                                allowFullScreen=""
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when -downgrade"
+                                className='w-full h-full xl:w-[740px] xl:h-[250px]'
+                            ></iframe>
                             </div>
                         </div>
                         <div className='filter shadow-xl rounded-2xl p-5 flex flex-col xl:gap-10'>

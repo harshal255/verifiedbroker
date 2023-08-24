@@ -17,8 +17,6 @@ import Brokerlogin from './pages/Brokerlogin'
 import Brokersignup from './pages/Brokersignup'
 import AddProfileDetails from './pages/Agent/AddProfileDetails'
 import Singleproperty from './pages/Singleproperty'
-import MyFavourite from './pages/Agent/MyFavourite'
-import SavedSearch from './pages/Agent/SavedSearch'
 import Reviews from './pages/Agent/Reviews'
 import Myproperty from './pages/Agent/Myproperty'
 // import { useContext } from 'react'
@@ -147,20 +145,6 @@ function App() {
           element={
             <>
               <Myproperty></Myproperty>
-            </>
-          }>
-        </Route>
-        <Route path="/agentdash/myfavourite"
-          element={
-            <>
-              <MyFavourite></MyFavourite>
-            </>
-          }>
-        </Route>
-        <Route path="/agentdash/savedsearch"
-          element={
-            <>
-              <SavedSearch></SavedSearch>
             </>
           }>
         </Route>
