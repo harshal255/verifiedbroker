@@ -12,7 +12,6 @@ import Myprofile from './pages/Agent/Myprofile'
 import CTPVD from './pages/Agent/CTPVD'
 import SignUp from './pages/Signup';
 import Login from './pages/Login';
-import Admin from './pages/Admin'
 import Home1 from './pages/Home1'
 import Brokerlogin from './pages/Brokerlogin'
 import Brokersignup from './pages/Brokersignup'
@@ -24,6 +23,8 @@ import Reviews from './pages/Agent/Reviews'
 import Myproperty from './pages/Agent/Myproperty'
 // import { useContext } from 'react'
 // import AuthContext from './pages/AuthContext'
+import Admin from './pages/Admin/Admin'
+
 
 function App() {
 
@@ -66,7 +67,6 @@ function App() {
 
           }
         ></Route>
-        <Route path="/admin" element={<Admin />}></Route>
         <Route
           path="/becomeagent"
           element={
@@ -201,6 +201,17 @@ function App() {
           }
         >
         </Route>
+        <Route path="/admin"
+          element={
+            <>
+              <Header />
+              <Admin></Admin>
+              <Footer></Footer>
+            </>
+          }>
+
+        </Route>
+
       </Routes>
     </div >
   )

@@ -1,6 +1,5 @@
-import React from 'react'
-import DashbordHeader from '../../components/Dashboard/Header'
-import Sidebar from '../../components/Dashboard/Sidebar'
+import DashbordHeader from '../../components/AgentDashboard/Header'
+import Sidebar from '../../components/AgentDashboard/Sidebar'
 import { Button, Input } from '@material-tailwind/react'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { FiUploadCloud } from 'react-icons/fi'

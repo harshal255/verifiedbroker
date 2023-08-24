@@ -1,6 +1,6 @@
 import React from 'react'
-import DashbordHeader from '../../components/Dashboard/Header'
-import Sidebar from '../../components/Dashboard/Sidebar'
+import DashbordHeader from '../../components/AgentDashboard/Header'
+import Sidebar from '../../components/AgentDashboard/Sidebar'
 import {
     Select,
     Option,
