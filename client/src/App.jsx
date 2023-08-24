@@ -18,7 +18,6 @@ import Brokersignup from './pages/Brokersignup'
 import AddProfileDetails from './pages/Agent/AddProfileDetails'
 import Singleproperty from './pages/Singleproperty'
 import MyFavourite from './pages/Agent/MyFavourite'
-import SavedSearch from './pages/Agent/SavedSearch'
 import Reviews from './pages/Agent/Reviews'
 import Myproperty from './pages/Agent/Myproperty'
 <<<<<<< Updated upstream
@@ -158,13 +157,6 @@ function App() {
           element={
             <>
               <MyFavourite></MyFavourite>
-            </>
-          }>
-        </Route>
-        <Route path="/agentdash/savedsearch"
-          element={
-            <>
-              <SavedSearch></SavedSearch>
             </>
           }>
         </Route>
