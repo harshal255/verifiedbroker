@@ -1,96 +1,71 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     Input,
     Checkbox,
     Button,
     Typography,
-    Select,
-    Option,
     Rating,
     Textarea
 } from "@material-tailwind/react";
-import { BiBed, BiBath } from 'react-icons/bi'
-import Singleproperties from '../api/Singleproperty.js'
+import { BiBed, BiBath, BiHomeAlt2 } from 'react-icons/bi'
 import { TbRulerMeasure } from 'react-icons/tb'
-import { AiOutlinePhone } from 'react-icons/ai'
-import SingleProperty from '../api/Singleproperty.js';
+import { AiOutlineDelete, AiOutlinePhone } from 'react-icons/ai'
 import { AiFillStar } from 'react-icons/ai'
-import { FaThumbsUp } from 'react-icons/fa6'
-import { FaThumbsDown } from 'react-icons/fa6'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { BiShareAlt, BiTimeFive } from 'react-icons/bi'
 import { FiExternalLink } from 'react-icons/fi'
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Properties from '../api/Property';
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast'
+import { MdDateRange, MdOutlineBedroomParent } from 'react-icons/md';
+import { ImHome } from 'react-icons/im';
 
-const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-                dots: true
-            }
-        },
-        {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                initialSlide: 2
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    ]
-};
+
 
 
 const Singleproperty = () => {
 
     const [property, setProperty] = useState(null);
+    const [nearByProp, setNearByProp] = useState([]);
+    const [broker, setBroker] = useState(null);
     const [rating, setRating] = useState('');
     const [comment, setComment] = useState('');
     const location = useLocation();
+    const navigate = useNavigate();
     const pId = location.state?.pId;
-    
+
     useEffect(() => {
-        const fetchPropertydata = async () => {
-            console.log(pId);
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `http://localhost:3000/api/property/${pId}`,
-                withCredentials: true,
-            };
-            
-            await axios.request(config)
-                .then((res) => {
-                    setProperty(res.data.data);
-                })
-                .catch((err) => {
-                    toast.error(err.response.statusText);
-                    console.error("failed to fetch property details", err);
-                });
-        }
-        fetchPropertydata();
+        const fetchData = async () => {
+            try {
+                const propertyResponse = await axios.get(`http://localhost:3000/api/property/${pId}`, { withCredentials: true });
+                const currentProperty = propertyResponse.data.data;
+                console.log(currentProperty);
+                setProperty(currentProperty);
+
+                if (propertyResponse.data.data.broker_id) {
+                    const brokerResponse = await axios.get(`http://localhost:3000/api/broker/${propertyResponse.data.data.broker_id}`);
+                    setBroker(brokerResponse.data);
+                }
+
+                if (propertyResponse) {
+                    const data = await axios.get('http://localhost:3000/api/property');
+                    const allProperties = data.data.property;
+
+                    const filteredNearbyProp = allProperties.filter(prop => prop._id !== currentProperty._id && prop.city === currentProperty.city);
+
+
+                    setNearByProp(filteredNearbyProp);
+                }
+
+
+
+            } catch (error) {
+                toast.error(error.response ? error.response.statusText : 'Failed to fetch data');
+                console.error('Failed to fetch property and/or broker details', error);
+            }
+        };
+        fetchData();
     }, [pId]);
 
     const handleReviewClick = async () => {
@@ -99,31 +74,55 @@ const Singleproperty = () => {
             comment: comment,
         };
         const uId = localStorage.getItem('uId');
-     
+
         let config = {
-            method : 'post',
-            maxBodyLength : Infinity,
-            url : `http://localhost:3000/api/${uId}/review/${pId}`,
-            withCredentials : true,
-            data : data,
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `http://localhost:3000/api/${uId}/review/${pId}`,
+            withCredentials: true,
+            data: data,
         }
 
         await axios.request(config)
-        .then((res)=>{
-            console.log(res.data);
-            toast.success("Review Added Successfully");
-        })
-        .catch((err)=>{
-           toast.error(err.response.data.message);
-           console.error("Review Post error",err); 
-        }); 
+            .then((res) => {
+                console.log(res.data);
+                toast.success("Review Added Successfully");
+            })
+            .catch((err) => {
+                toast.error(err.response.data.message);
+                console.error("Review Post error", err);
+            });
     }
+
+    const handleDeleteReview = async (uId) => {
+        let config = {
+            method: 'delete',
+            maxBodyLength: Infinity,
+            url: `http://localhost:3000/api/${uId}/review/${pId}`,
+            withCredentials: true,
+        };
+
+        await axios.request(config)
+            .then(() => {
+                toast.success("Review Deleted Successfully");
+            })
+            .catch((error) => {
+                toast.error("Review Deletion error");
+                console.log(error);
+            });
+    }
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleString(undefined, options);
+    };
 
     if (!property) {
         return (
             <h1>Loading...</h1>
         )
     }
+
     return (
         <>
             <Toaster position="top-center"></Toaster>
@@ -164,9 +163,9 @@ const Singleproperty = () => {
                             <img src={property.p_Images[0].url} alt="1" className=' hover:scale-110 hover:-rotate-2 duration-300' />
                         </div>
                         <div className="grid grid-cols-2 gap-5">
-                            {Singleproperties.Images.slice(1).map((element) => (
+                            {property.p_Images.slice(1).map((element) => (
                                 <div className='w-auto overflow-hidden rounded-lg' key={element.id}>
-                                    <img src={element.img} alt={element.id} className='rounded-lg hover:scale-125 hover:-rotate-6 duration-300' />
+                                    <img src={element.url} alt={element.id} className='rounded-lg hover:scale-125 hover:-rotate-6 duration-300' />
                                 </div>
                             ))}
                         </div>
@@ -180,24 +179,72 @@ const Singleproperty = () => {
                         <div className='filter shadow-xl rounded-2xl p-5'>
                             <h1 className='font-bold text-xl my-3'>Overview</h1>
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-                                {
-                                    Singleproperties.Property.map((element) => {
-                                        let Icon = element.icon;
-                                        return (
-                                            <div className="grid grid-rows-3 grid-flow-col border p-4" key={element.id}>
-                                                <div className="flex items-center justify-center row-span-3 ">
-                                                    <h1 className="text-3xl border-2 p-3 border-black rounded-lg"><Icon></Icon></h1>
-                                                </div>
-                                                <div className="flex items-start justify-center col-span-2">
-                                                    <h1 className="text-xl font-semibold">{element.name}</h1>
-                                                </div>
-                                                <div className="flex items-end justify-center row-span-2 col-span-2">
-                                                    <h1 className="text-xl">{element.text}</h1>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
+                                <div className="grid grid-rows-3 grid-flow-col border p-4" key={property._id}>
+                                    <div className="flex items-center justify-center row-span-3 ">
+                                        <h1 className="text-3xl border-2 p-3 border-black rounded-lg"><MdOutlineBedroomParent></MdOutlineBedroomParent></h1>
+                                    </div>
+                                    <div className="flex items-start justify-center col-span-2">
+                                        <h1 className="text-xl font-semibold">Bedroom</h1>
+                                    </div>
+                                    <div className="flex items-end justify-center row-span-2 col-span-2">
+                                        <h1 className="text-xl">{property.bedroom}</h1>
+                                    </div>
+                                </div>
+                                <div className="grid grid-rows-3 grid-flow-col border p-4" key={property._id}>
+                                    <div className="flex items-center justify-center row-span-3 ">
+                                        <h1 className="text-3xl border-2 p-3 border-black rounded-lg"><BiBath></BiBath></h1>
+                                    </div>
+                                    <div className="flex items-start justify-center col-span-2">
+                                        <h1 className="text-xl font-semibold">Bath</h1>
+                                    </div>
+                                    <div className="flex items-end justify-center row-span-2 col-span-2">
+                                        <h1 className="text-xl">{property.bath}</h1>
+                                    </div>
+                                </div>
+                                <div className="grid grid-rows-3 grid-flow-col border p-4" key={property._id}>
+                                    <div className="flex items-center justify-center row-span-3 ">
+                                        <h1 className="text-3xl border-2 p-3 border-black rounded-lg"><MdDateRange></MdDateRange></h1>
+                                    </div>
+                                    <div className="flex items-start justify-center col-span-2">
+                                        <h1 className="text-xl font-semibold">Year Built</h1>
+                                    </div>
+                                    <div className="flex items-end justify-center row-span-2 col-span-2">
+                                        <h1 className="text-xl">{property.buildYear}</h1>
+                                    </div>
+                                </div>
+                                <div className="grid grid-rows-3 grid-flow-col border p-4" key={property._id}>
+                                    <div className="flex items-center justify-center row-span-3 ">
+                                        <h1 className="text-3xl border-2 p-3 border-black rounded-lg"><ImHome></ImHome></h1>
+                                    </div>
+                                    <div className="flex items-start justify-center col-span-2">
+                                        <h1 className="text-xl font-semibold">Garage</h1>
+                                    </div>
+                                    <div className="flex items-end justify-center row-span-2 col-span-2">
+                                        <h1 className="text-xl">{property.garage}</h1>
+                                    </div>
+                                </div>
+                                <div className="grid grid-rows-3 grid-flow-col border p-4" key={property._id}>
+                                    <div className="flex items-center justify-center row-span-3 ">
+                                        <h1 className="text-3xl border-2 p-3 border-black rounded-lg"><TbRulerMeasure></TbRulerMeasure></h1>
+                                    </div>
+                                    <div className="flex items-start justify-center col-span-2">
+                                        <h1 className="text-xl font-semibold">Sqft</h1>
+                                    </div>
+                                    <div className="flex items-end justify-center row-span-2 col-span-2">
+                                        <h1 className="text-xl">{property.pSize}</h1>
+                                    </div>
+                                </div>
+                                <div className="grid grid-rows-3 grid-flow-col border p-4" key={property._id}>
+                                    <div className="flex items-center justify-center row-span-3 ">
+                                        <h1 className="text-3xl border-2 p-3 border-black rounded-lg"><BiHomeAlt2></BiHomeAlt2></h1>
+                                    </div>
+                                    <div className="flex items-start justify-center col-span-2">
+                                        <h1 className="text-xl font-semibold">Property Type</h1>
+                                    </div>
+                                    <div className="flex items-end justify-center row-span-2 col-span-2">
+                                        <h1 className="text-xl">{property.propertyType}</h1>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className='filter shadow-xl rounded-2xl h-100 p-5'>
@@ -237,7 +284,7 @@ const Singleproperty = () => {
                                 {
                                     property.amenities.map((element) => {
                                         return (
-                                            <li>{element}</li>
+                                            <li key={element.id}>{element}</li>
                                         )
                                     })
                                 }
@@ -249,46 +296,32 @@ const Singleproperty = () => {
                         Review Section
                         <div className='filter shadow-xl rounded-2xl p-5 flex flex-col xl:gap-10'>
                             <div className="flex flex-col xl:flex-row gap-5  items-center justify-between">
-                                <div className="flex items-center justify-evenly gap-3"><AiFillStar /> <span>5.0</span> <span>•</span><span>3 reviews</span></div>
-                                <div className='flex items-center gap-1 xl:gap-3 justify-evenly'>Sort by : <span>
-                                    <Select label=''>
-                                        <Option>Newest</Option>
-                                        <Option>Best Seller</Option>
-                                        <Option>Best Match</Option>
-                                        <Option>Price Low</Option>
-                                        <Option>Price High</Option>
-                                    </Select>
-                                </span></div>
+                                <div className="flex items-center justify-evenly gap-3"><AiFillStar /> <span>{property.ratings}</span> <span>•</span><span>{property.reviews.length}</span></div>
                             </div>
                             <div className='flex flex-col gap-10'>
-                                {
-                                    SingleProperty.Reviews.map((element) => {
-                                        return (
-                                            <div className='flex flex-col gap-5' key={element.id}>
-                                                <div className="flex flex-col xl:flex-row justify-start xl:justify-between">
-                                                    <div className="grid grid-cols-2 xl:gap-x-4 xl:gap-y-1">
-                                                        <div className="row-span-2 flex items-center justify-center">
-                                                            <img src="/images/Images/Reviews/users/1.png" alt="" className='h-14 w-14  rounded-full border' />
-                                                        </div>
-                                                        <div className="row-span-1  flex items-center justify-center font-bold text-base">{element.userName}</div>
-                                                        <div className="row-span-1 flex items-center justify-center">{element.reviewDate}</div>
-                                                    </div>
-
-                                                    <div>
-                                                        <Rating value={element.reviewcount} readonly />
-                                                    </div>
+                                {property.reviews.length > 0 ? (
+                                    property.reviews.map((element) => (
+                                        <div className='flex flex-col gap-5' key={element.id}>
+                                            <div className="flex flex-col xl:flex-row justify-start xl:justify-between">
+                                                <div className="grid grid-cols-2 xl:gap-x-4 xl:gap-y-1">
+                                                    <div className="row-span-1  flex items-center justify-center font-bold text-base">{element.userName}</div>
+                                                    <div className="row-span-1 flex items-center justify-center">{formatDate(element.createdAt)}</div>
                                                 </div>
-                                                <p>{element.reviewmessage}</p>
-                                                {element.images && (
-                                                    <div className="grid grid-cols-2 gap-5 xl:grid-cols-6 xl:gap-x-0">
-                                                        {element.images.map((element) => <img src={element.img} key={element.id} className='h-auto w-auto rounded-lg' />)}
-                                                    </div>
-                                                )}
-
-                                                <div className="flex gap-3 text-gray-500"> <span className='flex items-center gap-2'><FaThumbsUp /> Helpful</span> <span className='flex items-center gap-2'><FaThumbsDown /> Not Helpful</span></div>
+                                                <div>
+                                                    <Rating value={element.rating} readonly />
+                                                    {localStorage.getItem('uId') === element.userId && (
+                                                        <AiOutlineDelete className="text-xl" onClick={() => handleDeleteReview(element.userId)} />
+                                                    )}
+                                                </div>
                                             </div>
-                                        )
-                                    })
+                                            <p>{element.comment}</p>
+                                        </div>
+                                    ))
+
+                                ) :
+                                    (
+                                        <p>Be The First for Review 🌟</p>
+                                    )
                                 }
                             </div>
                         </div>
@@ -297,7 +330,7 @@ const Singleproperty = () => {
                             <form>
                                 <div className="flex flex-col gap-5">
                                     <div className="flex flex-col xl:flex-row justify-evenly gap-5">
-                                        <select label="Rating" className="bg-gray-100 px-80 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400" color='orange' onChange={(e) => { 
+                                        <select label="Rating" className="bg-gray-100 px-80 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400" color='orange' onChange={(e) => {
                                             setRating(parseInt(e.target.value))
                                         }}>
                                             <option>1 star</option>
@@ -352,48 +385,82 @@ const Singleproperty = () => {
 
                         <div className='filter shadow-xl rounded-2xl p-5'>
                             <h1 className='font-bold text-xl my-3'>Get More Information</h1>
-                            <div className="flex gap-2 ">
-                                <img src="/images/avtar.jpg" alt="" className='h-20 w-20 rounded-full' />
-                                <div className="flex flex-col gap-2">
-                                    <span className='font-bold'>Arlene McCoy</span>
-                                    <span className='flex gap-2 text-deep-orange-500 items-center'><span><AiOutlinePhone /></span><span>(920) 012-3421</span></span>
-                                </div>
+                            <div className="flex gap-2">
+                                {broker && (
+                                    <div className="flex gap-2 items-center">
+                                        <img
+                                            src={broker.broker.brokersDetails.photo.url}
+                                            alt="avatar"
+                                            className="h-20 w-20 rounded-full"
+                                        />
+                                        <div className="flex flex-col gap-2">
+                                            <span className="font-bold">{broker.broker.name}</span>
+                                            <span className="flex gap-2 text-deep-orange-500 items-center">
+                                                <span>
+                                                    <AiOutlinePhone />
+                                                </span>
+                                                <span>{broker.broker.brokersDetails.phone}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+
             <div className="nearbyhouse mx-5 xl:mx-20 my-10">
                 <h1 className='text-3xl font-bold'>Nearby Similar Homes</h1>
-                <div className='text-sm'>Aliquam lacinia diam quis lacus euismod</div>
-                <Slider {...settings} className='w-full p-2 mt-6'>
-                    {
-                        Properties.map((element) => {
-                            return (
-                                <Link to="/singleproperty" className="flex flex-col" key={element.id}>
-                                    <div className="relative w-fit h-fit overflow-hidden rounded-lg">
-                                        <img src={element.img} alt={element.title} className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl" />
-                                        <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">{element.price} $/month</div>
+                {nearByProp.length < 1 ? (
+                    <tr>
+                        <td colSpan="4" className="text-center">
+                            <div className="flex justify-center items-center">
+                                <img
+                                    src="/gifs/notFoundAnimation.gif"
+                                    alt="Oops, nothing there"
+                                    className="w-48 h-auto"
+                                />
+                            </div>
+                        </td>
+                    </tr>
+                ) : (
+                    <div className="flex flex-wrap gap-5 justify-around">
+                        {nearByProp.map((element) => (
+                            <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
+                                <div className="relative w-fit h-fit overflow-hidden rounded-lg">
+                                    <img
+                                        src={element.p_Images[0].url}
+                                        alt={element.pName}
+                                        className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl"
+                                    />
+                                    <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">
+                                        {element.price} ₹/month
                                     </div>
-                                    <div className="my-2 flex flex-col gap-2">
-                                        <span className="font-semibold text-start ml-2">{element.title}</span>
-                                        <span className="font-light text-start ml-2 text-sm text-gray-600">{element.address.city},{element.address.country},{element.address.state}</span>
-                                        <span className="flex justify-evenly text-sm">
-                                            <span className="flex items-center"><BiBed />{element.bed} Bed</span>
-                                            <span className="flex items-center"><BiBath />{element.bath} Bath</span>
-                                            <span className="flex items-center"><TbRulerMeasure />{element.sqft} Sqft</span>
-                                        </span>
-                                        <hr className="border-gray-800" />
-                                        <div className="flex justify-evenly">
-                                            <span className="text-sm">{element.category}</span>
-                                            <span className="text-sm">{element.year.startingyear}-{element.year.endingyear}</span>
-                                        </div>
+                                </div>
+                                <div className="my-2 flex flex-col gap-2">
+                                    <span className="font-semibold text-start ml-2">{element.pName}</span>
+                                    <span className="font-light text-start ml-2 text-sm text-gray-600">
+                                        {element.city}, {element.country}, {element.state}
+                                    </span>
+                                    <span className="flex justify-evenly text-sm">
+                                        <span className="flex items-center"><BiBed />{element.bedroom} Bed</span>
+                                        <span className="flex items-center"><BiBath />{element.bath} Bath</span>
+                                        <span className="flex items-center"><TbRulerMeasure />{element.pSize} Sqft</span>
+                                    </span>
+                                    <hr className="border-gray-800" />
+                                    <div className="flex justify-evenly">
+                                        <span className="text-sm">{element.propertyType}</span>
+                                        <span className="text-sm">{new Date().getFullYear() - element.buildYear} years ago</span>
                                     </div>
-                                </Link>
-                            )
-                        })
-                    }
-                </Slider>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+
+                )}
             </div>
         </>
     )
