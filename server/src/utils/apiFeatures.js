@@ -3,22 +3,6 @@ class ApiFeatures {
         this.query = query;
         this.queryStr = queryStr;
     }
-    // search() {
-    //     const keyword = this.queryStr.keyword;
-
-    //     if (keyword) {
-    //         const regexPattern = new RegExp(keyword, "i");
-    //         this.query = this.query.find({
-    //             $or: [
-    //                 { pName: { $regex: regexPattern } },
-    //                 // { pDescription: { $regex: regexPattern } }
-    //                 // Add more fields as needed
-    //             ]
-    //         });
-    //     }
-
-    //     return this;
-    // }
     search() {
         const keyword = this.queryStr.keyword
             ? {

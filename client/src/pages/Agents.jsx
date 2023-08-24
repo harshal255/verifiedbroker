@@ -1,39 +1,45 @@
-import React, { useState } from 'react';
-import { Breadcrumbs } from "@material-tailwind/react";
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Avatar, Breadcrumbs } from "@material-tailwind/react";
+import { Link, useNavigate } from 'react-router-dom'
 import { Input } from "@material-tailwind/react";
 import { Select, Option } from "@material-tailwind/react";
 import Brokers from '../api/Brokers'
 import { Button, IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import axios from 'axios';
+
 
 const Agents = () => {
 
-  //for pagination
-  const [active, setActive] = useState(1);
 
-  const getItemProps = (index) => ({
-    variant: active === index ? "filled" : "text",
-    color: active === index ? "orange" : "orange-gray",
-    onClick: () => setActive(index),
-    className: "rounded-full text-white",
-  });
+  const [page, setPage] = useState(1);
 
-  const itemsPerPage = 25;
-  const totalPages = Math.ceil(Brokers.length / itemsPerPage);
-  const startIndex = (active - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const brokersToShow = Brokers.slice(startIndex, endIndex);
+  console.log(page);
 
-  const next = () => {
-    if (active === totalPages) return;
-    setActive(active + 1);
-  };
 
-  const prev = () => {
-    if (active === 1) return;
-    setActive(active - 1);
-  };
+  const [brokers, setBrokers] = useState(null);
+
+  console.log(brokers);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/api/brokers?page=${page}`,
+      withCredentials: true
+    };
+
+    axios.request(config)
+      .then((response) => {
+        setBrokers(response.data.broker);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [page])
+
 
   return (
     <div className="pt-0 mt-20 xl:mx-20">
@@ -57,22 +63,8 @@ const Agents = () => {
       <div className="flex flex-col md:flex-row justify-between items-center my-5 gap-5">
         <div className="flex flex-col md:flex-row gap-5">
           <Input label="Enter broker name" />
-          <Select label="All Categories">
-            <Option>Material Tailwind HTML</Option>
-            <Option>Material Tailwind React</Option>
-            <Option>Material Tailwind Vue</Option>
-            <Option>Material Tailwind Angular</Option>
-            <Option>Material Tailwind Svelte</Option>
-          </Select>
-          <Select label="Newest">
-            <Option>Material Tailwind HTML</Option>
-            <Option>Material Tailwind React</Option>
-            <Option>Material Tailwind Vue</Option>
-            <Option>Material Tailwind Angular</Option>
-            <Option>Material Tailwind Svelte</Option>
-          </Select>
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
           <span className="w-1/2">Sort by</span>
           <Select label="All Cities">
             <Option>Material Tailwind HTML</Option>
@@ -86,15 +78,21 @@ const Agents = () => {
 
       {/* broker Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5">
-        {brokersToShow.map((element) => {
+        {brokers && brokers.length !== 0 ? (brokers.map((element) => {
           return (
-            <Link to="/agent" className="flex flex-col gap-1" key={element.id}>
-              <img src={element.img} alt={element.id} />
-              <h1 className="text-xl font-bold">{element.Name}</h1>
-              <span className="text-base">{element.category}</span>
-            </Link>
+            <div className="flex flex-col gap-1" key={element._id} onClick={() => navigate("/agent", { state: { uId: element._id } })}>
+              <Avatar src={element.brokersDetails.photo.url} alt={element._id} variant='rounded' className='h-[20rem] w-[20rem]' />
+              <h1 className="text-xl font-bold">{element.name}</h1>
+              <span className="text-base">{element.brokersDetails.experience} experience</span>
+            </div>
           );
-        })}
+        })) : (<div className="flex w-[90vw] justify-center items-center">
+          <img
+            src="/gifs/notFoundAnimation.gif"
+            alt="Oops, nothing there"
+            className="w-48 h-auto"
+          />
+        </div>)}
       </div>
 
       {/* pagination */}
@@ -103,28 +101,17 @@ const Agents = () => {
           variant="text"
           color="orange"
           className="flex items-center gap-2 rounded-full"
-          onClick={prev}
-          disabled={active === 1}
+          onClick={() => { setPage(page - 1) }}
+          disabled={page === 1}
         >
           <ArrowLeftIcon strokeWidth={2} className="h-4 w-4 text-primary" /> Previous
         </Button>
-        <div className="flex items-center gap-2">
-          {[...Array(totalPages)].map((_, index) => (
-            <IconButton
-              {...getItemProps(index + 1)}
-              className="hover:bg-orange-600 rounded-full text-black hover:text-white"
-              key={index}
-            >
-              {index + 1}
-            </IconButton>
-          ))}
-        </div>
         <Button
           variant="text"
           color="orange"
           className="flex items-center gap-2 rounded-full"
-          onClick={next}
-          disabled={active === totalPages}
+          onClick={() => { setPage(page + 1) }}
+          disabled={!brokers || brokers.length === 0 || page === 25}
         >
           Next
           <ArrowRightIcon strokeWidth={2} className="h-4 w-4 text-primary" />
