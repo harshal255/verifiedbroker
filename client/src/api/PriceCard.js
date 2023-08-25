@@ -3,7 +3,7 @@ const PriceCard = [
         id: 1,
         plan: "FREE",
         desc: "Organize across all apps by hand",
-        price: "0",
+        price: "5",
         features: [
             {
                 id: 1,

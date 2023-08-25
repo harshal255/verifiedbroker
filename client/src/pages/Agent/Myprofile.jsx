@@ -109,6 +109,7 @@ const Myprofile = () => {
                                 <span>Payment Status : <span className="text-green-600 font-light">{user.brokersDetails.paymentStatus ? "Yes" : "No"}</span></span>
                                 <span>Package : <span className="font-light">₹{user.brokersDetails.package}/month</span></span>
                                 <span>Address : <span className="font-light"> {user.brokersDetails.address}</span> </span>
+                                <span>Reference : <span className="font-light"> {user.brokersDetails.reference}</span> </span>
                                 <span className="xl:col-span-3">About : <span className="font-light">{user.brokersDetails.about}</span> </span>
 
                                 <span className="xl:col-span-3">Experience : <span className="font-light">{user.brokersDetails.experience} </span></span>
