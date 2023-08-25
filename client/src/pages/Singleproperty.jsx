@@ -38,9 +38,6 @@ const Singleproperty = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
-    // const url = `https://maps.google.com/maps?q=${latlng.lat},${latlng.long}&hl=es;z=14&amp;output=embed`;
-    const url = "https://maps.google.com/maps?q=22.8278859,72.3684741&hl=es;z=14&amp;output=embed";
-    console.log(url);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,17 +53,10 @@ const Singleproperty = () => {
                 }
 
                 if (propertyResponse) {
-                    const data = await axios.get('http://localhost:3000/api/property');
-                    const allProperties = data.data.property;
-
-                    const filteredNearbyProp = allProperties.filter(prop => prop._id !== currentProperty._id && prop.city === currentProperty.city);
-
-
+                    const NearbyProp = await axios.get(`http://localhost:3000/api/property?city=${propertyResponse.data.data.city}`);
+                    const filteredNearbyProp = NearbyProp.data.property.filter(prop => prop._id !== currentProperty._id);
                     setNearByProp(filteredNearbyProp);
                 }
-
-
-
             } catch (error) {
                 toast.error(error.response ? error.response.statusText : 'Failed to fetch data');
                 console.error('Failed to fetch property and/or broker details', error);

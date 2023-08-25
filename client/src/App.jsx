@@ -6,22 +6,23 @@ import Becomeagent from './pages/Becomeagent'
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Property from './pages/Property'
-import AgentDashboard from './pages/Agent/AgentDashboard'
 import Oneagent from './pages/Oneajent'
-import Myprofile from './pages/Agent/Myprofile'
-import CTPVD from './pages/Agent/CTPVD'
+// import Myprofile from './pages/Agent/Myprofile'
+// import CTPVD from './pages/Agent/CTPVD'
 import SignUp from './pages/Signup';
 import Login from './pages/Login';
 import Home1 from './pages/Home1'
 import Brokerlogin from './pages/Brokerlogin'
 import Brokersignup from './pages/Brokersignup'
-import AddProfileDetails from './pages/Agent/AddProfileDetails'
+// import AddProfileDetails from './pages/Agent/AddProfileDetails'
 import Singleproperty from './pages/Singleproperty'
-import Reviews from './pages/Agent/Reviews'
-import Myproperty from './pages/Agent/Myproperty'
+// import Reviews from './pages/Agent/Reviews'
+// import Myproperty from './pages/Agent/Myproperty'
 // import { useContext } from 'react'
 // import AuthContext from './pages/AuthContext'
 import Admin from './pages/Admin/Admin'
+import AgentWholeDashboard from './pages/Agent/AgentWholeDashboard'
+
 
 
 function App() {
@@ -109,7 +110,7 @@ function App() {
             </>
           }
         ></Route>
-        <Route path="singleproperty" element={
+        <Route path="/singleproperty" element={
           <>
             <Header />
             <Singleproperty />
@@ -119,12 +120,10 @@ function App() {
         }></Route>
         <Route path="/agentdash" element={
           <>
-            <AgentDashboard />
-            <MobileFooter></MobileFooter>
-            <Footer></Footer>
+            <AgentWholeDashboard></AgentWholeDashboard>
           </>
         } />
-        <Route path="/agentdash/profile" element={
+        {/* <Route path="/agentdash/profile" element={
           <>
             <Myprofile></Myprofile>
           </>
@@ -154,7 +153,7 @@ function App() {
               <Reviews></Reviews>
             </>
           }>
-        </Route>
+        </Route> */}
         <Route
           path="/landing"
           element={

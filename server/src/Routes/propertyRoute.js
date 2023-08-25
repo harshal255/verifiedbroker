@@ -12,6 +12,6 @@ router.route("/:userId/review/:propertyId").post(isAuthenticatedUser,addReviews)
 router.route("/property/:propertyId").get(getSingleProperty).delete(isAuthenticatedUser,deleteProperty);
 router.route("/property").get(getAllProperty);
 router.route("/properties/:brokerId").get(isAuthenticatedUser,getPropertiesOfBroker);
-router.route("/latlng/:city").get(isAuthenticatedUser,getLatLng);
+router.route("/latlng/:city").get(getLatLng);
 
 module.exports = router;
