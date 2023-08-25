@@ -1,6 +1,5 @@
 import  { useEffect, useRef, useState } from 'react'
 import DashbordHeader from '../../components/AgentDashboard/Header'
-import Sidebar from '../../components/AgentDashboard/Sidebar'
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -205,7 +204,6 @@ const Myproperty = () => {
     <>
       <Toaster position="top-center"></Toaster>
       <DashbordHeader></DashbordHeader>
-      <Sidebar></Sidebar>
       <div className="w-full xl:w-4/5 h-full overflow-scroll xl:ml-[17.5rem] border border-black p-5  gap-5">
         <Card className="h-full w-full">
           <CardHeader floated={false} shadow={false} className="rounded-none">

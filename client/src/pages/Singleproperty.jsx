@@ -38,7 +38,6 @@ const Singleproperty = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
-    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,17 +53,10 @@ const Singleproperty = () => {
                 }
 
                 if (propertyResponse) {
-                    const data = await axios.get('http://localhost:3000/api/property');
-                    const allProperties = data.data.property;
-
-                    const filteredNearbyProp = allProperties.filter(prop => prop._id !== currentProperty._id && prop.city === currentProperty.city);
-
-
+                    const NearbyProp = await axios.get(`http://localhost:3000/api/property?city=${propertyResponse.data.data.city}`);
+                    const filteredNearbyProp = NearbyProp.data.property.filter(prop => prop._id !== currentProperty._id);
                     setNearByProp(filteredNearbyProp);
                 }
-
-
-
             } catch (error) {
                 toast.error(error.response ? error.response.statusText : 'Failed to fetch data');
                 console.error('Failed to fetch property and/or broker details', error);

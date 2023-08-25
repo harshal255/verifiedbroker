@@ -1,13 +1,10 @@
-import React from 'react'
 import DashbordHeader from '../../components/AgentDashboard/Header'
-import Sidebar from '../../components/AgentDashboard/Sidebar'
 import {
     Select,
     Option,
     Rating,
 } from "@material-tailwind/react";
 import { AiFillStar } from 'react-icons/ai'
-import { FaThumbsUp } from 'react-icons/fa6'
 import { BsReply } from 'react-icons/bs'
 import SingleProperty from '../../api/Singleproperty';
 
@@ -15,7 +12,6 @@ const Reviews = () => {
     return (
         <>
             <DashbordHeader></DashbordHeader>
-            <Sidebar></Sidebar>
             <div className="w-full xl:w-4/5 h-full overflow-scroll xl:ml-[17.5rem] border border-black p-5  gap-5">
                 <div className="flex flex-col gap-1">
                     <h1 className='text-3xl font-bold'>Reviews</h1>
@@ -41,12 +37,12 @@ const Reviews = () => {
                                 return (
                                     <div className='flex flex-col gap-5' key={element.id}>
                                         <div className="flex flex-col xl:flex-row justify-start xl:justify-between">
-                                            <div class="grid grid-cols-2 xl:gap-x-4 xl:gap-y-1">
-                                                <div class="row-span-2 flex items-center justify-center">
+                                            <div className="grid grid-cols-2 xl:gap-x-4 xl:gap-y-1">
+                                                <div className="row-span-2 flex items-center justify-center">
                                                     <img src="/images/Images/Reviews/users/1.png" alt="" className='h-14 w-14  rounded-full border' />
                                                 </div>
-                                                <div class="row-span-1  flex items-center justify-center font-bold text-base">{element.userName}</div>
-                                                <div class="row-span-1 flex items-center justify-center">{element.reviewDate}</div>
+                                                <div className="row-span-1  flex items-center justify-center font-bold text-base">{element.userName}</div>
+                                                <div className="row-span-1 flex items-center justify-center">{element.reviewDate}</div>
                                             </div>
 
                                             <div>

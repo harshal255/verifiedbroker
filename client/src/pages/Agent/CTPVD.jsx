@@ -1,12 +1,10 @@
-import React from 'react'
+
 import DashbordHeader from '../../components/AgentDashboard/Header'
-import Sidebar from '../../components/AgentDashboard/Sidebar'
 
 const CTPVD = () => {
     return (
         <>
             <DashbordHeader></DashbordHeader>
-            <Sidebar></Sidebar>
             <div className='w-4/5 h-full xl:ml-[17.5rem] border border-black p-5 flex flex-col gap-5'>
 
                 <iframe

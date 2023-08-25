@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Tabs, TabsHeader, Tab, Input, Textarea, Checkbox, Button } from '@material-tailwind/react';
 import DashbordHeader from '../../components/AgentDashboard/Header';
-import Sidebar from '../../components/AgentDashboard/Sidebar';
 import { AiOutlineDelete } from 'react-icons/ai';
 import countryStateData from '../../api/countryStateData.json';
 import { toast, Toaster } from 'react-hot-toast'
@@ -116,12 +115,11 @@ const AddBrokerDetails = () => {
                             >
                                 <option value="Apartments">Select Category</option>
                                 <option value="Apartments">Apartments</option>
-                                <option value="Bungalow">Bungalow</option>
                                 <option value="Houses">Houses</option>
-                                <option value="Loft">Loft</option>
                                 <option value="Office">Office</option>
                                 <option value="Townhome">Townhome</option>
                                 <option value="Villa">Villa</option>
+                                <option value="Villa">Land</option>
                             </select>
                         </div>
                         <div className="w-full">
@@ -131,9 +129,9 @@ const AddBrokerDetails = () => {
                                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             >
                                 <option value="All Cities">Property Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Processing">Processing</option>
-                                <option value="Published">Published</option>
+                                <option value="Pending">Buy</option>
+                                <option value="Processing">Rent</option>
+                                <option value="Published">Sell</option>
                             </select>
                         </div>
                         <div className="w-full">
@@ -426,20 +424,19 @@ const AddBrokerDetails = () => {
         <>
             <Toaster position="top-center"></Toaster>
             <DashbordHeader></DashbordHeader>
-            <Sidebar></Sidebar>
             <div className="w-4/5 h-full overflow-scroll xl:ml-[17.5rem] border border-black p-5  gap-5">
                 <Tabs value={activeTab}>
                     <TabsHeader
-                        className="rounded-none border-b border-blue-gray-50 bg-transparent p-0 overflow-scroll"
+                        className="rounded-none bg-transparent p-0 overflow-scroll"
                         indicatorProps={{
-                            className: 'bg-transparent border-b-2 border-blue-500 shadow-none rounded-none',
+                            className: 'bg-transparent shadow-none rounded-none',
                         }}
                     >
                         <Tab
                             key={formSteps[0].label}
                             value={0}
                             onClick={() => setActiveTab(0)}
-                            className={activeTab === 0 ? 'text-blue-500' : ''}
+                            className={activeTab === 0 ? 'text-deep-orange-500' : ''}
                         >
                             {formSteps[0].label}
                         </Tab>
@@ -447,7 +444,7 @@ const AddBrokerDetails = () => {
                             key={formSteps[1].label}
                             value={1}
                             onClick={() => setActiveTab(1)}
-                            className={activeTab === 1 ? 'text-blue-500' : ''}
+                            className={activeTab === 1 ? 'text-deep-orange-500' : ''}
                         >
                             {formSteps[1].label}
                         </Tab>
@@ -455,7 +452,7 @@ const AddBrokerDetails = () => {
                             key={formSteps[2].label}
                             value={2}
                             onClick={() => setActiveTab(2)}
-                            className={activeTab === 2 ? 'text-blue-500' : ''}
+                            className={activeTab === 2 ? 'text-deep-orange-500' : ''}
                         >
                             {formSteps[2].label}
                         </Tab>
@@ -463,7 +460,7 @@ const AddBrokerDetails = () => {
                             key={formSteps[3].label}
                             value={3}
                             onClick={() => setActiveTab(3)}
-                            className={activeTab === 3 ? 'text-blue-500' : ''}
+                            className={activeTab === 3 ? 'text-deep-orange-500' : ''}
                         >
                             {formSteps[3].label}
                         </Tab>
@@ -471,7 +468,7 @@ const AddBrokerDetails = () => {
                             key={formSteps[4].label}
                             value={4}
                             onClick={() => setActiveTab(4)}
-                            className={activeTab === 4 ? 'text-blue-500' : ''}
+                            className={activeTab === 4 ? 'text-deep-orange-500' : ''}
                         >
                             {formSteps[4].label}
                         </Tab>

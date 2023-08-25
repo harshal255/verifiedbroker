@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, Option, Select, Input, Radio,
+  Breadcrumbs, Input, Radio,
   Card,
   List,
   ListItem,
@@ -8,8 +8,11 @@ import {
   Checkbox,
   ButtonGroup, Button,
   Drawer,
+  IconButton,
 } from "@material-tailwind/react";
+import countryStateData from '../api/countryStateData.json';
 import { Link, useNavigate } from 'react-router-dom';
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { BiBed, BiBath } from 'react-icons/bi';
 import { TbRulerMeasure } from 'react-icons/tb';
 import { useEffect, useState } from "react";
@@ -23,6 +26,7 @@ const Property = () => {
 
   //for filter drawer
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
 
@@ -31,6 +35,7 @@ const Property = () => {
   const navigate = useNavigate();
   const handleChange = (e) => {
     setValue(e.target.value);
+    setFilters({ ...filters, price: e.target.value });
   };
 
   const [page, setPage] = useState(1);
@@ -57,6 +62,92 @@ const Property = () => {
     fetchProperty();
   }, [page]);
 
+  const handleSearch = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/api/property?keyword=${searchQuery}`,
+      withCredentials: true,
+    }
+
+    await axios.request(config)
+      .then((res) => {
+        if (res.data.property.length > 0) {
+          toast.success("Property Found");
+          setProperties(res.data.property);
+        }
+        else {
+          toast.error("No result for " + searchQuery);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.statusText);
+        console.error("failed to fetch property", err);
+      });
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const [filters, setFilters] = useState({
+    keyword: '',
+    city: '',
+    status: '',
+    ratings: '',
+    state: '',
+    country: '',
+    bath: '',
+    bedroom: '',
+    buildYear: '',
+    propertyType: '',
+    price: '',
+  });
+
+  const handleFilters = async () => {
+    const queryParams = Object.keys(filters)
+      .map((key) => {
+        if (filters[key] !== '') {
+          if (key === 'bath' || key === 'bedroom' || key === 'ratings') {
+            return `${encodeURIComponent(key)}[gte]=${encodeURIComponent(filters[key])}`;
+          } else if (key === 'price') {
+            return `${encodeURIComponent(key)}[lte]=${encodeURIComponent(filters[key])}`;
+          } else {
+            return `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`;
+          }
+        }
+        return '';
+      })
+      .filter((param) => param !== '')
+      .join('&');
+
+    const filterUrl = `http://localhost:3000/api/property?${queryParams}`;
+    console.log(filterUrl);
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: filterUrl,
+    }
+
+    await axios.request(config)
+      .then((res) => {
+        if (res.data.property.length > 0) {
+          toast.success("Property Found");
+          setProperties(res.data.property);
+        }
+        else {
+          toast.error("No result found ");
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.statusText);
+        console.error("failed to fetch property", err);
+      });
+    closeDrawer();
+  }
 
   return (
     <>
@@ -85,23 +176,36 @@ const Property = () => {
             <div className="flex flex-col xl:flex-row justify-between items-center">
 
               <div className="flex items-center justify-between gap-2 xl:w-96 m-5">
-                <span className="w-1/3">View by</span>
-                <Select label="All Cities">
-                  <Option>Grid</Option>
-                  <Option>List</Option>
+                <span className="w-1/3">Search by Property Name</span>
+                <div className="flex flex-col xl:flex-row w-full shrink-0 gap-2 md:w-max">
+                  <div className="w-full md:w-72 flex items-center justify-center gap-5">
+                    <Input
+                      label="search"
 
-                </Select>
+                      value={searchQuery}
+                      onChange={(e) => { setSearchQuery(e.target.value) }}
+                      onKeyDown={handleKeyPress}
+                    />
+
+                    <IconButton color="orange" className='px-10'>
+                      <MagnifyingGlassIcon className="h-5 w-5" onClick={handleSearch} />
+                    </IconButton>
+                  </div>
+                </div>
               </div>
               <div className="flex m-5 gap-2 text-gray-600"> <BsFilterCircle className="text-2xl cursor-pointer" onClick={openDrawer} /><span>Filter</span> </div>
             </div>
             <Drawer open={open} onClose={closeDrawer} className=" overflow-scroll ">
               <div className="border border-black flex flex-col text-center p-5 gap-5 items-center">
                 <div className="flex justify-between gap-5 items-center ">
-                  <div>
-                    <h1 className="font-semibold text-start">Find your home</h1>
-                    <div className="my-2">
-                      <Input label="Username" />
-                    </div>
+                  <div className="w-full md:w-72 mt-5 flex items-center justify-center gap-5">
+                    <Input
+                      label="search"
+
+                      value={filters.keyword}
+                      onChange={(e) => { setFilters({ ...filters, keyword: e.target.value }) }}
+                    />
+
                   </div>
                   {/* sidebar close icon */}
                   <div className="absolute right-5 top-5 cursor-pointer" onClick={closeDrawer}>
@@ -125,6 +229,7 @@ const Property = () => {
                               id="vertical-list-react"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, status: 'Buy' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
@@ -146,6 +251,7 @@ const Property = () => {
                               id="vertical-list-vue"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, status: 'Rent' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
@@ -167,13 +273,14 @@ const Property = () => {
                               id="vertical-list-svelte"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, status: 'Sell' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
                             />
                           </ListItemPrefix>
                           <Typography color="blue-gray" className="font-medium">
-                            Sold
+                            Sell
                           </Typography>
                         </label>
                       </ListItem>
@@ -197,6 +304,7 @@ const Property = () => {
                               id="vertical-list-react"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, propertyType: 'Houses' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
@@ -217,13 +325,14 @@ const Property = () => {
                               id="vertical-list-vue"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, propertyType: 'Apartment' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
                             />
                           </ListItemPrefix>
                           <Typography color="blue-gray" className="font-medium">
-                            Apratments
+                            Apartments
                           </Typography>
                         </label>
                       </ListItem>
@@ -237,6 +346,7 @@ const Property = () => {
                               id="vertical-list-svelte"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, propertyType: 'Office' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
@@ -277,6 +387,7 @@ const Property = () => {
                               id="vertical-list-svelte"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, propertyType: 'Townhome' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
@@ -284,6 +395,27 @@ const Property = () => {
                           </ListItemPrefix>
                           <Typography color="blue-gray" className="font-medium">
                             Townhome
+                          </Typography>
+                        </label>
+                      </ListItem>
+                      <ListItem className="p-0">
+                        <label
+                          htmlFor="vertical-list-svelte"
+                          className="flex w-full cursor-pointer items-center px-3 py-2"
+                        >
+                          <ListItemPrefix className="mr-3">
+                            <Checkbox
+                              id="vertical-list-svelte"
+                              ripple={false}
+                              className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, propertyType: 'Land' }) }}
+                              containerProps={{
+                                className: "p-0",
+                              }}
+                            />
+                          </ListItemPrefix>
+                          <Typography color="blue-gray" className="font-medium">
+                            Land
                           </Typography>
                         </label>
                       </ListItem>
@@ -303,35 +435,47 @@ const Property = () => {
                     onChange={handleChange}
                     className="max-w-full h-1 bg-orange-500 appearance-none outline-none rounded-10px cursor-pointer thumb:bg-orange-500"
                   />
-                  <p className="text-center mt-2">Value: {value} $</p>
+                  <p className="text-center mt-2">Price Under: {value} ₹</p>
                 </div>
 
                 {/* Bedroom button */}
                 <div>
-                  <h1 className="font-semibold text-start ">Bedroom button</h1>
+                  <h1 className="font-semibold text-start ">Bedroom</h1>
                   <div className="flex flex-col">
                     <ButtonGroup variant="outlined" color="orange">
-                      <Button className="h-10 w-10 text-center p-0">Any</Button>
-                      <Button className="h-10 w-10 text-center p-0">1+</Button>
-                      <Button className="h-10 w-10 text-center p-0">2+</Button>
-                      <Button className="h-10 w-10 text-center p-0">3+</Button>
-                      <Button className="h-10 w-10 text-center p-0">4+</Button>
-                      <Button className="h-10 w-10 text-center p-0">5+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 1 }) }}>1+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 2 }) }}>2+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 3 }) }}>3+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 4 }) }}>4+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 5 }) }}>5+</Button>
                     </ButtonGroup>
                   </div>
                 </div>
 
                 {/* Bath room button */}
                 <div>
-                  <h1 className="font-semibold text-start ">Bathroom button</h1>
+                  <h1 className="font-semibold text-start ">Bathroom</h1>
                   <div className="flex flex-col">
                     <ButtonGroup variant="outlined" color="orange">
-                      <Button className="h-10 w-10 text-center p-0">Any</Button>
-                      <Button className="h-10 w-10 text-center p-0">1+</Button>
-                      <Button className="h-10 w-10 text-center p-0">2+</Button>
-                      <Button className="h-10 w-10 text-center p-0">3+</Button>
-                      <Button className="h-10 w-10 text-center p-0">4+</Button>
-                      <Button className="h-10 w-10 text-center p-0">5+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 1 }) }}>1+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 2 }) }}>2+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 3 }) }}>3+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 4 }) }}>4+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 5 }) }}>5+</Button>
+                    </ButtonGroup>
+                  </div>
+                </div>
+
+                {/* ratings */}
+                <div>
+                  <h1 className="font-semibold text-start ">Ratings</h1>
+                  <div className="flex flex-col">
+                    <ButtonGroup variant="outlined" color="orange">
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 1 }) }}>1+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 2 }) }}>2+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 3 }) }}>3+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 4 }) }}>4+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 5 }) }}>5+</Button>
                     </ButtonGroup>
                   </div>
                 </div>
@@ -340,14 +484,39 @@ const Property = () => {
                 {/* Location */}
                 <div className="flex flex-col items-center justify-center gap-5">
                   <h1 className="font-semibold text-start">Location</h1>
-                  <div className="flex items-center justify-between gap-2 m-5">
-                    <Select label="All Cities">
-                      <Option>Material Tailwind HTML</Option>
-                      <Option>Material Tailwind React</Option>
-                      <Option>Material Tailwind Vue</Option>
-                      <Option>Material Tailwind Angular</Option>
-                      <Option>Material Tailwind Svelte</Option>
-                    </Select>
+                  <div className="flex flex-col gap-5 justify-center items-center">
+                    <div id="coutnryState" className="mb-4 flex flex-col gap-3 justify-center items-center">
+                      <select
+                        value={filters.country}
+                        onChange={(e) => { setFilters({ ...filters, country: e.target.value }) }}
+                        className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                      >
+                        <option value="select country">Select country</option>
+                        {countryStateData.map((country) => (
+                          <option key={country.country_id} value={country.country_name}>
+                            {country.country_name}
+                          </option>
+                        ))}
+                      </select>
+                      <select
+                        value={filters.state}
+                        onChange={(e) => { setFilters({ ...filters, state: e.target.value }) }}
+                        className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                      >
+                        <option value="select state">Select state</option>
+                        {filters.country !== '' &&
+                          countryStateData
+                            .find((country) => country.country_name === filters.country)
+                            ?.states.map((state) => (
+                              <option key={state.state_id} value={state.state_name}>
+                                {state.state_name}
+                              </option>
+                            ))}
+                      </select>
+                      <div className="w-full">
+                        <Input label="City" className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" onChange={(e) => { setFilters({ ...filters, city: e.target.value }) }} />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -355,16 +524,28 @@ const Property = () => {
                 <div>
                   <h1 className="font-semibold  text-start">Year Built</h1>
                   <div className="flex flex-col gap-5 justify-center items-center">
-                    <Input label="starting year" />
-                    <Input label="ending year" />
+                    <Input label="Year Built" onChange={(e) => { setFilters({ ...filters, buildYear: e.target.value }) }} />
                   </div>
 
                 </div>
                 {/* Search */}
-                <Button className="w-full" color="orange">Search</Button>
-                <div className="flex gap-1">
-                  <Button className="min-w-fit" color="orange" variant="outlined">Reset Search</Button>
-                  <Button className="min-w-fit" color="orange" variant="outlined">Save Search</Button>
+                <Button className="w-full" color="orange" onClick={handleFilters}>Search</Button>
+                <div className="flex w-full gap-1">
+                  <Button className="w-full" color="orange" variant="outlined" onClick={() => {
+                    setFilters({
+                      keyword: '',
+                      city: '',
+                      status: '',
+                      ratings: '',
+                      state: '',
+                      country: '',
+                      bath: '',
+                      bedroom: '',
+                      buildYear: '',
+                      propertyType: '',
+                      price: '',
+                    })
+                  }}>Reset Search</Button>
                 </div>
               </div>
             </Drawer>
@@ -444,8 +625,8 @@ const Property = () => {
               </Button>
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   )
 }
