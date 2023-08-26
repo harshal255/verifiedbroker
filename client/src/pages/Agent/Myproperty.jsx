@@ -19,7 +19,7 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import axios from 'axios';
@@ -231,11 +231,11 @@ const Myproperty = () => {
                   </IconButton>
                 </div>
               </div>
-              <Link to="/agentdash/addnewproperty">
+              <div onClick={navigate("/agentdash/addnewproperty")}>
                 <Button className="flex items-center gap-3" size="sm" color='orange'>
                   Add New Property
                 </Button>
-              </Link>
+              </div>
             </div>
           </CardHeader>
           <CardBody className="overflow-scroll px-0">

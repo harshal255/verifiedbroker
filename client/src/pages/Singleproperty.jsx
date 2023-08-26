@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
     Input,
     Checkbox,
@@ -20,18 +20,25 @@ import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast'
 import { MdDateRange, MdOutlineBedroomParent } from 'react-icons/md';
 import { ImHome } from 'react-icons/im';
-import '../css/Singleproperty.css';
+import AuthContext from './AuthContext';
 
 
 
 
 const Singleproperty = () => {
 
+    const {user} = useContext(AuthContext);
+
     const [property, setProperty] = useState(null);
     const [nearByProp, setNearByProp] = useState([]);
     const [broker, setBroker] = useState(null);
-    const [rating, setRating] = useState('');
-    const [comment, setComment] = useState('');
+    const ratings = ["1", "2", "3", "4", "5"];
+
+    const [selectRating, setSelectRating] = useState({
+        rating: ratings[0],
+        comment: ''
+    });
+
     const [latlng, setLatLng] = useState({
         lat: '',
         long: ''
@@ -40,6 +47,15 @@ const Singleproperty = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setSelectRating((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -94,18 +110,12 @@ const Singleproperty = () => {
 
 
     const handleReviewClick = async () => {
-        const data = {
-            rating: rating,
-            comment: comment,
-        };
-        const uId = localStorage.getItem('uId');
-
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/${uId}/review/${pId}`,
+            url: `http://localhost:3000/api/${user._id}/review/${pId}`,
             withCredentials: true,
-            data: data,
+            data: selectRating,
         }
 
         await axios.request(config)
@@ -364,19 +374,19 @@ const Singleproperty = () => {
                         <div className='filter shadow-xl rounded-2xl p-5 flex flex-col xl:gap-10'>
                             <h1 className='font-bold text-xl my-3'>Leave a review</h1>
                             <form>
-                                <div className="flex flex-col xl:flex-row gap-5 items-center justify-center">
-                                    <div className="flex flex-col xl:flex-row justify-evenly gap-5">
-                                        <select label="Rating" className="bg-gray-100 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400" color='orange' onChange={(e) => {
-                                            setRating(parseInt(e.target.value))
-                                        }}>
-                                            <option>1 star</option>
-                                            <option>2 star</option>
-                                            <option>3 star</option>
-                                            <option>4 star</option>
-                                            <option>5 star</option>
+                                <div className="flex flex-col gap-5">
+                                    <div className="flex items-center justify-between w-32 xl:w-96 gap-2">
+                                        <span className="w-1/2">Rating</span>
+                                        <select className='w-full h-8 border-2 border-grey-600 rounded-md' name='rating' value={selectRating.rating} onChange={handleChange}>
+                                            {ratings.map((r) => (
+                                                // console.log(r);
+                                                <option value={r} key={r}>{r}</option>
+                                            ))}
                                         </select>
                                     </div>
-                                    <Textarea size='lg' label='Review' color='orange' onChange={(e) => { setComment(e.target.value) }} />
+                                    <div className="w-40 xl:w-96 text-center">
+                                        <Textarea label="review" name='comment' color='red' value={selectRating.comment} onChange={handleChange} />
+                                    </div>
                                 </div>
                                 <Button className="mt-6 bg-deep-orange-500" onClick={handleReviewClick}>
                                     Submit
