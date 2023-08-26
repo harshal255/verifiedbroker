@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const app = express();
+const path = require('path');
 const port = process.env.PORT || 3000;
 
 // Handling uncaught exception
@@ -26,6 +27,9 @@ const corsOptions = {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.set('views', path.join(__dirname, 'src' , 'views'));
+
+app.set('view engine', 'ejs');
 
 app.use(cors(corsOptions));
 

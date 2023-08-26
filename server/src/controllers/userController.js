@@ -5,6 +5,8 @@ const sendToken = require("../utils/jwtTokens");
 const nodemailer = require("nodemailer");
 const cloudinary = require("../utils/cloudinary");
 const ApiFeatures = require("../utils/apiFeatures");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // Register a user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -61,6 +63,113 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 
 })
 
+//forgot password init
+exports.forgotPassGet = catchAsyncErrors(async (req, res, next) => {
+    res.render('forgot-password');
+})
+
+exports.forgotPassPost = catchAsyncErrors(async (req, res, next) => {
+
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return next(new ErrorHandler("Please enter email", 400));
+        }
+
+        const user = await User.findOne({ email }).select("+password");
+        if (!user) {
+            return next(new ErrorHandler("Invalid email or password", 401));
+        }
+
+        const secret = process.env.JWT_SECRET + user.password;
+
+        const payload = {
+            email: user.email,
+            id: user._id,
+        }
+
+        const token = jwt.sign(payload, secret, { expiresIn: '10m' });
+
+        const link = `http://localhost:3000/api/reset-password/${user._id}/${token}`;
+        console.log(link);
+
+        const to = user.email;
+        const subject = 'Reset Password';
+        const html = `
+          <h1>Password Reset Email</h1>
+          <p>Hello,</p>
+          <p>You have requested to reset your password. Click the link below to reset your password:</p>
+          <a href="${link}">link</a>
+          <b>#Note: This link is only valid for 10 minutes</b>
+          <p>If you did not request a password reset, please ignore this email.</p>
+          <p>Best regards,<br>Team Varified Broker</p>
+        `;
+        await exports.sendMail(to, subject, html);
+
+        res.send("Check your inbox password reset link has been sent successfully!");
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("Unable to proceed ", 400));
+    }
+
+})
+
+exports.resetPassGet = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const { userId, token } = req.params;
+        const user = await User.findOne({ _id: userId }).select("+password");
+
+        if (user._id != userId) {
+            return next(new ErrorHandler("Invalid User", 401));
+        }
+
+        const secret = process.env.JWT_SECRET + user.password;
+
+        try {
+            const payload = jwt.verify(token, secret);
+            res.render('reset-password', { email: user.email });
+        } catch (err) {
+            console.log("Link Expired! ", err.message);
+            res.send(err.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("Unable to proceed ", 400));
+    }
+
+})
+exports.resetPassPost = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const { userId, token } = req.params;
+        const {password, password2} = req.body;
+        const user = await User.findOne({ _id: userId }).select("+password");
+ 
+        if (user._id != userId) {
+            return next(new ErrorHandler("Invalid User", 401));
+        }
+
+        const secret = process.env.JWT_SECRET + user.password;
+
+        try {
+            const payload = jwt.verify(token, secret);
+            
+            if(password !== password2){
+                return next(new ErrorHandler("Passwords do not match",400));
+            }
+            user.password = password;
+            await user.save();
+            
+            res.status(200).json({message:"Password Reset Successfully!"});
+        } catch (err) {
+            console.log("Link Expired! ", err.message);
+            res.send(err.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler("Unable to proceed ", 400));
+    }
+})
 
 exports.brokerRegister = catchAsyncErrors(async (req, res, next) => {
     try {
@@ -305,7 +414,7 @@ exports.getAllBrokers = catchAsyncErrors(async (req, res, next) => {
             .pagination(resultPerPage);
 
         const broker = await apiFeatures.query
-        
+
         res.status(200).json({
             success: true,
             broker,
@@ -455,7 +564,7 @@ exports.addReviews = catchAsyncErrors(async (req, res, next) => {
             const currentNumOfReviews = broker.brokersDetails.numOfReviews;
             broker.brokersDetails.numOfReviews = currentNumOfReviews + 1;
 
-            const currentRatings =broker.brokersDetails.ratings;
+            const currentRatings = broker.brokersDetails.ratings;
             const allRatingsSum = broker.brokersDetails.reviews.reduce((sum, review) => sum + review.rating, 0);
             const newAverageRating = allRatingsSum / broker.brokersDetails.numOfReviews;
 
