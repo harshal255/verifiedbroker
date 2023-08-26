@@ -14,6 +14,7 @@ process.on("uncaughtException", (err) => {
     console.log(`Shutting down the server due to Uncaught Exception`);
     process.exit(1);
 })
+app.use(cookieParser());
 
 const corsOptions = {
     origin: ['http://127.0.0.1:5173', 'http://localhost:5173'],
@@ -24,7 +25,6 @@ const corsOptions = {
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(cors(corsOptions));

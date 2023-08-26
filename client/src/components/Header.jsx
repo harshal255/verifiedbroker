@@ -1,18 +1,15 @@
 import { RiMenuFoldFill } from 'react-icons/ri'
 import {
     Drawer,
-    Typography,
     IconButton,
     List,
     ListItem,
     ListItemPrefix,
-    ListItemSuffix,
-    Chip,
+    
 } from "@material-tailwind/react";
 import { useContext, useState } from 'react';
 // import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { toast, Toaster } from "react-hot-toast";
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../pages/AuthContext';
 import Cookies from 'js-cookie';
@@ -67,6 +64,7 @@ const Header = () => {
 
                 <div className='flex items-center xl:order-3'>
                     <ul className="font-semibold hidden xl:flex justify-between sm:gap-6 md:gap-8 xl:gap-10">
+                        <li className='cursor-pointer'>Logout</li>
                         <li className='cursor-pointer' onClick={handleDashboard}>Desh</li>
                         <Link to="/becomeagent"> <li className='cursor-pointer'>Become Agent</li></Link>
                         <Link to="/landing"> <li className='cursor-pointer'>Landing</li></Link>

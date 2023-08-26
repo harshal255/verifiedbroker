@@ -1,7 +1,6 @@
 import { AiFillStar } from 'react-icons/ai';
 import { BiSolidPhoneCall } from 'react-icons/bi'
 import { BsFillPhoneFill } from 'react-icons/bs'
-import React from 'react'
 import { BsTwitter, BsLinkedin, BsFacebook } from 'react-icons/bs'
 import { AiFillInstagram } from 'react-icons/ai';
 import { Link } from 'react-router-dom'
@@ -11,7 +10,6 @@ import { TbRulerMeasure } from 'react-icons/tb';
 import {
   Card,
   Input,
-  Checkbox,
   Button,
   Typography,
   Textarea,

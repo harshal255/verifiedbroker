@@ -27,8 +27,7 @@ const brokerSchema = new mongoose.Schema({
     },
     phone: {
         type: Number,
-        unique: [true, "Phone number already registered"],
-        required: true,
+        // unique: [true, "Phone number already registered"],
         maxLength: [10, "Phone cannot exceed size 10 numbers"],
         minLength: [10, "Phone shold have 10 numbers"],
     },

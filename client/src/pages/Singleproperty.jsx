@@ -20,6 +20,7 @@ import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast'
 import { MdDateRange, MdOutlineBedroomParent } from 'react-icons/md';
 import { ImHome } from 'react-icons/im';
+import '../css/Singleproperty.css';
 
 
 
@@ -35,12 +36,13 @@ const Singleproperty = () => {
         lat: '',
         long: ''
     })
+    console.log(latlng);
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
     // const url = `https://maps.google.com/maps?q=${latlng.lat},${latlng.long}&hl=es;z=14&amp;output=embed`;
-    const url = "https://maps.google.com/maps?q=22.8278859,72.3684741&hl=es;z=14&amp;output=embed";
-    console.log(url);
+    // const url = "https://maps.google.com/maps?q=22.8278859,72.3684741&hl=es;z=14&amp;output=embed";
+    // console.log(url);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -192,12 +194,20 @@ const Singleproperty = () => {
 
                 {property.p_Images.length > 0 ? (
                     <div className="images flex flex-col xl:flex-row justify-evenly gap-5">
-                        <div className='w-auto overflow-hidden rounded-lg'>
-                            <img src={property.p_Images[0].url} alt="1" className=' hover:scale-110 hover:-rotate-2 duration-300' />
+                        <div className='xl:w-1/3 flex items-center justify-center'>
+                            <div className='overflow-hidden rounded-lg '>
+                                <img src={property.p_Images[0].url} alt="1" className=' hover:scale-110 hover:-rotate-2 duration-300' />
+                            </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-5">
+
+                        <div className="flex gap-5 overflow-auto scroll-snap-type-x mandatory scrollbar-hide xl:w-2/3">
                             {property.p_Images.slice(1).map((element) => (
-                                <div className='w-auto overflow-hidden rounded-lg' key={element.id}>
+                                <div className='w-auto overflow-hidden rounded-lg item flex-shrink-0 scroll-snap-align-start' key={element.id}>
+                                    <img src={element.url} alt={element.id} className='rounded-lg hover:scale-125 hover:-rotate-6 duration-300' />
+                                </div>
+                            ))}
+                            {property.p_Images.slice(1).map((element) => (
+                                <div className='w-auto overflow-hidden rounded-lg item flex-shrink-0 scroll-snap-align-start' key={element.id}>
                                     <img src={element.url} alt={element.id} className='rounded-lg hover:scale-125 hover:-rotate-6 duration-300' />
                                 </div>
                             ))}
@@ -364,9 +374,9 @@ const Singleproperty = () => {
                         <div className='filter shadow-xl rounded-2xl p-5 flex flex-col xl:gap-10'>
                             <h1 className='font-bold text-xl my-3'>Leave a review</h1>
                             <form>
-                                <div className="flex flex-col gap-5">
+                                <div className="flex flex-col xl:flex-row gap-5 items-center justify-center">
                                     <div className="flex flex-col xl:flex-row justify-evenly gap-5">
-                                        <select label="Rating" className="bg-gray-100 px-80 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400" color='orange' onChange={(e) => {
+                                        <select label="Rating" className="bg-gray-100 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400" color='orange' onChange={(e) => {
                                             setRating(parseInt(e.target.value))
                                         }}>
                                             <option>1 star</option>
@@ -462,10 +472,10 @@ const Singleproperty = () => {
                         </td>
                     </tr>
                 ) : (
-                    <div className="flex flex-wrap gap-5 justify-around">
+                    <div className="flex grid-cols-2 xl:grid-cols-4 gap-2 md:gap-5 m-2 sm:mt-5 overflow-auto xl:flex scroll-snap-type-x mandatory scrollbar-hide">
                         {nearByProp.map((element) => (
-                            <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
-                                <div className="relative w-fit h-fit overflow-hidden rounded-lg">
+                            <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })} className='item flex-shrink-0 scroll-snap-align-start'>
+                                <div className="relative w-fit h-[10rem] overflow-hidden rounded-lg">
                                     <img
                                         src={element.p_Images[0].url}
                                         alt={element.pName}

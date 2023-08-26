@@ -297,6 +297,7 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 
 exports.getLatLng = catchAsyncErrors(async (req, res, next) => {
     const { city } = req.params;
+    
     fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json`)
         .then(response => response.json())
         .then(data => {

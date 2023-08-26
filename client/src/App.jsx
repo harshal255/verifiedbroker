@@ -22,6 +22,7 @@ import Myproperty from './pages/Agent/Myproperty'
 // import { useContext } from 'react'
 // import AuthContext from './pages/AuthContext'
 import Admin from './pages/Admin/Admin'
+import Festivalcard from './pages/Admin/Festivalcard'
 
 
 function App() {
@@ -191,6 +192,15 @@ function App() {
               <Header />
               <Admin></Admin>
               <Footer></Footer>
+            </>
+          }>
+
+        </Route>
+        <Route path="/admin/festivalcard"
+          element={
+            <>
+              <Header />
+              <Festivalcard/>
             </>
           }>
 
