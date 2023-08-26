@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, brokerRegister, loginUser, logout, getAllUser, getSingleUser, updateUserRole, deleteUser, sendContactMail,getApproval, rejectApproval,getAllBrokers, getSingleBroker, updateBroker,addReviews,deleteReview} = require('../controllers/userController');
+const { registerUser, brokerRegister, loginUser, logout, forgotPassGet,forgotPassPost,resetPassGet,resetPassPost, getAllUser, getSingleUser, updateUserRole, deleteUser, sendMail,getApproval, rejectApproval,getAllBrokers, getSingleBroker, updateBroker,addReviews,deleteReview} = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth')
 const router = express.Router();
 const upload = require('../utils/multer');
@@ -9,6 +9,9 @@ const { addPayments, verifyPayment } = require('../controllers/razorPay');
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/logout").get(logout);
+
+router.route("/forgot-password").get(forgotPassGet).post(forgotPassPost);
+router.route("/reset-password/:userId/:token").get(resetPassGet).post(resetPassPost);
 
 router.route("/broker/:userId").get(getSingleBroker).put(upload.fields([{name: 'photo', maxCount: 5},{ name: 'a', maxCount: 5 }, { name: 'b', maxCount: 5 }, { name: 'c', maxCount: 5 }, { name: 'd', maxCount: 5 }, { name: 'e', maxCount: 5 }, { name: 'f', maxCount: 5 },]), brokerRegister);
 router.route("/broker/approve/:userId").put(getApproval);
