@@ -175,19 +175,19 @@ const Property = () => {
           <div className="w-full">
             <div className="flex flex-col xl:flex-row justify-between items-center">
 
-              <div className="flex items-center justify-between gap-2 xl:w-96 m-5">
-                <span className="w-1/3">Search by Property Name</span>
-                <div className="flex flex-col xl:flex-row w-full shrink-0 gap-2 md:w-max">
+              <div className="flex flex-col xl:flex-row items-center justify-between w-full xl:m-5 gap-5">
+                <span className="">Search by Property Name</span>
+                <div className="flex xl:flex-row w-full shrink-0 gap-2 md:w-max">
                   <div className="w-full md:w-72 flex items-center justify-center gap-5">
                     <Input
                       label="search"
-
+                      color="orange"
                       value={searchQuery}
                       onChange={(e) => { setSearchQuery(e.target.value) }}
                       onKeyDown={handleKeyPress}
                     />
 
-                    <IconButton color="orange" className='px-10'>
+                    <IconButton color="orange" className='px-10 w-full'>
                       <MagnifyingGlassIcon className="h-5 w-5" onClick={handleSearch} />
                     </IconButton>
                   </div>
@@ -198,7 +198,7 @@ const Property = () => {
             <Drawer open={open} onClose={closeDrawer} className=" overflow-scroll ">
               <div className="border border-black flex flex-col text-center p-5 gap-5 items-center">
                 <div className="flex justify-between gap-5 items-center ">
-                  <div className="w-full md:w-72 mt-5 flex items-center justify-center gap-5">
+                  <div className="w-48 mt-5 flex items-center justify-center gap-5">
                     <Input
                       label="search"
 
@@ -489,7 +489,7 @@ const Property = () => {
                       <select
                         value={filters.country}
                         onChange={(e) => { setFilters({ ...filters, country: e.target.value }) }}
-                        className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                        className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 w-48"
                       >
                         <option value="select country">Select country</option>
                         {countryStateData.map((country) => (
@@ -501,7 +501,7 @@ const Property = () => {
                       <select
                         value={filters.state}
                         onChange={(e) => { setFilters({ ...filters, state: e.target.value }) }}
-                        className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                        className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 w-48"
                       >
                         <option value="select state">Select state</option>
                         {filters.country !== '' &&
@@ -513,7 +513,7 @@ const Property = () => {
                               </option>
                             ))}
                       </select>
-                      <div className="w-full">
+                      <div className="w-48 flex items-center justify-center">
                         <Input label="City" className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" onChange={(e) => { setFilters({ ...filters, city: e.target.value }) }} />
                       </div>
                     </div>
