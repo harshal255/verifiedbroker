@@ -6,28 +6,24 @@ import Becomeagent from './pages/Becomeagent'
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Property from './pages/Property'
-import AgentDashboard from './pages/Agent/AgentDashboard'
 import Oneagent from './pages/Oneajent'
-import Myprofile from './pages/Agent/Myprofile'
-import CTPVD from './pages/Agent/CTPVD'
 import SignUp from './pages/Signup';
 import Login from './pages/Login';
 import Home1 from './pages/Home1'
 import Brokerlogin from './pages/Brokerlogin'
 import Brokersignup from './pages/Brokersignup'
-import AddProfileDetails from './pages/Agent/AddProfileDetails'
 import Singleproperty from './pages/Singleproperty'
-import Reviews from './pages/Agent/Reviews'
-import Myproperty from './pages/Agent/Myproperty'
-// import { useContext } from 'react'
-// import AuthContext from './pages/AuthContext'
+import { useContext } from 'react'
+import AuthContext from './pages/AuthContext'
 import Admin from './pages/Admin/Admin'
+import AgentWholeDashboard from './pages/Agent/AgentWholeDashboard'
+import NoMatch from './pages/NoMatch'
+
 import Festivalcard from './pages/Admin/Festivalcard'
 
 
 function App() {
-
-  // const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <div className='w-full max-h-fit overflow-y-clip'>
@@ -110,7 +106,7 @@ function App() {
             </>
           }
         ></Route>
-        <Route path="singleproperty" element={
+        <Route path="/singleproperty" element={
           <>
             <Header />
             <Singleproperty />
@@ -118,44 +114,13 @@ function App() {
             <Footer></Footer>
           </>
         }></Route>
-        <Route path="/agentdash" element={
-          <>
-            <AgentDashboard />
-            <MobileFooter></MobileFooter>
-            <Footer></Footer>
-          </>
-        } />
-        <Route path="/agentdash/profile" element={
-          <>
-            <Myprofile></Myprofile>
-          </>
-        }></Route>
-        <Route path="/agentdash/ctpvd" element={
-          <>
-            <CTPVD></CTPVD>
-          </>
-        }>
-        </Route>
-        <Route path="/agentdash/addnewproperty" element={
-          <>
-            <AddProfileDetails></AddProfileDetails>
-          </>
-        }>
-        </Route>
-        <Route path="/agentdash/myproperty"
-          element={
+        {user && user.brokersDetails?.paymentStatus && (
+          <Route path="/agentdash" element={
             <>
-              <Myproperty></Myproperty>
+              <AgentWholeDashboard></AgentWholeDashboard>
             </>
-          }>
-        </Route>
-        <Route path="/agentdash/reviews"
-          element={
-            <>
-              <Reviews></Reviews>
-            </>
-          }>
-        </Route>
+          } />
+        )}
         <Route
           path="/landing"
           element={
@@ -205,7 +170,26 @@ function App() {
           }>
 
         </Route>
+        <Route path="/admin/festivalcard"
+          element={
+            <>
+              <Header />
+              <Festivalcard/>
+            </>
+          }>
 
+        </Route>
+        <Route
+          path="*"
+          element={
+            <>
+              <Header />
+              <NoMatch />
+              <MobileFooter />
+              <Footer />
+            </>
+          }
+        ></Route>
       </Routes>
     </div >
   )

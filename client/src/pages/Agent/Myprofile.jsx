@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 import { Avatar, Button, Input, Dialog, DialogBody, DialogHeader, DialogFooter } from '@material-tailwind/react'
 import DashbordHeader from '../../components/AgentDashboard/Header'
-import Sidebar from '../../components/AgentDashboard/Sidebar'
 import { BiSolidRightTopArrowCircle } from 'react-icons/bi'
 import AuthContext from '../AuthContext'
 import { MdVerified } from 'react-icons/md'
@@ -95,7 +94,6 @@ const Myprofile = () => {
             <Toaster position='top-center'></Toaster>
             <div className='h-fit flex flex-col'>
                 <DashbordHeader></DashbordHeader>
-                <Sidebar></Sidebar>
                 <div className='w-4/5 h-full xl:ml-[17.5rem] p-5 flex flex-col gap-5'>
                     <h1 className='text-4xl font-bold text-start'>My Profile</h1>
                     <span className='text-sm'>We are glad to see you again!</span>
@@ -111,6 +109,7 @@ const Myprofile = () => {
                                 <span>Payment Status : <span className="text-green-600 font-light">{user.brokersDetails.paymentStatus ? "Yes" : "No"}</span></span>
                                 <span>Package : <span className="font-light">₹{user.brokersDetails.package}/month</span></span>
                                 <span>Address : <span className="font-light"> {user.brokersDetails.address}</span> </span>
+                                <span>Reference : <span className="font-light"> {user.brokersDetails.reference}</span> </span>
                                 <span className="xl:col-span-3">About : <span className="font-light">{user.brokersDetails.about}</span> </span>
 
                                 <span className="xl:col-span-3">Experience : <span className="font-light">{user.brokersDetails.experience} </span></span>

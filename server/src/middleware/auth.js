@@ -6,6 +6,7 @@ const User = require('../Schema/userSchema');
 
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     const { tokenjwt } = req.cookies;
+    
     if (!tokenjwt) {
         return next(new ErrorHandler("Please login to acess the resources", 401));
     }
