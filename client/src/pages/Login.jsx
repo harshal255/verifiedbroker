@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
     Card,
     Input,
@@ -91,9 +91,9 @@ export default function Login() {
                             />
                         </div>
                         <Typography color="gray" className="mt-2 mx-auto font-normal">
-                            <Link to="" className=" underline font-medium transition-colors hover:text-orange-700">
+                            <a href="http://localhost:3000/api/forgot-password" className=" underline font-medium transition-colors hover:text-orange-700">
                                 Forgot your password?
-                            </Link>
+                            </a>
                         </Typography>
                         <Button className="mt-6" color="orange" type="submit" onClick={handleLogin} fullWidth>
                             SIGN IN
