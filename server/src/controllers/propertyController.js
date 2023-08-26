@@ -199,14 +199,14 @@ exports.deleteAmenities = catchAsyncErrors(async (req, res, next) => {
 exports.addReviews = catchAsyncErrors(async (req, res, next) => {
     try {
         const existProperty = await Property.findOne({ _id: req.params.propertyId });
-        console.log(existProperty);
+        // console.log(existProperty);
 
         if (!existProperty) {
             return next(new ErrorHandler('Unable to find property', 400));
         }
 
         const user = await User.findOne({ _id: req.params.userId });
-        console.log(user);
+        // console.log(user);
 
         if (!user) {
             return next(new ErrorHandler('Unable to find user', 400));

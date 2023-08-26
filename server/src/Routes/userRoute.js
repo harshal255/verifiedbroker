@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, brokerRegister, loginUser, logout, getAllUser, getSingleUser, updateUserRole, deleteUser, sendMail,getApproval, rejectApproval,getAllBrokers, getSingleBroker, updateBroker,addReviews,deleteReview} = require('../controllers/userController');
+const { registerUser, brokerRegister, loginUser, logout, getAllUser, getSingleUser, updateUserRole, deleteUser, sendContactMail,getApproval, rejectApproval,getAllBrokers, getSingleBroker, updateBroker,addReviews,deleteReview} = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth')
 const router = express.Router();
 const upload = require('../utils/multer');
@@ -14,8 +14,9 @@ router.route("/broker/:userId").get(getSingleBroker).put(upload.fields([{name: '
 router.route("/broker/approve/:userId").put(getApproval);
 router.route("/broker/reject/:userId").put(rejectApproval);
 router.route("/brokers").get(getAllBrokers);
+// router.route("/sendmail").post(sendContactMail);
 router.route("/update/broker/:userId").put(upload.fields([{name: 'photo', maxCount: 5}]),updateBroker);
-router.route("/:userId/review/:brokerId").post(isAuthenticatedUser,addReviews).delete(isAuthenticatedUser,deleteReview);
+router.route("/:userId/reviewBroker/:brokerId").post(isAuthenticatedUser,addReviews).delete(isAuthenticatedUser,deleteReview);
 
 router.route("/subscribe").post(addPayments);
 router.route("/verify/payment/:userId/:price").post(verifyPayment);

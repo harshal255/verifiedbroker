@@ -1,8 +1,8 @@
 import { AiFillStar } from 'react-icons/ai';
 import { BiSolidPhoneCall } from 'react-icons/bi'
 import { BsFillPhoneFill } from 'react-icons/bs'
-import { useContext, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { BiBed, BiBath } from 'react-icons/bi';
 import { TbRulerMeasure } from 'react-icons/tb';
 import {
@@ -23,8 +23,10 @@ const Oneajent = () => {
 
   const { user } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const [singleBroker, setSingleBroker] = useState(null);
-  console.log(singleBroker);
+
   const [properties, setProperties] = useState([]);
 
   const ratings = ["1", "2", "3", "4", "5"];
@@ -90,7 +92,7 @@ const Oneajent = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/${user._id}/review/${singleBroker._id}`,
+      url: `http://localhost:3000/api/${user._id}/reviewBroker/${singleBroker._id}`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -114,7 +116,7 @@ const Oneajent = () => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/${user._id}/review/${singleBroker._id}`,
+      url: `http://localhost:3000/api/${user._id}/reviewBroker/${singleBroker._id}`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -141,14 +143,14 @@ const Oneajent = () => {
         {singleBroker != null &&
           <>
             <div className="bg-red-50/50 w-full max-h-fit xl:h-56 mt-20">
-              <div className="flex flex-col xl:flex-row m-10 gap-10 items-center">
+              <div className="flex flex-col xl:flex-row m-10 gap-10 items-center" >
                 <Avatar src={singleBroker.brokersDetails.photo.url} alt="avatar" className='rounded-full h-40 w-40' />
                 <div className="flex flex-col gap-2">
                   <h1 className='text-3xl font-bold'>{singleBroker.name}</h1>
                   <span className='text-sm text-gray-600'>Experience :  <b>{singleBroker.brokersDetails.experience}</b></span>
                   <div className="flex text-sm gap-2 flex-wrap items-center justify-center">
-                    <span className='flex gap-1'><AiFillStar className='h-5 w-5 text-yellow-700' /> 5.0 · </span>
-                    <span>49 Reviews</span>
+                    <span className='flex gap-1'><AiFillStar className='h-5 w-5 text-yellow-700' /> {singleBroker.brokersDetails.ratings.toFixed(1)} · </span>
+                    <span>{singleBroker.brokersDetails.numOfReviews} Reviews</span>
                     <span>|</span>
                     <span className='flex gap-2 items-center'><BiSolidPhoneCall />{singleBroker.brokersDetails.phone}</span>
                     <span>|</span>
@@ -170,7 +172,7 @@ const Oneajent = () => {
                   {properties.length != 0 && properties.map(
                     (element) => {
                       return (
-                        <div className="flex flex-col" key={element._id}>
+                        <div className="flex flex-col" key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
                           <div className="relative w-fit h-fit overflow-hidden rounded-lg">
                             <img
                               src={element.p_Images[0].url}
