@@ -1,4 +1,3 @@
-import React from 'react';
 import About from './Landing/About'
 import Explore from './Landing/Explore'
 import Realton from './Landing/Realton'

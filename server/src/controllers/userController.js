@@ -139,6 +139,7 @@ exports.resetPassGet = catchAsyncErrors(async (req, res, next) => {
     }
 
 })
+
 exports.resetPassPost = catchAsyncErrors(async (req, res, next) => {
     try {
         const { userId, token } = req.params;
@@ -159,7 +160,7 @@ exports.resetPassPost = catchAsyncErrors(async (req, res, next) => {
             }
             user.password = password;
             await user.save();
-            
+
             res.status(200).json({message:"Password Reset Successfully!"});
         } catch (err) {
             console.log("Link Expired! ", err.message);
@@ -529,6 +530,7 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.addReviews = catchAsyncErrors(async (req, res, next) => {
+    console.log(req.params.brokerId);
     try {
         const broker = await User.findOne({ _id: req.params.brokerId });
 
@@ -537,6 +539,8 @@ exports.addReviews = catchAsyncErrors(async (req, res, next) => {
         }
 
         const user = await User.findOne({ _id: req.params.userId });
+
+        console.log(user);
 
         if (!user) {
             return next(new ErrorHandler('Unable to find user', 400));
@@ -624,4 +628,31 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Failed to delete review', 400));
     }
 })
+
+
+// exports.sendContactMail = catchAsyncErrors(async (req, res, next) => {
+//     const { name, email, message } = req.body;
+//     try {
+//         let transporter = await nodemailer.createTransport({
+//             host: 'smtp.gmail.com',
+//             port: 587,
+//             secure: false,
+//             requireTLS: true,
+//             auth: {
+//                 user: 'Darshanpanchal9292@gmail.com',
+//                 pass: 'tzyutbeyqlcurvzx'
+//             }
+//         });
+
+//         await transporter.sendMail({
+//             from: 'Darshanpanchal9292@gmail.com',
+//             to: to,
+//             subject: subject,
+//             html: html,
+//         });
+
+//     } catch (error) {
+//         console.log('Error sending email:', error);
+//     }
+// })
 

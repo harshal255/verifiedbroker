@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
     Input,
     Checkbox,
@@ -20,24 +20,42 @@ import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast'
 import { MdDateRange, MdOutlineBedroomParent } from 'react-icons/md';
 import { ImHome } from 'react-icons/im';
+import AuthContext from './AuthContext';
 
 
 
 
 const Singleproperty = () => {
 
+    const {user} = useContext(AuthContext);
+
     const [property, setProperty] = useState(null);
     const [nearByProp, setNearByProp] = useState([]);
     const [broker, setBroker] = useState(null);
-    const [rating, setRating] = useState('');
-    const [comment, setComment] = useState('');
+    const ratings = ["1", "2", "3", "4", "5"];
+
+    const [selectRating, setSelectRating] = useState({
+        rating: ratings[0],
+        comment: ''
+    });
+
     const [latlng, setLatLng] = useState({
         lat: '',
         long: ''
     })
+    console.log(latlng);
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setSelectRating((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -92,18 +110,12 @@ const Singleproperty = () => {
 
 
     const handleReviewClick = async () => {
-        const data = {
-            rating: rating,
-            comment: comment,
-        };
-        const uId = localStorage.getItem('uId');
-
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/${uId}/review/${pId}`,
+            url: `http://localhost:3000/api/${user._id}/review/${pId}`,
             withCredentials: true,
-            data: data,
+            data: selectRating,
         }
 
         await axios.request(config)
@@ -182,12 +194,20 @@ const Singleproperty = () => {
 
                 {property.p_Images.length > 0 ? (
                     <div className="images flex flex-col xl:flex-row justify-evenly gap-5">
-                        <div className='w-auto overflow-hidden rounded-lg'>
-                            <img src={property.p_Images[0].url} alt="1" className=' hover:scale-110 hover:-rotate-2 duration-300' />
+                        <div className='xl:w-1/3 flex items-center justify-center'>
+                            <div className='overflow-hidden rounded-lg '>
+                                <img src={property.p_Images[0].url} alt="1" className=' hover:scale-110 hover:-rotate-2 duration-300' />
+                            </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-5">
+
+                        <div className="flex gap-5 overflow-auto scroll-snap-type-x mandatory scrollbar-hide xl:w-2/3">
                             {property.p_Images.slice(1).map((element) => (
-                                <div className='w-auto overflow-hidden rounded-lg' key={element.id}>
+                                <div className='w-auto overflow-hidden rounded-lg item flex-shrink-0 scroll-snap-align-start' key={element.id}>
+                                    <img src={element.url} alt={element.id} className='rounded-lg hover:scale-125 hover:-rotate-6 duration-300' />
+                                </div>
+                            ))}
+                            {property.p_Images.slice(1).map((element) => (
+                                <div className='w-auto overflow-hidden rounded-lg item flex-shrink-0 scroll-snap-align-start' key={element.id}>
                                     <img src={element.url} alt={element.id} className='rounded-lg hover:scale-125 hover:-rotate-6 duration-300' />
                                 </div>
                             ))}
@@ -355,18 +375,18 @@ const Singleproperty = () => {
                             <h1 className='font-bold text-xl my-3'>Leave a review</h1>
                             <form>
                                 <div className="flex flex-col gap-5">
-                                    <div className="flex flex-col xl:flex-row justify-evenly gap-5">
-                                        <select label="Rating" className="bg-gray-100 px-80 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400" color='orange' onChange={(e) => {
-                                            setRating(parseInt(e.target.value))
-                                        }}>
-                                            <option>1 star</option>
-                                            <option>2 star</option>
-                                            <option>3 star</option>
-                                            <option>4 star</option>
-                                            <option>5 star</option>
+                                    <div className="flex items-center justify-between w-32 xl:w-96 gap-2">
+                                        <span className="w-1/2">Rating</span>
+                                        <select className='w-full h-8 border-2 border-grey-600 rounded-md' name='rating' value={selectRating.rating} onChange={handleChange}>
+                                            {ratings.map((r) => (
+                                                // console.log(r);
+                                                <option value={r} key={r}>{r}</option>
+                                            ))}
                                         </select>
                                     </div>
-                                    <Textarea size='lg' label='Review' color='orange' onChange={(e) => { setComment(e.target.value) }} />
+                                    <div className="w-40 xl:w-96 text-center">
+                                        <Textarea label="review" name='comment' color='red' value={selectRating.comment} onChange={handleChange} />
+                                    </div>
                                 </div>
                                 <Button className="mt-6 bg-deep-orange-500" onClick={handleReviewClick}>
                                     Submit
@@ -452,10 +472,10 @@ const Singleproperty = () => {
                         </td>
                     </tr>
                 ) : (
-                    <div className="flex flex-wrap gap-5 justify-around">
+                    <div className="flex grid-cols-2 xl:grid-cols-4 gap-2 md:gap-5 m-2 sm:mt-5 overflow-auto xl:flex scroll-snap-type-x mandatory scrollbar-hide">
                         {nearByProp.map((element) => (
-                            <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
-                                <div className="relative w-fit h-fit overflow-hidden rounded-lg">
+                            <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })} className='item flex-shrink-0 scroll-snap-align-start'>
+                                <div className="relative w-fit h-[10rem] overflow-hidden rounded-lg">
                                     <img
                                         src={element.p_Images[0].url}
                                         alt={element.pName}

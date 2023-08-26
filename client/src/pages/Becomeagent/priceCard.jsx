@@ -91,6 +91,7 @@ const priceCard = ({ plan, price, features }) => {
                     method: 'get',
                     maxBodyLength: Infinity,
                     url: `http://localhost:3000/api/admin/user/${uId}`,
+                    headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
                 };
 

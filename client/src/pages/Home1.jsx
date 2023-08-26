@@ -1,4 +1,3 @@
-import React from 'react'
 import Hero from './Landing/index';
 import About from './Landing/About'
 import Explore from './Landing/Explore'

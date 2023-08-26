@@ -19,6 +19,7 @@ import Admin from './pages/Admin/Admin'
 import AgentWholeDashboard from './pages/Agent/AgentWholeDashboard'
 import NoMatch from './pages/NoMatch'
 
+import Festivalcard from './pages/Admin/Festivalcard'
 
 
 function App() {
@@ -156,6 +157,24 @@ function App() {
               <Header />
               <Admin></Admin>
               <Footer></Footer>
+            </>
+          }>
+
+        </Route>
+        <Route path="/admin/festivalcard"
+          element={
+            <>
+              <Header />
+              <Festivalcard/>
+            </>
+          }>
+
+        </Route>
+        <Route path="/admin/festivalcard"
+          element={
+            <>
+              <Header />
+              <Festivalcard/>
             </>
           }>
 
