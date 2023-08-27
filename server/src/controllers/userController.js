@@ -472,7 +472,14 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 
 // Get All Users (Admin)
 exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
-    const users = await User.find();
+    const resultPerPage = 10;
+    
+    const apiFeatures = new ApiFeatures(User.find(), req.query)
+            .search()
+            .filter()
+            .pagination(resultPerPage);
+
+    const users = await apiFeatures.query;
 
     res.status(200).json({
         success: true,
@@ -493,28 +500,6 @@ exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
-// Update user role -- Admin
-exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
-    const newUser = {
-        name: req.body.name,
-        email: req.body.email,
-        role: req.body.role
-    }
-    // Here avatar will add....
-    const user = await User.findByIdAndUpdate(req.params.id, newUser, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false
-    })
-
-    if (!user)
-        return next(new ErrorHandler(`User does not exists with Id : ${req.params.id}`, 400));
-
-    res.status(200).json({
-        success: true
-    })
-})
-
 // Delete user -- Admin
 exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.params.id);
@@ -522,7 +507,7 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     if (!user)
         return next(new ErrorHandler(`User does not exists with Id : ${req.params.id}`, 400));
 
-    await user.remove();
+    await user.deleteOne();
     res.status(200).json({
         success: true,
         message: "User deleted successfully"
@@ -655,4 +640,3 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 //         console.log('Error sending email:', error);
 //     }
 // })
-

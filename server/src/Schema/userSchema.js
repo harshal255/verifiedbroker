@@ -141,7 +141,7 @@ const brokerSchema = new mongoose.Schema({
             },
         },
     ],
-    createdAt: {
+    createdAt: { //date when broker registed first;
         type: Date,
         default: Date.now(),
     },
@@ -168,6 +168,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "user"
     },
+    // registerdAt: { //date when user registed first;
+    //     type: Date,
+    //     default: Date.now(),
+    // },
     resetPasswordToken: String,
 
     resetPasswordExpire: Date,
