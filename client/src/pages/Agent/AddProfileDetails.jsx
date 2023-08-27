@@ -36,6 +36,119 @@ const AddBrokerDetails = () => {
     const [selectedCountry, setSelectedCountry] = useState("select country");
     const [selectedState, setSelectedState] = useState("select state");
 
+    // Initialize state for form fields and validation
+
+    const [fieldValidations, setFieldValidations] = useState({
+        title: false,
+        description: false,
+        category: false,
+        propertyStatus: false,
+        price: false,
+
+    });
+
+    const isTitleValid = propertyData.title !== '';
+    const isDescriptionValid = propertyData.description !== '';
+    const isCategoryValid = propertyData.category !== '';
+    const isPropertyStatusValid = propertyData.propertyStatus !== '';
+    const isPriceValid = propertyData.price !== '';
+
+    const [mediaData, setMediaData] = useState({
+        photofile: [],
+
+    });
+
+    const [mediaValidations, setMediaValidations] = useState({
+        photofile: false,
+
+    });
+
+    const isPhotofileValid = mediaData.photofile.length > 0;
+
+
+    const [locationData, setLocationData] = useState({
+        address: '',
+        city: '',
+        zip: '',
+
+    });
+    console.log(locationData);
+
+    const [locationValidations, setLocationValidations] = useState({
+        address: false,
+        city: false,
+        zip: false,
+
+    });
+
+    const isCountryValid = selectedCountry !== '';
+    const isStateValid = selectedState !== '';
+    const isAddressValid = locationData.address !== '';
+    const isCityValid = locationData.city !== '';
+    const isZipValid = locationData.zip !== '';
+
+    const [detailData, setDetailData] = useState({
+        rooms: '',
+        bedrooms: '',
+        bathrooms: '',
+        garages: '',
+        yearBuilt: '',
+        size: '',
+
+    });
+
+    const [detailValidations, setDetailValidations] = useState({
+        rooms: false,
+        bedrooms: false,
+        bathrooms: false,
+        garages: false,
+        yearBuilt: false,
+
+    });
+
+    // Create validation functions for detail fields
+    const isRoomsValid = detailData.rooms !== '';
+    const isBedroomsValid = detailData.bedrooms !== '';
+    const isBathroomsValid = detailData.bathrooms !== '';
+    const isGaragesValid = detailData.garages !== '';
+    const isYearBuiltValid = detailData.yearBuilt !== '';
+    const isSizeValid = detailData.size !== '';
+
+
+    const isNextButtonDisabled = () => {
+        switch (activeTab) {
+            case 0:
+                return !(
+                    isTitleValid &&
+                    isDescriptionValid &&
+                    isCategoryValid &&
+                    isPropertyStatusValid &&
+                    isPriceValid
+                );
+            case 1:
+                return !isPhotofileValid;
+            case 2:
+                return !(
+                    isStateValid &&
+                    isCountryValid &&
+                    isAddressValid &&
+                    isCityValid &&
+                    isZipValid
+                );
+            case 3:
+                return !(
+                    isRoomsValid &&
+                    isBedroomsValid &&
+                    isBathroomsValid &&
+                    isGaragesValid &&
+                    isYearBuiltValid &&
+                    isSizeValid
+                );
+            // Add cases for other steps as needed
+            default:
+                return false;
+        }
+    };
     // Ref for file input
     const fileInputRef = useRef(null);
 
@@ -54,6 +167,10 @@ const AddBrokerDetails = () => {
             ...prevData,
             photofile: [...prevData.photofile, ...filesArray],
         }));
+        setMediaData((prevData) => ({
+            ...prevData,
+            photofile: [...prevData.photofile, ...filesArray],
+        }));
     };
 
     const handleRemoveImage = (index) => {
@@ -61,7 +178,11 @@ const AddBrokerDetails = () => {
             ...prevData,
             photofile: prevData.photofile.filter((_, i) => i !== index),
         }));
-    };    
+        setMediaData((prevData) => ({
+            ...prevData,
+            photofile: prevData.photofile.filter((_, i) => i !== index),
+        }));
+    };
 
     const handleCountryChange = (event) => {
         setSelectedCountry(event.target.value);
@@ -82,9 +203,7 @@ const AddBrokerDetails = () => {
         setSelectedAmenities(updatedAmenities);
     };
 
-    useEffect(()=>{
-      console.log(propertyData.photofile);
-    },[propertyData.photofile])
+
 
     const formSteps = [
         {
@@ -97,6 +216,7 @@ const AddBrokerDetails = () => {
                             label="Title"
                             value={propertyData.title}
                             onChange={(e) => setPropertyData({ ...propertyData, title: e.target.value })}
+                            required
                         />
                     </div>
                     <div className="w-full">
@@ -104,6 +224,7 @@ const AddBrokerDetails = () => {
                             label="Description"
                             value={propertyData.description}
                             onChange={(e) => setPropertyData({ ...propertyData, description: e.target.value })}
+                            required
                         />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -112,6 +233,7 @@ const AddBrokerDetails = () => {
                                 value={propertyData.category}
                                 onChange={(e) => setPropertyData({ ...propertyData, category: e.target.value })}
                                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                required
                             >
                                 <option value="Apartments">Select Category</option>
                                 <option value="Apartments">Apartments</option>
@@ -127,6 +249,7 @@ const AddBrokerDetails = () => {
                                 value={propertyData.propertyStatus}
                                 onChange={(e) => setPropertyData({ ...propertyData, propertyStatus: e.target.value })}
                                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                required
                             >
                                 <option value="All Cities">Property Status</option>
                                 <option value="Pending">Buy</option>
@@ -139,6 +262,7 @@ const AddBrokerDetails = () => {
                                 label="Price in ₹"
                                 value={propertyData.price}
                                 onChange={(e) => setPropertyData({ ...propertyData, price: e.target.value })}
+                                required
                             />
                         </div>
                     </div>
@@ -181,7 +305,7 @@ const AddBrokerDetails = () => {
                                 <div className="relative inline-block mr-4" key={index}>
                                     <img src={URL.createObjectURL(file)} alt={`Image ${index}`} className="rounded-xl h-40 w-52" />
                                     <span className="absolute top-5 left-5 p-3 bg-white rounded-md">
-                                        <AiOutlineDelete className="text-xl" onClick={() => handleRemoveImage(index)}/>
+                                        <AiOutlineDelete className="text-xl" onClick={() => handleRemoveImage(index)} />
                                     </span>
                                 </div>
                             ))}
@@ -195,7 +319,7 @@ const AddBrokerDetails = () => {
                 <div className="flex flex-col gap-5 ">
                     <h1 className="text-2xl font-bold">Listing Location</h1>
                     <div className="w-full">
-                        <Input label="Address" value={propertyData.address} onChange={(e) => setPropertyData({ ...propertyData, address: e.target.value })} />
+                        <Input label="Address" value={locationData.address} onChange={(e) => setLocationData({ ...propertyData, address: e.target.value })} />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div id="coutnryState" className="mb-4 flex flex-col gap-4">
@@ -228,10 +352,10 @@ const AddBrokerDetails = () => {
                             </select>
                         </div>
                         <div className="w-full">
-                            <Input label="City" value={propertyData.city} onChange={(e) => setPropertyData({ ...propertyData, city: e.target.value })} />
+                            <Input label="City" value={locationData.city} onChange={(e) => setLocationData({ ...locationData, city: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="zip" value={propertyData.zip} onChange={(e) => setPropertyData({ ...propertyData, zip: e.target.value })} />
+                            <Input label="zip" value={locationData.zip} onChange={(e) => setLocationData({ ...locationData, zip: e.target.value })} />
                         </div>
                     </div>
                     <h1 className="text-2xl font-bold">Place the listing pin on the map</h1>
@@ -249,22 +373,22 @@ const AddBrokerDetails = () => {
                     <h1 className="text-2xl font-bold">Add details</h1>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="w-full">
-                            <Input label="Rooms" value={propertyData.rooms} onChange={(e) => setPropertyData({ ...propertyData, rooms: e.target.value })} />
+                            <Input label="Rooms" value={detailData.rooms} onChange={(e) => setDetailData({ ...detailData, rooms: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Bedrooms" value={propertyData.bedrooms} onChange={(e) => setPropertyData({ ...propertyData, bedrooms: e.target.value })} />
+                            <Input label="Bedrooms" value={detailData.bedrooms} onChange={(e) => setDetailData({ ...detailData, bedrooms: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Bathrooms" value={propertyData.bathrooms} onChange={(e) => setPropertyData({ ...propertyData, bathrooms: e.target.value })} />
+                            <Input label="Bathrooms" value={detailData.bathrooms} onChange={(e) => setDetailData({ ...detailData, bathrooms: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Garages" value={propertyData.garages} onChange={(e) => setPropertyData({ ...propertyData, garages: e.target.value })} />
+                            <Input label="Garages" value={detailData.garages} onChange={(e) => setDetailData({ ...detailData, garages: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label="Year built (numeric)" value={propertyData.yearBuilt} onChange={(e) => setPropertyData({ ...propertyData, yearBuilt: e.target.value })} />
+                            <Input label="Year built (numeric)" value={detailData.yearBuilt} onChange={(e) => setDetailData({ ...detailData, yearBuilt: e.target.value })} />
                         </div>
                         <div className="w-full">
-                            <Input label='size' value={propertyData.size} onChange={(e) => setPropertyData({ ...propertyData, size: e.target.value })} />
+                            <Input label='size' value={detailData.size} onChange={(e) => setDetailData({ ...detailData, size: e.target.value })} />
                         </div>
                     </div>
                     {/* <div className="w-full">
@@ -310,25 +434,68 @@ const AddBrokerDetails = () => {
         },
     ];
 
+    // Update field validation state when fields change
+    useEffect(() => {
+        setFieldValidations({
+            title: isTitleValid,
+            description: isDescriptionValid,
+            category: isCategoryValid,
+            propertyStatus: isPropertyStatusValid,
+            price: isPriceValid,
+            // ...other fields
+        });
+    }, [propertyData]);
+    useEffect(() => {
+        // console.log(propertyData.photofile);
+    }, [propertyData.photofile])
+
+    useEffect(() => {
+        setMediaValidations({
+            photofile: isPhotofileValid,
+            // ...other media fields
+        });
+    }, [mediaData]);
+
+    useEffect(() => {
+        setLocationValidations({
+            address: isAddressValid,
+            city: isCityValid,
+            zip: isZipValid,
+            // ...other location fields
+        });
+    }, [locationData]);
+
+    useEffect(() => {
+        setDetailValidations({
+            rooms: isRoomsValid,
+            bedrooms: isBedroomsValid,
+            bathrooms: isBathroomsValid,
+            garages: isGaragesValid,
+            yearBuilt: isYearBuiltValid,
+            // ...other detail fields
+        });
+    }, [detailData]);
+
+
     const handleAddProperty = async () => {
 
         const formData = new FormData();
         formData.append('pName', propertyData.title);
         formData.append('desc', propertyData.description);
-        formData.append('bedroom', parseInt(propertyData.bedrooms));
-        formData.append('bath', parseInt(propertyData.bathrooms));
-        formData.append('buildYear', propertyData.yearBuilt);
-        formData.append('garage', parseInt(propertyData.garages));
-        formData.append('pSize', parseInt(propertyData.size));
+        formData.append('bedroom', parseInt(detailData.bedrooms));
+        formData.append('bath', parseInt(detailData.bathrooms));
+        formData.append('buildYear', detailData.yearBuilt);
+        formData.append('garage', parseInt(detailData.garages));
+        formData.append('pSize', parseInt(detailData.size));
         formData.append('propertyType', propertyData.category);
         formData.append('status', propertyData.propertyStatus);
         formData.append('price', parseInt(propertyData.price));
-        formData.append('Address', propertyData.address);
-        formData.append('ZipCode', propertyData.zip);
-        formData.append('city', propertyData.city);
+        formData.append('Address', locationData.address);
+        formData.append('ZipCode', locationData.zip);
+        formData.append('city', locationData.city);
         formData.append('state', selectedState);
         formData.append('country', selectedCountry);
-        formData.append('Rooms', propertyData.rooms);
+        formData.append('Rooms', detailData.rooms);
 
         if (propertyData.photofile) {
             propertyData.photofile.forEach((file) => {
@@ -420,13 +587,15 @@ const AddBrokerDetails = () => {
                 console.log(error);
             });
     }
+
+
     return (
         <>
             <Toaster position="top-center"></Toaster>
             <DashbordHeader></DashbordHeader>
             <div className="w-4/5 h-full overflow-scroll xl:ml-[17.5rem] border border-black p-5  gap-5">
                 <Tabs value={activeTab}>
-                    <TabsHeader
+                    {/* <TabsHeader
                         className="rounded-none bg-transparent p-0 overflow-scroll"
                         indicatorProps={{
                             className: 'bg-transparent shadow-none rounded-none',
@@ -472,7 +641,29 @@ const AddBrokerDetails = () => {
                         >
                             {formSteps[4].label}
                         </Tab>
+                    </TabsHeader> */}
+                    <TabsHeader className="rounded-none bg-transparent p-0 overflow-scroll">
+                        {formSteps.map((step, index) => (
+                            <Tab
+                                key={step.label}
+                                value={index}
+                                onClick={() => {
+                                    if (index < activeTab) {
+                                        // Allow going back to previous steps
+                                        setActiveTab(index);
+                                    } else if (index === activeTab + 1 && !isNextButtonDisabled()) {
+                                        // Allow moving to the next step if data is valid
+                                        setActiveTab(index);
+                                    }
+                                    // You can add additional checks here for other scenarios
+                                }}
+                                className={activeTab === index ? 'text-deep-orange-500' : ''}
+                            >
+                                {step.label}
+                            </Tab>
+                        ))}
                     </TabsHeader>
+
                 </Tabs>
 
                 <div>
@@ -481,7 +672,7 @@ const AddBrokerDetails = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row justify-around w-full gap-5">
+                {/* <div className="flex flex-col sm:flex-row justify-around w-full gap-5">
                     {activeTab > 0 && (
                         <Button color="orange" onClick={() => setActiveTab(activeTab - 1)}>
                             Prev
@@ -489,13 +680,31 @@ const AddBrokerDetails = () => {
                     )}
 
                     {activeTab < formSteps.length - 2 && (
-                        <Button color="orange" onClick={() => setActiveTab(activeTab + 1)}>
+                        <Button color="orange" onClick={() => setActiveTab(activeTab + 1)}
+                            disabled={isNextButtonDisabled}
+                        >
                             Next
                         </Button>
                     )}
+                    <Button
+                        color="orange"
+                        onClick={() => setActiveTab(activeTab + 1)}
+                        disabled={isMediaNextButtonDisabled}
+                    >
+                        Next
+                    </Button>
+
+                    <Button
+                        color="orange"
+                        onClick={() => setActiveTab(activeTab + 1)}
+                        disabled={isLocationNextButtonDisabled}
+                    >
+                        Next
+                    </Button>
 
                     {activeTab === formSteps.length - 2 && (
-                        <Button color="orange" onClick={handleAddProperty}>
+                        <Button color="orange" onClick={handleAddProperty}
+                            disabled={isDetailNextButtonDisabled}>
                             Add Property
                         </Button>
                     )}
@@ -510,6 +719,40 @@ const AddBrokerDetails = () => {
                                 Delete Aminites
                             </Button>
                         </>
+                    )}
+                </div> */}
+                <div className="flex flex-col sm:flex-row justify-around w-full gap-5">
+                    {activeTab > 0 && (
+                        <Button color="orange" onClick={() => setActiveTab(activeTab - 1)}>
+                            Prev
+                        </Button>
+                    )}
+
+                    <Button
+                        color="orange"
+                        onClick={() => {
+                            if (activeTab === formSteps.length - 2) {
+                                handleAddProperty();
+                            } else if (activeTab === formSteps.length - 1) {
+                                handleAddAminites();
+                            } else {
+                                setActiveTab(activeTab + 1);
+                            }
+                        }}
+                        disabled={isNextButtonDisabled()}
+                    >
+                        {activeTab === formSteps.length - 2 ? 'Add Property' :
+                            activeTab === formSteps.length - 1 ? 'Add Amenities' :
+                                'Next'}
+
+                    </Button>
+                    {activeTab === formSteps.length - 1 && (
+
+
+                        <Button color="orange" onClick={handleDeleteAminites}>
+                            Delete Aminites
+                        </Button>
+
                     )}
                 </div>
             </div>
