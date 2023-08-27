@@ -23,7 +23,7 @@ class ApiFeatures {
         removeFields.forEach((key) => delete queryCopy[key]);
 
         // Convert field values to case-insensitive regex
-        const regexFields = ["city", "Address","status","country","state"]; // Add more fields as needed
+        const regexFields = ["city", "Address", "status", "country", "state"]; // Add more fields as needed
         regexFields.forEach((key) => {
             if (queryCopy[key]) {
                 queryCopy[key] = { $regex: queryCopy[key], $options: "i" };
@@ -34,6 +34,21 @@ class ApiFeatures {
         let queryStr = JSON.stringify(queryCopy);
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
         this.query = this.query.find(JSON.parse(queryStr));
+
+        const filterQuery = {};
+
+        if (queryCopy.isVerified === 'false') {
+            filterQuery['brokersDetails.isVerified'] = false;
+        }
+
+        if (queryCopy.paymentStatus === 'false') {
+            filterQuery['brokersDetails.paymentStatus'] = false;
+        }
+
+        // Apply the constructed query object
+        this.query = this.query.find(filterQuery);
+
+
         return this;
     }
 

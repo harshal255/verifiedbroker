@@ -10,12 +10,76 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import { BsFillPersonCheckFill, BsFillPersonXFill } from 'react-icons/bs'
-import REQUEST_APPROVAL_ROW, { REQUEST_APPROVAL_HEAD } from '../../api/Admin/RequestApproval'
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-
-
+const REQUEST_APPROVAL_HEAD = ["Member", "Phone", "Email", "Date", "Approve or Reject"];
 
 const RequestApprovalComponent = () => {
+
+    const [page, setPage] = useState(1);
+    const [users, setUsers] = useState(null);
+
+    useEffect(() => {
+        const fetchReq = async () => {
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `http://localhost:3000/api/admin/users?page=${page}&brokersDetails.isVerified=false&brokersDetails.paymentStatus=false`,
+            };
+
+            axios.request(config)
+                .then((response) => {
+                    setUsers(response.data.users);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+        fetchReq();
+
+    }, [page]);
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleString(undefined, options);
+    };
+
+    const handleApproval = async (uId) => {
+
+        let config = {
+            method: 'put',
+            maxBodyLength: Infinity,
+            url: `http://localhost:3000/api/broker/approve/${uId}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(response);
+                setUsers((prevUsers) => prevUsers.filter((user) => user._id !== uId));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+    const handleRejection = async (uId) => {
+
+        let config = {
+            method: 'put',
+            maxBodyLength: Infinity,
+            url: `http://localhost:3000/api/broker/reject/${uId}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(response);
+                setUsers((prevUsers) => prevUsers.filter((user) => user._id !== uId));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     return (
         <>
@@ -43,15 +107,18 @@ const RequestApprovalComponent = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {REQUEST_APPROVAL_ROW.map(
-                            ({ img, name, email, phone, date }, index) => {
-                                const isLast = index === REQUEST_APPROVAL_HEAD.length - 1;
+                        {users && users.length >= 1 ? (
+                            users.map(({ _id, name, email, brokersDetails }, index) => {
+                                const isLast = index === users.length - 1;
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50";
 
+                                const { phone, createdAt, photo } = brokersDetails;
+                                const img = photo.url;
+
                                 return (
-                                    <tr key={name}>
+                                    <tr key={_id}>
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
                                                 <Avatar src={img} alt={name} size="sm" />
@@ -63,7 +130,6 @@ const RequestApprovalComponent = () => {
                                                     >
                                                         {name}
                                                     </Typography>
-
                                                 </div>
                                             </div>
                                         </td>
@@ -95,41 +161,51 @@ const RequestApprovalComponent = () => {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {date}
+                                                {formatDate(createdAt)}
                                             </Typography>
                                         </td>
                                         <td className={classes}>
                                             <div className="flex gap-3 items-center justify-start">
                                                 <IconButton variant="text" color="green">
-                                                    <BsFillPersonCheckFill className="h-5 w-5" />
+                                                    <BsFillPersonCheckFill className="h-5 w-5" onClick={()=>handleApproval(_id)} />
                                                 </IconButton>
                                                 <IconButton variant="text" color="red">
-                                                    <BsFillPersonXFill className="h-5 w-5" />
+                                                    <BsFillPersonXFill className="h-5 w-5" onClick={()=>handleRejection(_id)}/>
                                                 </IconButton>
-
                                             </div>
                                         </td>
                                     </tr>
                                 );
-                            },
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan="6" className="text-center">
+                                    <div className="flex justify-center items-center">
+                                        <img
+                                            src="/gifs/notFoundAnimation.gif"
+                                            alt="Oops, nothing there"
+                                            className="w-48 h-auto"
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
                         )}
                     </tbody>
                 </table>
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of 10
+                    Page {page}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>
                         Previous
                     </Button>
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" onClick={() => setPage(page + 1)}>
                         Next
                     </Button>
                 </div>
             </CardFooter>
-
         </>
 
     )

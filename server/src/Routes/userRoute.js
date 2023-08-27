@@ -26,8 +26,6 @@ router.route("/verify/payment/:userId/:price").post(verifyPayment);
 
 router.route("/admin/users").get(getAllUser)
 router.route("/admin/user/:id").get(isAuthenticatedUser,getSingleUser)
-    .put(isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
-    .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser)
-
+    .delete(isAuthenticatedUser, deleteUser)
 
 module.exports = router;
