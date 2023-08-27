@@ -1,4 +1,4 @@
-import  { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import DashbordHeader from '../../components/AgentDashboard/Header'
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { AiOutlineDelete } from 'react-icons/ai';
@@ -292,7 +292,7 @@ const Myproperty = () => {
                         : "p-4 border-b border-blue-gray-50";
 
                       return (
-                        <tr key={_id}>
+                        <tr key={_id} onClick={() => navigate('/singleproperty', { state: { pId: _id } })}>
                           <td className={classes}>
                             <div className="flex items-center gap-3">
                               <div className='overflow-hidden rounded-lg'>

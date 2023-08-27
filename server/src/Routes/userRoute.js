@@ -17,7 +17,7 @@ router.route("/broker/:userId").get(getSingleBroker).put(upload.fields([{name: '
 router.route("/broker/approve/:userId").put(getApproval);
 router.route("/broker/reject/:userId").put(rejectApproval);
 router.route("/brokers").get(getAllBrokers);
-// router.route("/sendmail").post(sendContactMail);
+router.route("/sendmail").post(sendContactMail);
 router.route("/update/broker/:userId").put(upload.fields([{name: 'photo', maxCount: 5}]),updateBroker);
 router.route("/:userId/reviewBroker/:brokerId").post(isAuthenticatedUser,addReviews).delete(isAuthenticatedUser,deleteReview);
 
