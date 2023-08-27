@@ -1,10 +1,11 @@
-import React from 'react'
 import { Avatar, Card, Typography, Button } from '@material-tailwind/react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CallMadeIcon from '@mui/icons-material/CallMade';
+import { useNavigate } from 'react-router-dom';
 
 
 const AboutUs = () => {
+    const navigate = useNavigate();
     return (
         <div className='container mx-auto w-auto lg:h-[85vh] bg-gray-200 p-5 flex flex-col gap-4 mt-10 lg:flex-row lg:relative '>
             <Card className='flex flex-col p-8 gap-5 lg:h-fit lg:w-96  lg:absolute lg:top-12 lg:left-24 lg:gap-2 lg:p-7'>
@@ -60,7 +61,7 @@ const AboutUs = () => {
                     <CheckCircleIcon fontSize='large' />
                     <Typography className="text-[1.5rem] font-bold">List your own property</Typography>
                 </div>
-                <Button className='w-44 mt-6 lg:mt-16 text-white flex flex-row justify-between hover:bg-red-300' color='red'>
+                <Button className='w-44 mt-6 lg:mt-16 text-white flex flex-row justify-between hover:bg-red-300' color='red' onClick={()=>{navigate('/agents')}} >
                     <Typography>See More</Typography>
                     <CallMadeIcon />
                 </Button>
