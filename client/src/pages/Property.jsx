@@ -11,7 +11,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import countryStateData from '../api/countryStateData.json';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { BiBed, BiBath } from 'react-icons/bi';
 import { TbRulerMeasure } from 'react-icons/tb';
@@ -39,27 +39,31 @@ const Property = () => {
   };
 
   const [page, setPage] = useState(1);
-  const [properties, setProperties] = useState([]);
+  const location = useLocation();
+  const foudProperties = location.state ? location.state.properties : [];
+  const [properties, setProperties] = useState(foudProperties);
 
   useEffect(() => {
-    const fetchProperty = async () => {
-      let config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: `http://localhost:3000/api/property?page=${page}`,
-        withCredentials: true,
-      };
+    if (properties.length === 0) {
+      const fetchProperty = async () => {
+        let config = {
+          method: 'get',
+          maxBodyLength: Infinity,
+          url: `http://localhost:3000/api/property?page=${page}`,
+          withCredentials: true,
+        };
 
-      await axios.request(config)
-        .then((res) => {
-          setProperties(res.data.property);
-        })
-        .catch((err) => {
-          toast.error(err.response.statusText);
-          console.error("failed to fetch property details", err);
-        });
+        await axios.request(config)
+          .then((res) => {
+            setProperties(res.data.property);
+          })
+          .catch((err) => {
+            toast.error(err.response.statusText);
+            console.error("failed to fetch property details", err);
+          });
+      }
+      fetchProperty();
     }
-    fetchProperty();
   }, [page]);
 
   const handleSearch = async () => {
