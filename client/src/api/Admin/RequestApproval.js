@@ -1,4 +1,4 @@
-const REQUEST_APPROVAL_HEAD = ["Member", "Phone", "Email", "Date", "Approve or Reject"];
+
 
 const REQUEST_APPROVAL_ROW = [
     {
@@ -55,4 +55,3 @@ const REQUEST_APPROVAL_ROW = [
 
 
 export default REQUEST_APPROVAL_ROW;
-export { REQUEST_APPROVAL_HEAD };

@@ -70,14 +70,6 @@ const Admin = () => {
                             See information about all members
                         </Typography>
                     </div>
-                    <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Button variant="outlined" size="sm">
-                            view all
-                        </Button>
-                        <Button className="flex items-center gap-3" size="sm">
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add member
-                        </Button>
-                    </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                     <Tabs value={activeTab} className="w-full">
@@ -99,18 +91,8 @@ const Admin = () => {
                             ))}
                         </TabsHeader>
                     </Tabs>
-
-                    <div className="w-full md:w-72">
-                        <Input
-                            label="Search"
-                            icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                        />
-                    </div>
                 </div>
             </CardHeader >
-            {/* <AllBrokerComponent />
-            <AllUsersComponent />
-            <RequestApprovalComponent /> */}
             {renderChartComponent()}
         </Card >
 

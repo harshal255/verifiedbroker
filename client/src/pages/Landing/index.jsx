@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  Navbar,
-  Avatar,
-  MobileNav,
   Typography,
-  Button,
   List,
   Card,
-  IconButton,
   Drawer,
   Input,
   Select,
   Option,
   ListItem,
 } from "@material-tailwind/react";
-import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import TuneIcon from '@mui/icons-material/Tune';
 import SearchIcon from '@mui/icons-material/Search';
@@ -83,6 +77,7 @@ const NavbarDefault = () => {
                   <Option>Villa</Option>
                   <Option>Townhome</Option>
                   <Option>Bungalow</Option>
+                  <Option>Land</Option>
                 </Select>
               </div>
               <div>
@@ -136,7 +131,7 @@ const NavbarDefault = () => {
           <List className="flex flex-row w-fit items-center justify-center text-black border-solid border-black">
             <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Buy</Link></ListItem>
             <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Rent</Link></ListItem>
-            <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Sold</Link></ListItem>
+            <ListItem className="w-fit hover:bg-transparent hover:text-red-600 transition-all duration-100 ease-in-out"><Link to="/">Sell</Link></ListItem>
           </List>
           <Divider />
           <div className="flex flex-row items-center w-auto justify-between h-[6rem] lg:h-[6rem] lg:gap-5 lg:ml-8">
@@ -153,6 +148,7 @@ const NavbarDefault = () => {
                 <Option>Villa</Option>
                 <Option>Townhome</Option>
                 <Option>Bungalow</Option>
+                <Option>Land</Option>
               </Select>
             </div>
             <div className="hidden lg:block">
@@ -181,13 +177,7 @@ const NavbarDefault = () => {
             </div>
             <div className="hidden lg:block">
               <Typography className="text-md mb-3">Price</Typography>
-              <Select color="black" label="Select Price">
-                <Option>10000$</Option>
-                <Option>20000$</Option>
-                <Option>30000$</Option>
-                <Option>40000$</Option>
-                <Option>50000$</Option>
-              </Select>
+              <Input className=" placeholder:text-black" placeholder="Enter Price" />
             </div>
             <div className="ml-10 flex flex-col justify-center items-center lg:hidden">
               <TuneIcon onClick={handleAdvancedDrawerOpen} />

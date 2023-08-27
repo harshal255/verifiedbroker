@@ -1,5 +1,3 @@
-const ALL_BROKERS_HEAD = ["Member", "Phone", "Email", "Payment Status", "Date", ""];
-
 const BROKERS_ROW = [
     {
         img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
@@ -59,4 +57,3 @@ const BROKERS_ROW = [
 ];
 
 export default BROKERS_ROW;
-export { ALL_BROKERS_HEAD };

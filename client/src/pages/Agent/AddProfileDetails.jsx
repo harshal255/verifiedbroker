@@ -240,8 +240,9 @@ const AddBrokerDetails = () => {
                                 <option value="Houses">Houses</option>
                                 <option value="Office">Office</option>
                                 <option value="Townhome">Townhome</option>
+                                <option value="Bungalow">Bungalow</option>
                                 <option value="Villa">Villa</option>
-                                <option value="Villa">Land</option>
+                                <option value="Land">Land</option>
                             </select>
                         </div>
                         <div className="w-full">
