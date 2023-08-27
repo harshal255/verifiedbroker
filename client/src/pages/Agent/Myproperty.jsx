@@ -231,11 +231,11 @@ const Myproperty = () => {
                   </IconButton>
                 </div>
               </div>
-              <div onClick={navigate("/agentdash/addnewproperty")}>
+              {/* <div onClick={navigate("/agentdash/addnewproperty")}> */}
                 <Button className="flex items-center gap-3" size="sm" color='orange'>
                   Add New Property
                 </Button>
-              </div>
+              {/* </div> */}
             </div>
           </CardHeader>
           <CardBody className="overflow-scroll px-0">
