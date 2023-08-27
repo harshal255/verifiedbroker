@@ -1,4 +1,4 @@
-const ALL_USERS_HEAD = ["Member", "Email", "Date", ""];
+const ALL_USERS_HEAD = ["Member", "Email", "Show"];
 
 const USERS_ROW = [
     {
