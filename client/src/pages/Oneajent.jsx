@@ -21,7 +21,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const Oneajent = () => {
 
-  const { user } = useContext(AuthContext);
+  const { user,setUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -35,6 +35,23 @@ const Oneajent = () => {
     rating: ratings[0],
     comment: ''
   });
+
+  const [contact, setContact] = useState({
+    name: '',
+    userId: '',
+    brokerId: '',
+    message: '',
+  });
+
+  useEffect(() => {
+    if (user && singleBroker) {
+      setContact((prev) => ({
+        ...prev,
+        userId: user.email,
+        brokerId: singleBroker.email
+      }))
+    }
+  }, [user])
 
   const location = useLocation();
 
@@ -103,6 +120,9 @@ const Oneajent = () => {
     axios.request(config)
       .then((response) => {
         setTimeout(() => {
+          if (user._id === singleBroker._id) {
+            setUser(response.data.message);
+          }
           setSingleBroker(response.data.message)
         }, 1000)
         toast.success("Review Added Successfully");
@@ -135,6 +155,46 @@ const Oneajent = () => {
         toast.error(error.response.data.message);
       });
   }
+
+  const handleContact = (e) => {
+    const { name, value } = e.target;
+    setContact((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  // console.log(contact);
+
+  const handleContactSubmit = () => {
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/api/sendMail`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true,
+      data: contact
+    };
+
+    axios.request(config)
+      .then((response) => {
+        toast.success(response.data.message);
+        if (user && singleBroker) {
+          setContact(() => ({
+            name: '',
+            message: '',
+            userId: user.email,
+            brokerId: singleBroker.email
+          }))
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  }
+
 
   return (
     <>
@@ -226,14 +286,14 @@ const Oneajent = () => {
 
                   <form className="mt-8 mb-2 max-w-fit xl:w-96 flex flex-col gap-3 ">
                     <div className="mb-4 flex flex-col gap-2 xl:gap-6 items-center justify-center ml-10 xl:ml-0">
-                      <div className="w-36 xl:w-72 text-center"><Input label="Name" /></div>
-                      <div className="w-36 xl:w-72 text-center"><Input label="Email" /></div>
+                      <div className="w-36 xl:w-72 text-center"><Input label="Name" name='name' value={contact.name} onChange={handleContact} /></div>
+                      <div className="w-36 xl:w-72 text-center"><Input label="Email" value={user && user.email} /></div>
                       <div className="w-36 xl:w-72 text-center">
-                        <Textarea label="Message" />
+                        <Textarea label="Message" name='message' value={contact.message} onChange={handleContact} />
                       </div>
                     </div>
 
-                    <Button className="mt-6 w-32 ml-10 xl:ml-0" fullWidth>
+                    <Button className="mt-6 w-32 ml-10 xl:ml-0" onClick={handleContactSubmit} fullWidth>
                       Send Mail
                     </Button>
                   </form>

@@ -251,13 +251,14 @@ exports.sendMail = async (to, subject, html) => {
             secure: false,
             requireTLS: true,
             auth: {
-                user: 'Darshanpanchal9292@gmail.com',
-                pass: 'tzyutbeyqlcurvzx'
+                user: 'Darshanpanchal9292@gmail.com', //mailId of admin
+                pass: 'tzyutbeyqlcurvzx' //in the same email id generate custom password 
+                //Reference ::: https://youtu.be/nuD6qNAurVM?si=OdrMi7iLS5RUkQTB
             }
         });
 
         await transporter.sendMail({
-            from: 'Darshanpanchal9292@gmail.com',
+            from: 'Darshanpanchal9292@gmail.com', //Same email id used before
             to: to,
             subject: subject,
             html: html,
@@ -615,28 +616,38 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 })
 
 
-// exports.sendContactMail = catchAsyncErrors(async (req, res, next) => {
-//     const { name, email, message } = req.body;
-//     try {
-//         let transporter = await nodemailer.createTransport({
-//             host: 'smtp.gmail.com',
-//             port: 587,
-//             secure: false,
-//             requireTLS: true,
-//             auth: {
-//                 user: 'Darshanpanchal9292@gmail.com',
-//                 pass: 'tzyutbeyqlcurvzx'
-//             }
-//         });
 
-//         await transporter.sendMail({
-//             from: 'Darshanpanchal9292@gmail.com',
-//             to: to,
-//             subject: subject,
-//             html: html,
-//         });
+exports.sendContactMail = catchAsyncErrors(async (req, res, next) => {
+    // const { name, userMailId, brokerMailId, message } = req.body;
 
-//     } catch (error) {
-//         console.log('Error sending email:', error);
-//     }
-// })
+    try {
+
+        //     let transporter = nodemailer.createTransport({
+        //         host: 'smtp.gmail.com',
+        //         port: 587,
+        //         secure: false,
+        //         requireTLS: true,
+        //         auth: {
+        //             user: userMailId,
+        //             pass: userCustomPassword //in the same email id generate custom password 
+        //             //Reference ::: https://youtu.be/nuD6qNAurVM?si=OdrMi7iLS5RUkQTB
+        //         }
+        //     });
+        //     await transporter.sendMail({
+        //         from: userMailId,
+        //         to: brokerMailId,
+        //         subject: 'FAQ',
+        //         html: `<h1>${name}</h1></br><h1>${message}</h1>`,
+        //     });
+
+        res.status(200).send({
+            success: true,
+            message: "Email Sent Successfully"
+        })
+
+    } catch (error) {
+        console.log('Error sending email:', error);
+    }
+
+})
+
