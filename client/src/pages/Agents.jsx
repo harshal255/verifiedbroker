@@ -63,16 +63,6 @@ const Agents = () => {
         <div className="flex flex-col md:flex-row gap-5">
           <Input label="Enter broker name" />
         </div>
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
-          <span className="w-1/2">Sort by</span>
-          <Select label="All Cities">
-            <Option>Material Tailwind HTML</Option>
-            <Option>Material Tailwind React</Option>
-            <Option>Material Tailwind Vue</Option>
-            <Option>Material Tailwind Angular</Option>
-            <Option>Material Tailwind Svelte</Option>
-          </Select>
-        </div>
       </div>
 
       {/* broker Grid */}
