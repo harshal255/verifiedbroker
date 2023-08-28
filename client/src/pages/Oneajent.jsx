@@ -229,7 +229,7 @@ const Oneajent = () => {
 
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 m-5">
-                  {properties.length != 0 && properties.map(
+                  {properties.length == 0 ? <div>Please Login To See Property</div> : properties.map(
                     (element) => {
                       return (
                         <div className="flex flex-col" key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
