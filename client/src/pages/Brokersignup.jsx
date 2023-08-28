@@ -15,7 +15,7 @@ import AuthContext from "./AuthContext";
 const Brokersignup = () => {
 
     const [brokerDetails, setBrokerDetails] = useState({
-        photo:"",
+        photo: "",
         phone: '',
         address: '',
         experience: '',
@@ -89,7 +89,7 @@ const Brokersignup = () => {
                     </Typography>
                     <form className=" mb-4 flex flex-col gap-6 items-center justify-center">
                         <label htmlFor="photo-upload" className="profile-photo">
-                            <Avatar src={brokerDetails.photo ? URL.createObjectURL(brokerDetails.photo) : "https://res.cloudinary.com/dijdjkiqv/image/upload/v1692686408/Avatar/pyvclwz03vy0ty88cunf.jpg"} style={{"width":"140px","height":"140px"}}></Avatar>
+                            <Avatar src={brokerDetails.photo ? URL.createObjectURL(brokerDetails.photo) : "https://res.cloudinary.com/dijdjkiqv/image/upload/v1692686408/Avatar/pyvclwz03vy0ty88cunf.jpg"} style={{ "width": "140px", "height": "140px" }}></Avatar>
                         </label>
                         <input
                             type="file"
@@ -99,10 +99,12 @@ const Brokersignup = () => {
                             onChange={handleChange}
                         />
 
-                        <Input type="phone" size="lg" name="phone" value={brokerDetails.phone} onChange={handleChange}
-                            color="orange" label={
+
+
+                        <Input type="text" name="about" value={brokerDetails.about} onChange={handleChange}
+                            size="lg" color="orange" label={
                                 <>
-                                    Phone No: <span className="text-red-500">*</span>
+                                    About <span className="text-red-500">*</span>
                                 </>
                             } />
 
@@ -112,18 +114,22 @@ const Brokersignup = () => {
                                     Address: <span className="text-red-500">*</span>
                                 </>
                             } />
-                        <Input size="lg" type="text" name="experience" value={brokerDetails.experience} onChange={handleChange}
-                            color="orange" label={
-                                <>
-                                    Experience: <span className="text-red-500">*</span>
-                                </>
-                            } />
-                        <Input type="text" name="about" value={brokerDetails.about} onChange={handleChange}
-                            size="lg" color="orange" label={
-                                <>
-                                    About <span className="text-red-500">*</span>
-                                </>
-                            } />
+                        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 w-full">
+                            <Input size="lg" type="text" name="experience" value={brokerDetails.experience} onChange={handleChange}
+                                color="orange" label={
+                                    <>
+                                        Experience: <span className="text-red-500">*</span>
+                                    </>
+                                } />
+
+                            <Input type="phone" size="lg" name="phone" value={brokerDetails.phone} onChange={handleChange}
+                                color="orange" label={
+                                    <>
+                                        Phone No: <span className="text-red-500">*</span>
+                                    </>
+                                } />
+
+                        </div>
 
 
                         <Input
@@ -139,78 +145,80 @@ const Brokersignup = () => {
                                 </>
                             }
                         />
-                        <Input
-                            size="lg"
-                            name="a"
-                            type="file"
-                            color="orange"
-                            label={
-                                <>
-                                    A : <span className="text-red-500">*</span>
-                                </>
-                            }
-                            onChange={handleChange}
-                        />
-                        <Input
-                            size="lg"
-                            name="b"
-                            type="file"
-                            color="orange"
-                            label={
-                                <>
-                                    B : <span className="text-red-500">*</span>
-                                </>
-                            }
-                            onChange={handleChange}
-                        />
-                        <Input
-                            size="lg"
-                            name="c"
-                            type="file"
-                            color="orange"
-                            label={
-                                <>
-                                    C : <span className="text-red-500">*</span>
-                                </>
-                            }
-                            onChange={handleChange}
-                        />
-                        <Input
-                            size="lg"
-                            name="d"
-                            type="file"
-                            color="orange"
-                            label={
-                                <>
-                                    D : <span className="text-red-500">*</span>
-                                </>
-                            }
-                            onChange={handleChange}
-                        />
-                        <Input
-                            size="lg"
-                            name="e"
-                            type="file"
-                            color="orange"
-                            label={
-                                <>
-                                    E : <span className="text-red-500">*</span>
-                                </>
-                            }
-                            onChange={handleChange}
-                        />
-                        <Input
-                            size="lg"
-                            name="f"
-                            type="file"
-                            color="orange"
-                            label={
-                                <>
-                                    F : <span className="text-red-500">*</span>
-                                </>
-                            }
-                            onChange={handleChange}
-                        />
+                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                            <Input
+                                size="lg"
+                                name="a"
+                                type="file"
+                                color="orange"
+                                label={
+                                    <>
+                                        A : <span className="text-red-500">*</span>
+                                    </>
+                                }
+                                onChange={handleChange}
+                            />
+                            <Input
+                                size="lg"
+                                name="b"
+                                type="file"
+                                color="orange"
+                                label={
+                                    <>
+                                        B : <span className="text-red-500">*</span>
+                                    </>
+                                }
+                                onChange={handleChange}
+                            />
+                            <Input
+                                size="lg"
+                                name="c"
+                                type="file"
+                                color="orange"
+                                label={
+                                    <>
+                                        C : <span className="text-red-500">*</span>
+                                    </>
+                                }
+                                onChange={handleChange}
+                            />
+                            <Input
+                                size="lg"
+                                name="d"
+                                type="file"
+                                color="orange"
+                                label={
+                                    <>
+                                        D : <span className="text-red-500">*</span>
+                                    </>
+                                }
+                                onChange={handleChange}
+                            />
+                            <Input
+                                size="lg"
+                                name="e"
+                                type="file"
+                                color="orange"
+                                label={
+                                    <>
+                                        E : <span className="text-red-500">*</span>
+                                    </>
+                                }
+                                onChange={handleChange}
+                            />
+                            <Input
+                                size="lg"
+                                name="f"
+                                type="file"
+                                color="orange"
+                                label={
+                                    <>
+                                        F : <span className="text-red-500">*</span>
+                                    </>
+                                }
+                                onChange={handleChange}
+                            />
+                        </div>
 
                     </form>
                     <Button className="mt-6" color="orange" type="submit" onClick={handleSubmit} fullWidth>
