@@ -6,6 +6,7 @@ import { Select, Option } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import axios from 'axios';
+import { MdVerified } from 'react-icons/md';
 
 
 const Agents = () => {
@@ -71,7 +72,9 @@ const Agents = () => {
           return (
             <div className="flex flex-col gap-1" key={element._id} onClick={() => navigate("/agent", { state: { uId: element._id } })}>
               <Avatar src={element.brokersDetails.photo.url} alt={element._id} variant='rounded' className='h-[20rem] w-[20rem]' />
-              <h1 className="text-xl font-bold">{element.name}</h1>
+              <h1 className="text-xl font-bold flex items-center justify-center">{element.name}
+                
+              </h1>
               <span className="text-base">{element.brokersDetails.experience} experience</span>
             </div>
           );

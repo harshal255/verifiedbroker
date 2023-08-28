@@ -18,10 +18,11 @@ import axios from 'axios';
 import AuthContext from '../pages/AuthContext'
 import { Toaster, toast } from 'react-hot-toast';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {MdVerified} from 'react-icons/md';
 
 const Oneajent = () => {
 
-  const { user,setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -206,10 +207,12 @@ const Oneajent = () => {
               <div className="flex flex-col xl:flex-row m-10 gap-10 items-center" >
                 <Avatar src={singleBroker.brokersDetails.photo.url} alt="avatar" className='rounded-full h-40 w-40' />
                 <div className="flex flex-col gap-2">
-                  <h1 className='text-3xl font-bold'>{singleBroker.name}</h1>
+                  <h1 className='text-3xl font-bold flex justify-center items-center gap-5'>{singleBroker.name}
+                  <MdVerified className="text-deep-orange-500" />
+                  </h1>
                   <span className='text-sm text-gray-600'>Experience :  <b>{singleBroker.brokersDetails.experience}</b></span>
                   <div className="flex text-sm gap-2 flex-wrap items-center justify-center">
-                    <span className='flex gap-1'><AiFillStar className='h-5 w-5 text-yellow-700' /> {singleBroker.brokersDetails.ratings.toFixed(1)} · </span>
+                    <span className='flex gap-1'><AiFillStar className='h-3 w-3 text-yellow-700' /> {singleBroker.brokersDetails.ratings.toFixed(1)} · </span>
                     <span>{singleBroker.brokersDetails.numOfReviews} Reviews</span>
                     <span>|</span>
                     <span className='flex gap-2 items-center'><BiSolidPhoneCall />{singleBroker.brokersDetails.phone}</span>
@@ -224,58 +227,64 @@ const Oneajent = () => {
               <div className="w-full xl:w-2/3 border border-black xl:m-5 flex flex-col gap-3">
                 <h1 className='text-start mx-5 font-bold '>About {singleBroker.name}</h1>
                 <p className='mx-5 text-justify'>{singleBroker.brokersDetails.about}</p>
-
                 <hr className='border-gray-500' />
-
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 m-5">
-                  {properties.length == 0 ? <div>Please Login To See Property</div> : properties.map(
-                    (element) => {
-                      return (
-                        <div className="flex flex-col" key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
-                          <div className="relative w-fit h-fit overflow-hidden rounded-lg">
-                            <img
-                              src={element.p_Images[0].url}
-                              alt={element.pName}
-                              className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl"
-                            />
-                            <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">
-                              {element.price} $/month
+                {properties.length == 0 ? <div className="flex items-center justify-center h-64">
+                  <div className='text-3xl flex my-5 text-center'>
+                    Please Login To See Property
+                  </div>
+                </div> : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 m-5">
+                    {
+                      properties.map(
+                        (element) => {
+                          return (
+                            <div className="flex flex-col" key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
+                              <div className="relative w-fit h-fit overflow-hidden rounded-lg">
+                                <img
+                                  src={element.p_Images[0].url}
+                                  alt={element.pName}
+                                  className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl h-[250px] w-[415px]"
+                                />
+                                <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">
+                                  {element.price} ₹/month
+                                </div>
+                              </div>
+                              <div className="my-2 flex flex-col gap-2">
+                                <span className="font-semibold text-start ml-2">{element.pName}</span>
+                                <span className="font-light text-start ml-2 text-sm text-gray-600">
+                                  {element.city},{element.country},
+                                  {element.state}
+                                </span>
+                                <span className="flex justify-evenly text-sm">
+                                  <span className="flex items-center">
+                                    <BiBed />
+                                    {element.bedroom} Bed
+                                  </span>
+                                  <span className="flex items-center">
+                                    <BiBath />
+                                    {element.bath} Bath
+                                  </span>
+                                  <span className="flex items-center">
+                                    <TbRulerMeasure />
+                                    {element.pSize} Sqft
+                                  </span>
+                                </span>
+                                <hr className="border-gray-800" />
+                                <div className="flex justify-evenly">
+                                  <span className="text-sm">{element.status}</span>
+                                  <span className="text-sm">
+                                    {getYearDifference(element.createdAt) !== 0 ? getYearDifference(element.createdAt) + "years ago" : "This Year"}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div className="my-2 flex flex-col gap-2">
-                            <span className="font-semibold text-start ml-2">{element.pName}</span>
-                            <span className="font-light text-start ml-2 text-sm text-gray-600">
-                              {element.city},{element.country},
-                              {element.state}
-                            </span>
-                            <span className="flex justify-evenly text-sm">
-                              <span className="flex items-center">
-                                <BiBed />
-                                {element.bedroom} Bed
-                              </span>
-                              <span className="flex items-center">
-                                <BiBath />
-                                {element.bath} Bath
-                              </span>
-                              <span className="flex items-center">
-                                <TbRulerMeasure />
-                                {element.pSize} Sqft
-                              </span>
-                            </span>
-                            <hr className="border-gray-800" />
-                            <div className="flex justify-evenly">
-                              <span className="text-sm">{element.status}</span>
-                              <span className="text-sm">
-                                {getYearDifference(element.createdAt) !== 0 ? getYearDifference(element.createdAt) + "years ago" : "This Year"}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                  )}
-                </div>
+                          );
+                        }
+                      )}
+                    
+                  </div>
+                )}
+
               </div>
 
               <div className="w-full flex flex-col xl:w-1/3 xl:pr-10 gap-5">
@@ -309,12 +318,12 @@ const Oneajent = () => {
             </div>
             <div className="w-full">
 
-              <div className='mx-10 flex flex-col xl:flex-row justify-between'><div className='flex  items-center gap-5'><AiFillStar />
+              <div className='mx-10 flex flex-col xl:flex-row justify-between'><div className='flex items-center gap-5'><AiFillStar />
                 {singleBroker.brokersDetails.ratings.toFixed(1)} · {singleBroker.brokersDetails.numOfReviews} Reviews</div>
               </div>
 
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 m-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 m-5 ">
                 {singleBroker.brokersDetails.reviews.length !== 0 ? (
                   singleBroker.brokersDetails.reviews.map((element) => (
                     <article className="lg:w-1/2 m-auto text-start my-5" key={element._id}>
@@ -342,8 +351,8 @@ const Oneajent = () => {
                     </article>
                   ))
                 ) : (
-                  <article className="lg:w-1/2 m-auto text-start my-5">
-                    <div className="flex items-center mb-4 space-x-4 ">
+                  <article className="lg:w-1/2 m-auto my-5">
+                    <div className="flex items-center justify-center mb-4 space-x-4">
                       <img
                         src="/gifs/notFoundAnimation.gif"
                         alt="Oops, nothing there"

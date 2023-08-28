@@ -66,7 +66,7 @@ const Property = () => {
       }
       fetchProperty();
     }
-  },[]);
+  }, []);
 
   const fetchProperty = async () => {
     let config = {
@@ -581,7 +581,7 @@ const Property = () => {
                               </option>
                             ))}
                       </select>
-                    
+
                       <div className="w-48 flex items-center justify-center">
                         <Input
                           label="City"
@@ -599,7 +599,7 @@ const Property = () => {
                 {/* year */}
                 <div>
                   <h1 className="font-semibold  text-start">Year Built</h1>
-                  
+
                   <div className="flex flex-col gap-5 justify-center items-center">
                     <Input
                       label="Year Built"
@@ -625,59 +625,64 @@ const Property = () => {
                 </div>
               </div>
             </Drawer>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 m-5">
-              {properties.length === 0 ? (
-                <div className="flex justify-center items-center h-screen">
-                  <img
-                    src="/gifs/property.gif"
-                    alt="Oops, nothing there"
-                    className="w-96 h-auto"
-                  />
-                </div>
-              ) : (
-                properties.map((element) => (
-                  <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
-                    <div className="relative w-fit h-fit overflow-hidden rounded-lg">
-                      <img
-                        src={element.p_Images[0].url}
-                        alt={element.pName}
-                        className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl"
-                      />
-                      <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">
-                        {element.price} ₹/month
+
+            {properties.length === 0 ? (
+              <div className="flex justify-center items-center h-screen">
+                <img
+                  src="/gifs/property.gif"
+                  alt="Oops, nothing there"
+                  className="w-96 h-auto"
+                />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 m-5 place-items-center">
+                {
+                  properties.map((element) => (
+                    <div key={element._id} onClick={() => navigate("/singleproperty", { state: { pId: element._id } })}>
+                      <div className="relative w-fit h-fit overflow-hidden rounded-lg">
+                        <img
+                          src={element.p_Images[0].url}
+                          alt={element.pName}
+                          className="hover:scale-110 duration-300 transition-all transform hover:-rotate-1 rounded-xl w-[415px] h-[275px]"
+                        />
+                        <div className="absolute z-10 bottom-5 left-2 text-black bg-white p-2 rounded-lg font-semibold">
+                          {element.price} ₹/month
+                        </div>
+                      </div>
+                      <div className="my-2 flex flex-col gap-2">
+                        <span className="font-bold text-start ml-2">{element.pName}</span>
+                        <span className="font-light text-start ml-2 text-sm text-gray-600">
+                          {element.city}, {element.country}, {element.state}
+                        </span>
+                        <span className="flex justify-evenly text-sm">
+                          <span className="flex items-center">
+                            <BiBed />
+                            {element.bedroom} Bed
+                          </span>
+                          <span className="flex items-center">
+                            <BiBath />
+                            {element.bath} Bath
+                          </span>
+                          <span className="flex items-center">
+                            <TbRulerMeasure />
+                            {element.pSize} Sqft
+                          </span>
+                        </span>
+                        <hr className="border-gray-800" />
+                        <div className="flex justify-evenly">
+                          <span className="text-sm">{element.propertyType}</span>
+                          <span className="text-sm">
+                            {new Date().getFullYear() - element.buildYear} year ago
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <div className="my-2 flex flex-col gap-2">
-                      <span className="font-bold text-start ml-2">{element.pName}</span>
-                      <span className="font-light text-start ml-2 text-sm text-gray-600">
-                        {element.city}, {element.country}, {element.state}
-                      </span>
-                      <span className="flex justify-evenly text-sm">
-                        <span className="flex items-center">
-                          <BiBed />
-                          {element.bedroom} Bed
-                        </span>
-                        <span className="flex items-center">
-                          <BiBath />
-                          {element.bath} Bath
-                        </span>
-                        <span className="flex items-center">
-                          <TbRulerMeasure />
-                          {element.pSize} Sqft
-                        </span>
-                      </span>
-                      <hr className="border-gray-800" />
-                      <div className="flex justify-evenly">
-                        <span className="text-sm">{element.propertyType}</span>
-                        <span className="text-sm">
-                          {new Date().getFullYear() - element.buildYear} year ago
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
+                  ))
+                }
+              </div>
+
+            )}
+
             {/* pagination */}
             <div className="flex items-center gap-2 lg:gap-4 justify-center my-10">
               <Button
@@ -694,7 +699,7 @@ const Property = () => {
                 color="orange"
                 className="flex items-center gap-2 rounded-full"
                 onClick={() => { setPage(page + 1) }}
-                disabled={page === 5}
+                disabled={properties.length === 0}
               >
                 Next
                 <ArrowRightIcon strokeWidth={2} className="h-4 w-4 text-primary" />
