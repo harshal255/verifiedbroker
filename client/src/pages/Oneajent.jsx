@@ -1,7 +1,7 @@
 import { AiFillStar } from 'react-icons/ai';
 import { BiSolidPhoneCall } from 'react-icons/bi'
 import { BsFillPhoneFill } from 'react-icons/bs'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { BiBed, BiBath } from 'react-icons/bi';
 import { TbRulerMeasure } from 'react-icons/tb';

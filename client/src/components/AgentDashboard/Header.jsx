@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useEffect, useState } from "react";
 import {
     ListItem,
@@ -18,7 +18,6 @@ import AuthContext from "../../pages/AuthContext";
 
 
 const DashbordHeader = () => {
-    const [activeTab, setActiveTab] = useState('Dashboard');
     const [openNav, setOpenNav] = useState(false);
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);

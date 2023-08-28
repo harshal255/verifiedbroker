@@ -1,31 +1,14 @@
 import Features from '../../api/Features'
 import { useState } from 'react';
 import {
-  Button,
   Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Avatar,
-  IconButton,
-  Typography,
-  Card,
-  Input,
 } from "@material-tailwind/react";
 import { BsPlayFill } from 'react-icons/bs';
 
+const Feature = () => {
 
-
-
-const feature = () => {
   const [open, setOpen] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
-
   const handleOpen = () => setOpen((cur) => !cur);
-  const handleIsFavorite = () => setIsFavorite((cur) => !cur);
-
-  
-
 
   return (
     <div className="lg:my-28 w-full overflow-clip xl:px-10">
@@ -82,4 +65,4 @@ const feature = () => {
   )
 }
 
-export default feature
+export default Feature

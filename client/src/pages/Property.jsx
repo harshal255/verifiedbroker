@@ -42,9 +42,11 @@ const Property = () => {
   const location = useLocation();
   const foudProperties = location.state ? location.state.properties : [];
   const [properties, setProperties] = useState(foudProperties);
+  const [componentLoaded, setComponentLoaded] = useState(false);
 
   useEffect(() => {
     if (properties.length === 0) {
+      setComponentLoaded(true);
       const fetchProperty = async () => {
         let config = {
           method: 'get',
@@ -62,6 +64,30 @@ const Property = () => {
             console.error("failed to fetch property details", err);
           });
       }
+      fetchProperty();
+    }
+  },[]);
+
+  const fetchProperty = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/api/property?page=${page}`,
+      withCredentials: true,
+    };
+
+    await axios.request(config)
+      .then((res) => {
+        setProperties(res.data.property);
+      })
+      .catch((err) => {
+        toast.error(err.response.statusText);
+        console.error("failed to fetch property details", err);
+      });
+  }
+
+  useEffect(() => {
+    if (page !== 1 || componentLoaded) {
       fetchProperty();
     }
   }, [page]);
@@ -371,6 +397,7 @@ const Property = () => {
                               id="vertical-list-svelte"
                               ripple={false}
                               className="hover:before:opacity-0"
+                              onChange={() => { setFilters({ ...filters, propertyType: 'Villa' }) }}
                               containerProps={{
                                 className: "p-0",
                               }}
