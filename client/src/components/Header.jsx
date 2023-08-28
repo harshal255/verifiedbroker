@@ -61,6 +61,7 @@ const Header = () => {
                     toast.success(response.data.message);
                 })
                 setUser(null);
+                navigate('/');
             })
             .catch((error) => {
                 console.log(error);
