@@ -109,6 +109,22 @@ const Property = () => {
     propertyType: '',
     price: '',
   });
+  const initialFilters = {
+    keyword: '',
+    city: '',
+    status: '',
+    ratings: '',
+    state: '',
+    country: '',
+    bath: '',
+    bedroom: '',
+    buildYear: '',
+    propertyType: '',
+    price: '',
+  };
+  const resetFilters = () => {
+    setFilters(initialFilters);
+  };
 
   const handleFilters = async () => {
     const queryParams = Object.keys(filters)
@@ -468,11 +484,11 @@ const Property = () => {
                   <h1 className="font-semibold text-start ">Bedroom</h1>
                   <div className="flex flex-col">
                     <ButtonGroup variant="outlined" color="orange">
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 1 }) }}>1+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 2 }) }}>2+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 3 }) }}>3+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 4 }) }}>4+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 5 }) }}>5+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 1 }) }}>0+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 2 }) }}>1+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 3 }) }}>2+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 4 }) }}>3+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bedroom === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bedroom: 5 }) }}>4+</Button>
                     </ButtonGroup>
                   </div>
                 </div>
@@ -482,11 +498,11 @@ const Property = () => {
                   <h1 className="font-semibold text-start ">Bathroom</h1>
                   <div className="flex flex-col">
                     <ButtonGroup variant="outlined" color="orange">
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 1 }) }}>1+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 2 }) }}>2+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 3 }) }}>3+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 4 }) }}>4+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 5 }) }}>5+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 1 }) }}>0+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 2 }) }}>1+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 3 }) }}>2+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 4 }) }}>3+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.bath === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, bath: 5 }) }}>4+</Button>
                     </ButtonGroup>
                   </div>
                 </div>
@@ -496,11 +512,11 @@ const Property = () => {
                   <h1 className="font-semibold text-start ">Ratings</h1>
                   <div className="flex flex-col">
                     <ButtonGroup variant="outlined" color="orange">
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 1 }) }}>1+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 2 }) }}>2+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 3 }) }}>3+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 4 }) }}>4+</Button>
-                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 5 }) }}>5+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 1 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 1 }) }}>0+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 2 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 2 }) }}>1+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 3 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 3 }) }}>2+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 4 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 4 }) }}>3+</Button>
+                      <Button className={`h-10 w-10 text-center p-0 ${filters.ratings === 5 ? 'bg-orange-500 text-white' : ''}`} onClick={() => { setFilters({ ...filters, ratings: 5 }) }}>4+</Button>
                     </ButtonGroup>
                   </div>
                 </div>
@@ -538,8 +554,16 @@ const Property = () => {
                               </option>
                             ))}
                       </select>
+                    
                       <div className="w-48 flex items-center justify-center">
-                        <Input label="City" className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" onChange={(e) => { setFilters({ ...filters, city: e.target.value }) }} />
+                        <Input
+                          label="City"
+                          className="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                          value={filters.city} // Control the input value with state
+                          onChange={(e) => {
+                            setFilters({ ...filters, city: e.target.value });
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -548,29 +572,29 @@ const Property = () => {
                 {/* year */}
                 <div>
                   <h1 className="font-semibold  text-start">Year Built</h1>
+                  
                   <div className="flex flex-col gap-5 justify-center items-center">
-                    <Input label="Year Built" onChange={(e) => { setFilters({ ...filters, buildYear: e.target.value }) }} />
+                    <Input
+                      label="Year Built"
+                      value={filters.buildYear} // Control the input value with state
+                      onChange={(e) => {
+                        setFilters({ ...filters, buildYear: e.target.value });
+                      }}
+                    />
                   </div>
 
                 </div>
                 {/* Search */}
                 <Button className="w-full" color="orange" onClick={handleFilters}>Search</Button>
                 <div className="flex w-full gap-1">
-                  <Button className="w-full" color="orange" variant="outlined" onClick={() => {
-                    setFilters({
-                      keyword: '',
-                      city: '',
-                      status: '',
-                      ratings: '',
-                      state: '',
-                      country: '',
-                      bath: '',
-                      bedroom: '',
-                      buildYear: '',
-                      propertyType: '',
-                      price: '',
-                    })
-                  }}>Reset Search</Button>
+                  <Button
+                    className="w-full"
+                    color="orange"
+                    variant="outlined"
+                    onClick={resetFilters}
+                  >
+                    Reset Search
+                  </Button>
                 </div>
               </div>
             </Drawer>
