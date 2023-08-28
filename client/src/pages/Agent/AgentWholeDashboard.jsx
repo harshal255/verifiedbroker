@@ -5,7 +5,7 @@ import AddProfileDetails from './AddProfileDetails'
 import Myprofile from './Myprofile'
 import Myproperty from './Myproperty'
 import Reviews from './Reviews'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Drawer, Typography, IconButton } from '@material-tailwind/react'
 import { useNavigate } from 'react-router-dom'
 import { LuMessagesSquare } from 'react-icons/lu'
@@ -20,6 +20,7 @@ import { AiOutlineMenuFold } from 'react-icons/ai'
 import { toast, Toaster } from 'react-hot-toast'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import AuthContext from '../AuthContext'
 
 const AgentWholeDashboard = () => {
 
@@ -28,6 +29,8 @@ const AgentWholeDashboard = () => {
     const openDrawer = () => setOpen(true);
     const closeDrawer = () => setOpen(false);
     const navigate = useNavigate();
+
+    const {user,setUser} =useContext(AuthContext);
 
 
     const [selectedButton, setSelectedButton] = useState('Dashboard');
@@ -52,8 +55,9 @@ const AgentWholeDashboard = () => {
             if (response && response.status === 200) {
                 toast.success(response.data.message);
                 localStorage.clear();
-                Cookies.remove('tokenjwt'); // Remove the token from the cookie
+                Cookies.remove('tokenjwt');
                 setTimeout(() => {
+                    setUser(null) // Remove the token from the cookie
                     navigate("/");
                 }, 2000);
             } else {
@@ -185,7 +189,7 @@ const AgentWholeDashboard = () => {
                                 <span>
                                     <PowerIcon className="h-5 w-5" />
                                 </span>
-                                <span className="mr-auto font-normal">
+                                <span className="mr-auto font-normal" onClick={handleLogout}>
                                     Logout
                                 </span>
                             </span>

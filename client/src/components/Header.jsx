@@ -5,7 +5,7 @@ import {
     List,
     ListItem,
     ListItemPrefix,
-    
+
 } from "@material-tailwind/react";
 import { useContext, useState } from 'react';
 // import { UserCircleIcon } from "@heroicons/react/24/solid";
@@ -13,13 +13,12 @@ import { toast, Toaster } from "react-hot-toast";
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../pages/AuthContext';
 import Cookies from 'js-cookie';
-
-
+import axios from 'axios';
 
 const Header = () => {
     const [openRight, setOpenRight] = useState(false);
 
-    const { user } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
     console.log(user);
 
@@ -48,6 +47,27 @@ const Header = () => {
         }
     }
 
+    const handleLogout = () => {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/api/logout',
+            withCredentials: true
+        };
+
+        axios.request(config)
+            .then((response) => {
+                setTimeout(() => {
+                    toast.success(response.data.message);
+                })
+                setUser(null);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
     return (
         <>
             <Toaster position='top-center'></Toaster>
@@ -64,7 +84,7 @@ const Header = () => {
 
                 <div className='flex items-center xl:order-3'>
                     <ul className="font-semibold hidden xl:flex justify-between sm:gap-6 md:gap-8 xl:gap-10">
-                        <li className='cursor-pointer'>Logout</li>
+                        {user && <li className='cursor-pointer' onClick={handleLogout}>Logout</li>}
                         <li className='cursor-pointer' onClick={handleDashboard}>Desh</li>
                         <Link to="/becomeagent"> <li className='cursor-pointer'>Become Agent</li></Link>
                         <Link to="/landing"> <li className='cursor-pointer'>Landing</li></Link>
