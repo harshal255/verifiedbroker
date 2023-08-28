@@ -4,15 +4,24 @@ class ApiFeatures {
         this.queryStr = queryStr;
     }
     search() {
-        const keyword = this.queryStr.keyword
-            ? {
-                pName: {
-                    $regex: this.queryStr.keyword,
-                    $options: "i"
-                },
-            } : {};
 
-        this.query = this.query.find({ ...keyword });
+        const keyword = this.queryStr.keyword;
+
+        const query = keyword
+            ? {
+                $and: [
+                    {
+                        $or: [
+                            { pName: { $regex: keyword, $options: "i" } },
+                            { name: { $regex: keyword, $options: "i" } }
+                        ]
+                    }
+                ]
+            }
+            : {};
+
+
+        this.query = this.query.find(query);
         return this;
     }
 
@@ -23,7 +32,7 @@ class ApiFeatures {
         removeFields.forEach((key) => delete queryCopy[key]);
 
         // Convert field values to case-insensitive regex
-        const regexFields = ["city", "Address", "status", "country", "state"]; // Add more fields as needed
+        const regexFields = ["city", "Address", "status", "country", "state", "propertyType"]; // Add more fields as needed
         regexFields.forEach((key) => {
             if (queryCopy[key]) {
                 queryCopy[key] = { $regex: queryCopy[key], $options: "i" };

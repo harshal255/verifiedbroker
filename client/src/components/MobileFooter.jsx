@@ -24,7 +24,6 @@ function Icon({ id, open }) {
         </svg>
     );
 }
-const currentYear = new Date().getFullYear();
 export default function MobileFooter() {
     const [open, setOpen] = useState(0);
 

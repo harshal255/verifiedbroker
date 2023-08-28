@@ -1,4 +1,3 @@
-import React from 'react'
 import PriceCard from './priceCard';
 import priceCard from '../../api/PriceCard'
 

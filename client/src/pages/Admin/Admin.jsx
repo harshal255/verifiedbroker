@@ -1,13 +1,7 @@
 import {
-    MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-import { UserPlusIcon } from "@heroicons/react/24/solid";
-import {
     Card,
     CardHeader,
-    Input,
     Typography,
-    Button,
     Tabs,
     TabsHeader,
     Tab,
@@ -44,7 +38,6 @@ const Admin = () => {
     const [activeTab, setActiveTab] = useState('all_users');
 
     const renderChartComponent = () => {
-        // console.log(activeTab);
         switch (activeTab) {
             case 'all_users':
                 return <AllUsersComponent />;

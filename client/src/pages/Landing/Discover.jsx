@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Avatar, Typography, Card, Button } from '@material-tailwind/react'
-import Cards from './Cards'
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import KingBedIcon from '@mui/icons-material/KingBed';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import { Divider } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import IosShareIcon from '@mui/icons-material/IosShare';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -75,8 +68,6 @@ const Discover = () => {
        fetchFeatured();
         
     }, [])
-
-    console.log(properties);
 
     return (
         <>

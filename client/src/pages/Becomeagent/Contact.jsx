@@ -1,8 +1,6 @@
-import React from 'react'
 import {
     Card,
     Input,
-    Checkbox,
     Button,
     Typography,
     Textarea
@@ -11,10 +9,6 @@ import ContactDetails from '../../api/Contact';
 import { BiSolidMap } from 'react-icons/bi';
 import { FaMobileAlt } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
-import { BsTwitter, BsLinkedin } from 'react-icons/bs'
-import { AiFillInstagram } from 'react-icons/ai'
-
-
 
 const Contact = () => {
     return (

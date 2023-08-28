@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { useContext, useState } from "react";
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from 'react-hot-toast';
 import AuthContext from "./AuthContext";
 

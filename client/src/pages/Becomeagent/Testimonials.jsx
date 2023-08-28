@@ -1,4 +1,3 @@
-import React from 'react'
 import { Typography,Avatar } from '@material-tailwind/react'
 
 const Testimonials = () => {
