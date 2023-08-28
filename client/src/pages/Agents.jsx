@@ -2,11 +2,17 @@ import { useEffect, useState } from 'react';
 import { Avatar, Breadcrumbs } from "@material-tailwind/react";
 import { Link, useNavigate } from 'react-router-dom'
 import { Input } from "@material-tailwind/react";
-import { Select, Option } from "@material-tailwind/react";
+import { IconButton } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import axios from 'axios';
+
 import { MdVerified } from 'react-icons/md';
+
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {toast,Toaster} from 'react-hot-toast';
+
+
 
 
 const Agents = () => {
@@ -14,7 +20,9 @@ const Agents = () => {
 
   const [page, setPage] = useState(1);
 
-  console.log(page);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // console.log(page);
 
 
   const [brokers, setBrokers] = useState(null);
@@ -40,8 +48,41 @@ const Agents = () => {
       });
   }, [page])
 
+  const handleSearch = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/api/brokers?keyword=${searchQuery}`,
+      withCredentials: true,
+    }
+
+    await axios.request(config)
+      .then((res) => {
+        if (res.data.broker.length > 0) {
+          toast.success("Broker Found");
+          setBrokers(res.data.broker);
+        }
+        else {
+          toast.error("No result for " + searchQuery);
+        }
+      })
+      .catch((err) => {
+        toast.error(err);
+        console.error("failed to fetch broker", err);
+      });
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+
 
   return (
+    <>
+    <Toaster position='top-center'></Toaster>
     <div className="pt-0 mt-20 xl:mx-20">
       <h1 className="text-4xl text-start">Agents</h1>
       <Breadcrumbs className="my-2">
@@ -62,7 +103,17 @@ const Agents = () => {
 
       <div className="flex flex-col md:flex-row justify-between items-center my-5 gap-5">
         <div className="flex flex-col md:flex-row gap-5">
-          <Input label="Enter broker name" />
+          <Input
+            label="search"
+            color="orange"
+            value={searchQuery}
+            onChange={(e) => { setSearchQuery(e.target.value) }}
+            onKeyDown={handleKeyPress}
+          />
+
+          <IconButton color="orange" className='px-10 w-full'>
+            <MagnifyingGlassIcon className="h-5 w-5" onClick={handleSearch} />
+          </IconButton>
         </div>
       </div>
 
@@ -110,6 +161,7 @@ const Agents = () => {
         </Button>
       </div>
     </div>
+    </>
   );
 };
 
