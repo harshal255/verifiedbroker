@@ -24,6 +24,7 @@ import Festivalcard from './pages/Admin/Festivalcard'
 
 function App() {
   const { user } = useContext(AuthContext);
+  const isAdmin = localStorage.getItem('role') == "admin" ? true : false;
 
   return (
     <div className='w-full max-h-fit overflow-y-clip'>
@@ -151,34 +152,25 @@ function App() {
           }
         >
         </Route>
-        <Route path="/admin"
+        {isAdmin && (<Route path="/admin"
           element={
             <>
               <Header />
               <Admin></Admin>
               <Footer></Footer>
             </>
-          }>
+          } />
+        )}
 
-        </Route>
-        <Route path="/admin/festivalcard"
+        {isAdmin && (<Route path="/admin/festivalcard"
           element={
             <>
               <Header />
-              <Festivalcard/>
+              <Festivalcard />
             </>
-          }>
-
-        </Route>
-        <Route path="/admin/festivalcard"
-          element={
-            <>
-              <Header />
-              <Festivalcard/>
-            </>
-          }>
-
-        </Route>
+          } />
+        )}
+        
         <Route
           path="*"
           element={
