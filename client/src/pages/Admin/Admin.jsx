@@ -5,11 +5,13 @@ import {
     Tabs,
     TabsHeader,
     Tab,
+    Button
 } from "@material-tailwind/react";
 import AllBrokerComponent from './AllBrokers';
 import AllUsersComponent from './AllUsers';
 import RequestApprovalComponent from './RequestApproval';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -36,6 +38,7 @@ const TABS = [
 const Admin = () => {
 
     const [activeTab, setActiveTab] = useState('all_users');
+    const navigate = useNavigate();
 
     const renderChartComponent = () => {
         switch (activeTab) {
@@ -63,6 +66,7 @@ const Admin = () => {
                             See information about all members
                         </Typography>
                     </div>
+                    <Button color="blue" onClick={()=>navigate('/admin/festivalcard')}>Festival Card</Button>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                     <Tabs value={activeTab} className="w-full">

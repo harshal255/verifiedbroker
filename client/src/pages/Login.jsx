@@ -36,6 +36,7 @@ export default function Login() {
             toast.success("Log In Successfull");
             
             localStorage.setItem("uId",response.data.user._id);
+            localStorage.setItem("role",response.data.user.role);
             const Token = response.data.token;
             Cookies.set('tokenjwt',Token);
             
