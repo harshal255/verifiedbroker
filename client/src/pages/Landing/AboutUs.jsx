@@ -1,6 +1,6 @@
 import { Avatar, Card, Typography, Button } from '@material-tailwind/react'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CallMadeIcon from '@mui/icons-material/CallMade';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { FiPhoneCall } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -50,20 +50,20 @@ const AboutUs = () => {
                 <Typography className="text-[2rem] font-bold">Let’s find the right selling option for you</Typography>
                 <Typography className="text-xl">Lorem  amet consectetur adipisicing elit. Officiis facere culpa praesentium vel odit voluptates totam dicta qui sed atque!</Typography>
                 <div className='flex flex-row gap-2 items-center lg:mt-4'>
-                    <CheckCircleIcon fontSize='large' />
+                    <AiOutlineCheckCircle fontSize='large' />
                     <Typography className="text-[1.5rem] font-bold">Find excellent deals</Typography>
                 </div>
                 <div className='flex flex-row gap-2 items-center'>
-                    <CheckCircleIcon fontSize='large' />
+                    <AiOutlineCheckCircle fontSize='large' />
                     <Typography className="text-[1.5rem] font-bold">Friendly host & Fast support</Typography>
                 </div>
                 <div className='flex flex-row gap-2 items-center'>
-                    <CheckCircleIcon fontSize='large' />
+                    <AiOutlineCheckCircle fontSize='large' />
                     <Typography className="text-[1.5rem] font-bold">List your own property</Typography>
                 </div>
-                <Button className='w-44 mt-6 lg:mt-16 text-white flex flex-row justify-between hover:bg-red-300' color='red' onClick={()=>{navigate('/agents')}} >
+                <Button className='w-44 mt-6 lg:mt-16 text-white flex flex-row justify-between hover:bg-red-300' color='red' onClick={() => { navigate('/agents') }} >
                     <Typography>See More</Typography>
-                    <CallMadeIcon />
+                    <FiPhoneCall />
                 </Button>
             </Card>
             <img src='/images/about/element-3.png' alt='img' className='w-20 h-20 hidden lg:block lg:absolute lg:top-5 lg:left-[50%] opacity-20'></img>

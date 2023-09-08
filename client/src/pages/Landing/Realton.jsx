@@ -1,5 +1,5 @@
 import { Avatar, Typography, Card, Button } from '@material-tailwind/react'
-import CallMadeIcon from '@mui/icons-material/CallMade';
+import { FiPhoneCall } from 'react-icons/fi';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { toast, Toaster } from "react-hot-toast";
@@ -52,10 +52,10 @@ const Realton = () => {
                     <Typography className="text-xl mt-3 font-bold">Buy a property</Typography>
                     <Typography className="mt-5">Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</Typography>
                     <Button variant="outlined" className='mt-6 flex flex-row justify-between text-black border-black'
-                        onClick={() => {setStatus('Buy')}}
+                        onClick={() => { setStatus('Buy') }}
                     >
                         <Typography>Find home</Typography>
-                        <CallMadeIcon />
+                        <FiPhoneCall />
                     </Button>
                 </Card>
 
@@ -65,10 +65,10 @@ const Realton = () => {
                     <Typography className="text-xl mt-3 font-bold">Sell a property</Typography>
                     <Typography className="mt-5">Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</Typography>
                     <Button variant="outlined" className='mt-6 flex flex-row justify-between text-black border-black'
-                        onClick={() => { setStatus('Sell')}}
+                        onClick={() => { setStatus('Sell') }}
                     >
                         <Typography>Place an ad</Typography>
-                        <CallMadeIcon />
+                        <FiPhoneCall />
                     </Button>
                 </Card>
 
@@ -78,10 +78,10 @@ const Realton = () => {
                     <Typography className="text-xl mt-3 font-bold">Rent a property</Typography>
                     <Typography className="mt-5">Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</Typography>
                     <Button variant="outlined" className='mt-6 flex flex-row justify-around text-black border-black'
-                        onClick={() => { setStatus('Rent')}}
+                        onClick={() => { setStatus('Rent') }}
                     >
                         <Typography>Find a rental</Typography>
-                        <CallMadeIcon />
+                        <FiPhoneCall />
                     </Button>
                 </Card>
 

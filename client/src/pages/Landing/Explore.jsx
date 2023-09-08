@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Card, Typography } from '@material-tailwind/react';
-import HouseIcon from '@mui/icons-material/House';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import VillaIcon from '@mui/icons-material/Villa';
-import HomeWorkIcon from '@mui/icons-material/HomeWork';
-import BungalowIcon from '@mui/icons-material/Bungalow';
-import CabinIcon from '@mui/icons-material/Cabin';
+import { BsFillHouseAddFill } from 'react-icons/bs';
+import { MdApartment } from 'react-icons/md';
+import { GiHutsVillage } from 'react-icons/gi';
+import { BiHomeAlt2 } from 'react-icons/bi';
+import { MdBungalow } from 'react-icons/md';
+import { GiWoodCabin } from 'react-icons/gi';
 import axios from 'axios';
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
@@ -52,57 +52,57 @@ const Explore = () => {
             </div>
             <div className='explore container mx-auto w-auto p-5 grid grid-flow-col gap-4 overflow-auto'>
                 <Card className='h-48 w-44 bg-gray-200 flex flex-col items-center justify-between lg:w-56 lg:h-60 hover:text-white hover:bg-black transition-all duration-1000 ease-in-out'
-                    onClick={() => { setType('Houses')}}
+                    onClick={() => { setType('Houses') }}
                 >
-                    <HouseIcon fontSize='large' className='h-20 w-20 mt-10 rounded-full' />
+                    <BsFillHouseAddFill fontSize='large' className='h-20 w-20 mt-10 rounded-full' />
                     <div className='info'>
                         <Typography className="text-xl font-bold">Houses</Typography>
                     </div>
                 </Card>
                 <Card className='h-48 w-44 bg-gray-200 flex flex-col items-center  hover:text-white hover:bg-black transition-all duration-1000 ease-in-out justify-between lg:w-56 lg:h-60'
-                    onClick={() => { setType('Apartments')}}
+                    onClick={() => { setType('Apartments') }}
                 >
-                    <ApartmentIcon fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
+                    <MdApartment fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
                     <div className='info'>
                         <Typography className="text-xl font-bold">Apartments</Typography>
                     </div>
                 </Card>
                 <Card className='h-48 w-44 bg-gray-200 flex flex-col items-center  hover:text-white hover:bg-black transition-all duration-1000 ease-in-out justify-between lg:w-56 lg:h-60'
-                    onClick={() => { setType('Office')}}
+                    onClick={() => { setType('Office') }}
                 >
-                    <HomeWorkIcon fontSize='large' className='h-20 w-20 mt-10 rounded-full' />
+                    <BiHomeAlt2 fontSize='large' className='h-20 w-20 mt-10 rounded-full' />
                     <div className='info'>
                         <Typography className="text-xl font-bold">Office</Typography>
                     </div>
                 </Card>
                 <Card className='h-48 w-44 bg-gray-200 flex flex-col items-center  hover:text-white hover:bg-black transition-all duration-1000 ease-in-out justify-between lg:w-56 lg:h-60'
-                    onClick={() => { setType('Villa')}}
+                    onClick={() => { setType('Villa') }}
                 >
-                    <VillaIcon fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
+                    <GiHutsVillage fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
                     <div className='info'>
                         <Typography className="text-xl font-bold">Villa</Typography>
                     </div>
                 </Card>
                 <Card className='h-48 w-44 bg-gray-200 flex flex-col items-center  hover:text-white hover:bg-black transition-all duration-1000 ease-in-out justify-between lg:w-56 lg:h-60'
-                    onClick={() => { setType('Townhome')}}
+                    onClick={() => { setType('Townhome') }}
                 >
-                    <CabinIcon fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
+                    <GiWoodCabin fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
                     <div className='info'>
                         <Typography className="text-xl font-bold">Townhome</Typography>
                     </div>
                 </Card>
                 <Card className='h-48 w-44 bg-gray-200 flex flex-col items-center  hover:text-white hover:bg-black transition-all duration-1000 ease-in-out justify-between lg:w-56 lg:h-60'
-                    onClick={() => { setType('Bungalow')}}
+                    onClick={() => { setType('Bungalow') }}
                 >
-                    <BungalowIcon fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
+                    <MdBungalow fontSize='large' className='h-20 w-20 mt-10 rounded-full ' />
                     <div className='info'>
                         <Typography className="text-xl font-bold">Bungalow</Typography>
                     </div>
                 </Card>
                 <Card className='h-48 w-44 bg-gray-200 flex flex-col items-center  hover:text-white hover:bg-black transition-all duration-1000 ease-in-out justify-between lg:w-56 lg:h-60'
-                    onClick={() => { setType('Land')}}
+                    onClick={() => { setType('Land') }}
                 >
-                    <HomeWorkIcon fontSize='large' className='h-20 w-20 mt-10 rounded-full' />
+                    <BiHomeAlt2 fontSize='large' className='h-20 w-20 mt-10 rounded-full' />
                     <div className='info'>
                         <Typography className="text-xl font-bold">Land</Typography>
                     </div>

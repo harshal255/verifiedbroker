@@ -20,8 +20,8 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    const {setUser} = useContext(AuthContext);
-    
+    const { setUser } = useContext(AuthContext);
+
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -31,15 +31,15 @@ export default function Login() {
                 email,
                 password,
             });
-            
+            console.log(email, password);
             // Set the refresh token in the cookie
             toast.success("Log In Successfull");
-            
-            localStorage.setItem("uId",response.data.user._id);
-            localStorage.setItem("role",response.data.user.role);
+
+            localStorage.setItem("uId", response.data.user._id);
+            localStorage.setItem("role", response.data.user.role);
             const Token = response.data.token;
-            Cookies.set('tokenjwt',Token);
-            
+            Cookies.set('tokenjwt', Token);
+
             setTimeout(() => {
                 if (response.data.user.role === 'admin') {
                     navigate('/admin');
@@ -48,7 +48,7 @@ export default function Login() {
                     navigate('/');
                 }
             }, 2000)
-            
+
             setUser(response.data.user);
 
         } catch (error) {

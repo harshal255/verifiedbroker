@@ -1,5 +1,5 @@
-import React,{ useState } from "react";
-import { Link , useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Typography,
   List,
@@ -8,18 +8,17 @@ import {
   Input,
   ListItem,
 } from "@material-tailwind/react";
-import CloseIcon from '@mui/icons-material/Close';
-import TuneIcon from '@mui/icons-material/Tune';
-import SearchIcon from '@mui/icons-material/Search';
-import { Divider } from "@mui/material";
-import { useCountries } from "use-react-countries";
+import { AiOutlineClose } from 'react-icons/ai';
+import { FaItunesNote } from 'react-icons/fa';
+import { BsSearch } from 'react-icons/bs';
+// import { useCountries } from "use-react-countries";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 
 
 const NavbarDefault = () => {
 
-  const { countries } = useCountries();
+  // const { countries } = useCountries();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -29,7 +28,7 @@ const NavbarDefault = () => {
 
   const handleClose = () => {
     setDrawerOpen(false)
-  } 
+  }
 
   const handleAdvancedDrawerClose = () => {
     setAdvancedDrawer(false)
@@ -87,7 +86,7 @@ const NavbarDefault = () => {
         toast.error(err.response.statusText);
         console.error("failed to fetch property", err);
       });
-    }
+  }
   return (
     <>
       <Toaster position="top-center"></Toaster>
@@ -102,7 +101,7 @@ const NavbarDefault = () => {
               <ListItem><Link to="/">Become Agent</Link></ListItem>
               <ListItem><Link to="/">Signin</Link></ListItem>
               <ListItem><Link to="/">Login</Link></ListItem>
-              <CloseIcon className="absolute top-6 right-1" onClick={handleClose} />
+              <AiOutlineClose className="absolute top-6 right-1" onClick={handleClose} />
             </List>
           </Card>
         </Drawer>
@@ -144,7 +143,7 @@ const NavbarDefault = () => {
                   onChange={(e) => setFilters({ ...filters, country: e.target.value })}
                   className="w-full border border-gray-500 px-4 py-2 rounded-lg bg-transparent"
                 >
-                  {countries.map(({ name, flags }) => (
+                  {/* {countries.map(({ name, flags }) => (
                     <option key={name} value={name} className="flex items-center gap-2">
                       <img
                         src={flags.svg}
@@ -153,7 +152,7 @@ const NavbarDefault = () => {
                       />
                       {name}
                     </option>
-                  ))}
+                  ))} */}
                 </select>
               </div>
               <div>
@@ -166,11 +165,11 @@ const NavbarDefault = () => {
                 />
               </div>
               <div className="bg-red-400 w-28 h-16 mx-auto flex flex-row items-center justify-center rounded-md" onClick={handleFilters}>
-                <SearchIcon />
+                <BsSearch />
                 <Typography>Search</Typography>
               </div>
             </div>
-            <CloseIcon className="absolute top-6 right-16 bg-gray-300 rounded-full" fontSize="large" onClick={handleAdvancedDrawerClose} />
+            <AiOutlineClose className="absolute top-6 right-16 bg-gray-300 rounded-full" fontSize="large" onClick={handleAdvancedDrawerClose} />
           </Card>
         </Drawer>
         <div className="bg-[url('/images/broker-giving-keys.jpg')] bg-center bg-cover text-white flex flex-col justify-center items-center w-auto h-[80vh] lg:h-[90vh]">
@@ -202,7 +201,7 @@ const NavbarDefault = () => {
               Sell
             </ListItem>
           </List>
-          <Divider />
+          <hr />
           <div className="flex flex-row items-center  justify-between h-[6rem] lg:h-[6rem] lg:gap-5 lg:ml-8 ">
             <div className="hidden lg:block">
               <Typography className="text-md mb-2">Search</Typography>
@@ -245,7 +244,7 @@ const NavbarDefault = () => {
                   })
                 }
               >
-                {countries.map(({ name, flags }) => (
+                {/* {countries.map(({ name, flags }) => (
                   <option key={name} value={name} className="flex items-center gap-2">
                     <img
                       src={flags.svg}
@@ -254,7 +253,7 @@ const NavbarDefault = () => {
                     />
                     {name}
                   </option>
-                ))}
+                ))} */}
               </select>
             </div>
             <div className="hidden lg:block">
@@ -267,15 +266,15 @@ const NavbarDefault = () => {
               />
             </div>
             <div className="flex justify-around">
-            <div className="px-10 flex  justify-center items-center lg:hidden">
-              <TuneIcon onClick={handleAdvancedDrawerOpen} />
-              <Typography className="text-md mt-2">Advanced</Typography>
-            </div>
-            
-            <div className="w-full h-16 bg-red-400 px-5 flex items-center justify-center rounded-md" onClick={handleFilters}>
-              <SearchIcon />
-              <Typography>Search</Typography>
-            </div>
+              <div className="px-10 flex  justify-center items-center lg:hidden">
+                <FaItunesNote onClick={handleAdvancedDrawerOpen} />
+                <Typography className="text-md mt-2">Advanced</Typography>
+              </div>
+
+              <div className="w-full h-16 bg-red-400 px-5 flex items-center justify-center rounded-md" onClick={handleFilters}>
+                <BsSearch />
+                <Typography>Search</Typography>
+              </div>
             </div>
           </div>
         </div>
