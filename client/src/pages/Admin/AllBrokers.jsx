@@ -32,7 +32,7 @@ const AllBrokerComponent = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `http://localhost:3000/api/brokers?page=${page}`,
+                url: `https://v-bbackend.vercel.app/api/brokers?page=${page}`,
             };
 
             axios.request(config)
@@ -54,7 +54,7 @@ const AllBrokerComponent = () => {
 
     const handleUserDelete = async (userId) => {
         try {
-            const response = await axios.delete(`http://localhost:3000/api/admin/user/${userId}`, {
+            const response = await axios.delete(`https://v-bbackend.vercel.app/api/admin/user/${userId}`, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const AllBrokerComponent = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/admin/user/${uId}`,
+            url: `https://v-bbackend.vercel.app/api/admin/user/${uId}`,
             withCredentials: true
         };
 

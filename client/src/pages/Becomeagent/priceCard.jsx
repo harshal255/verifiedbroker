@@ -55,7 +55,7 @@ const priceCard = ({ plan, price, features }) => {
             order_id: data.id,
             handler: async (res) => {
                 try {
-                    const response = await axios.post(`http://localhost:3000/api/verify/payment/${user._id}/${broker.price}`, res);
+                    const response = await axios.post(`https://v-bbackend.vercel.app/api/verify/payment/${user._id}/${broker.price}`, res);
                     setTimeout(() => {
                         navigate("/agentdash");
                     }, 1000);
@@ -90,7 +90,7 @@ const priceCard = ({ plan, price, features }) => {
                 const config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `http://localhost:3000/api/admin/user/${uId}`,
+                    url: `https://v-bbackend.vercel.app/api/admin/user/${uId}`,
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
                 };
@@ -105,7 +105,7 @@ const priceCard = ({ plan, price, features }) => {
                 } else if (!userData.brokersDetails.isVerified) {
                     toast.error("Your request is under approval");
                 } else if (!userData.brokersDetails.paymentStatus) {
-                    const subscribeResponse = await axios.post("http://localhost:3000/api/subscribe", { price: price }, {
+                    const subscribeResponse = await axios.post("https://v-bbackend.vercel.app/api/subscribe", { price: price }, {
                         headers: {
                             'Content-Type': 'application/json',
                         },

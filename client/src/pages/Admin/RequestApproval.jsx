@@ -25,7 +25,7 @@ const RequestApprovalComponent = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `http://localhost:3000/api/admin/users?page=${page}&brokersDetails.isVerified=false&brokersDetails.paymentStatus=false`,
+                url: `https://v-bbackend.vercel.app/api/admin/users?page=${page}&brokersDetails.isVerified=false&brokersDetails.paymentStatus=false`,
             };
 
             axios.request(config)
@@ -50,7 +50,7 @@ const RequestApprovalComponent = () => {
         let config = {
             method: 'put',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/broker/approve/${uId}`,
+            url: `https://v-bbackend.vercel.app/api/broker/approve/${uId}`,
         };
 
         axios.request(config)
@@ -68,7 +68,7 @@ const RequestApprovalComponent = () => {
         let config = {
             method: 'put',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/broker/reject/${uId}`,
+            url: `https://v-bbackend.vercel.app/api/broker/reject/${uId}`,
         };
 
         axios.request(config)

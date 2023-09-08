@@ -35,7 +35,7 @@ const Agents = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/brokers?page=${page}`,
+      url: `https://v-bbackend.vercel.app/api/brokers?page=${page}`,
       withCredentials: true
     };
 
@@ -52,7 +52,7 @@ const Agents = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/brokers?keyword=${searchQuery}`,
+      url: `https://v-bbackend.vercel.app/api/brokers?keyword=${searchQuery}`,
       withCredentials: true,
     }
 

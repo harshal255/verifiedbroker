@@ -19,7 +19,7 @@ const Discover = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: 'http://localhost:3000/api/property?ratings[gte]=3',
+                url: 'https://v-bbackend.vercel.app/api/property?ratings[gte]=3',
             };
 
             axios.request(config)

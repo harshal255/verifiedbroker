@@ -36,7 +36,7 @@ const AllUsersComponent = () => {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `http://localhost:3000/api/admin/users?page=${page}`,
+        url: `https://v-bbackend.vercel.app/api/admin/users?page=${page}`,
       };
 
       axios.request(config)
@@ -55,7 +55,7 @@ const AllUsersComponent = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/admin/user/${uId}`,
+      url: `https://v-bbackend.vercel.app/api/admin/user/${uId}`,
       withCredentials: true
     };
 
@@ -74,7 +74,7 @@ const AllUsersComponent = () => {
 
   const handleUserDelete = async (userId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/api/admin/user/${userId}`, {
+      const response = await axios.delete(`https://v-bbackend.vercel.app/api/admin/user/${userId}`, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

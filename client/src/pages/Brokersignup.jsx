@@ -49,7 +49,7 @@ const Brokersignup = () => {
 
         try {
             const response = await axios.put(
-                `http://localhost:3000/api/broker/${localStorage.getItem("uId")}`,
+                `https://v-bbackend.vercel.app/api/broker/${localStorage.getItem("uId")}`,
                 brokerDetails,
                 {
                     headers: {

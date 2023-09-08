@@ -46,7 +46,7 @@ const AgentWholeDashboard = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/logout', {
+            const response = await axios.get('https://v-bbackend.vercel.app/api/logout', {
                 withCredentials: true,
                 headers: {
                     "Content-Type": "application/json",

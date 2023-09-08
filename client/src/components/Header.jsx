@@ -51,7 +51,7 @@ const Header = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/api/logout',
+            url: 'https://v-bbackend.vercel.app/api/logout',
             withCredentials: true
         };
 

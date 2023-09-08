@@ -64,7 +64,7 @@ const NavbarDefault = () => {
       .filter((param) => param !== '')
       .join('&');
 
-    const filterUrl = `http://localhost:3000/api/property?${queryParams}`;
+    const filterUrl = `https://v-bbackend.vercel.app/api/property?${queryParams}`;
     console.log(filterUrl);
 
     let config = {

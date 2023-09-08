@@ -29,7 +29,7 @@ const Reviews = () => {
         let config = {
             method: 'delete',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/${user._id}/reviewBroker/${user._id}`,
+            url: `https://v-bbackend.vercel.app/api/${user._id}/reviewBroker/${user._id}`,
             headers: {
                 'Content-Type': 'application/json'
             },
