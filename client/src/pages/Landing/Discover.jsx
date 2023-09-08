@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Avatar, Typography, Card, Button } from '@material-tailwind/react'
-import KingBedIcon from '@mui/icons-material/KingBed';
-import BathtubIcon from '@mui/icons-material/Bathtub';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
-import { Divider } from '@mui/material';
+import { BiBed, BiBath } from 'react-icons/bi';
+import { TbRulerMeasure } from 'react-icons/tb';
 import axios from 'axios';
 
 
@@ -46,11 +44,11 @@ const Discover = () => {
                             <Typography className="text-2xl mt-2">{property.pName}</Typography>
                             <Typography>{property.country}</Typography>
                             <div className='flex flex-row items-center mt-2 mb-2 gap-4'>
-                                <Typography className="flex flex-row items-center lg:gap-2"><span className='hidden lg:block'><KingBedIcon /></span>{property.bedroom}</Typography>
-                                <Typography className="flex flex-row gap-2 items-center lg:gap-2"><span className='hidden lg:block'><BathtubIcon /></span>{property.bath}</Typography>
-                                <Typography className="flex flex-row gap-2 items-center lg:gap-2"><span className='hidden lg:block' ><SquareFootIcon /></span>{property.pSize}</Typography>
+                                <Typography className="flex flex-row items-center lg:gap-2"><span className='hidden lg:block'><BiBed /></span>{property.bedroom}</Typography>
+                                <Typography className="flex flex-row gap-2 items-center lg:gap-2"><span className='hidden lg:block'><BiBath /></span>{property.bath}</Typography>
+                                <Typography className="flex flex-row gap-2 items-center lg:gap-2"><span className='hidden lg:block' ><TbRulerMeasure /></span>{property.pSize}</Typography>
                             </div>
-                            <Divider />
+                            <hr />
 
                             <Typography className="text-xl left-4 absolute bottom-48 px-3 bg-white lg:px-4 lg:py-2 rounded-md font-bold">{property.price}</Typography>
 

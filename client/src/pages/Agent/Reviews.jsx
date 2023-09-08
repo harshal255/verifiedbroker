@@ -10,7 +10,7 @@ import { BsReply } from 'react-icons/bs'
 import SingleProperty from '../../api/Singleproperty';
 import { useContext } from 'react';
 import AuthContext from '../AuthContext';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { AiOutlineDelete } from 'react-icons/ai';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -76,7 +76,7 @@ const Reviews = () => {
                                                 </div>
                                                 <div className="row-span-1  flex items-center justify-center gap-4 font-bold text-base">
                                                     {element.userName}
-                                                    {user._id === element.userId && <DeleteOutlineIcon onClick={handleDelete} />}
+                                                    {user._id === element.userId && <AiOutlineDelete onClick={handleDelete} />}
                                                 </div>
                                                 <div className="row-span-1 flex items-center justify-center">Reviewed on {getDate(element.createdAt)}</div>
                                             </div>

@@ -17,8 +17,8 @@ import {
 import axios from 'axios';
 import AuthContext from '../pages/AuthContext'
 import { Toaster, toast } from 'react-hot-toast';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import {MdVerified} from 'react-icons/md';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { MdVerified } from 'react-icons/md';
 
 const Oneajent = () => {
 
@@ -208,7 +208,7 @@ const Oneajent = () => {
                 <Avatar src={singleBroker.brokersDetails.photo.url} alt="avatar" className='rounded-full h-40 w-40' />
                 <div className="flex flex-col gap-2">
                   <h1 className='text-3xl font-bold flex justify-center items-center gap-5'>{singleBroker.name}
-                  <MdVerified className="text-deep-orange-500" />
+                    <MdVerified className="text-deep-orange-500" />
                   </h1>
                   <span className='text-sm text-gray-600'>Experience :  <b>{singleBroker.brokersDetails.experience}</b></span>
                   <div className="flex text-sm gap-2 flex-wrap items-center justify-center">
@@ -281,7 +281,7 @@ const Oneajent = () => {
                           );
                         }
                       )}
-                    
+
                   </div>
                 )}
 
@@ -335,7 +335,7 @@ const Oneajent = () => {
                         />
                         <div className="space-y-1 flex gap-5 items-center justify-center font-medium dark:text-white">
                           <p>{element.userName}</p>
-                          {user && user._id === element.userId && <DeleteOutlineIcon onClick={handleDelete} />}
+                          {user && user._id === element.userId && <AiOutlineDelete onClick={handleDelete} />}
                         </div>
                       </div>
                       <Rating value={element.rating} readonly />
