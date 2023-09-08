@@ -51,7 +51,7 @@ const Property = () => {
         let config = {
           method: 'get',
           maxBodyLength: Infinity,
-          url: `http://localhost:3000/api/property?page=${page}`,
+          url: `https://v-bbackend.vercel.app/api/property?page=${page}`,
           withCredentials: true,
         };
 
@@ -72,7 +72,7 @@ const Property = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/property?page=${page}`,
+      url: `https://v-bbackend.vercel.app/api/property?page=${page}`,
       withCredentials: true,
     };
 
@@ -96,7 +96,7 @@ const Property = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/property?keyword=${searchQuery}`,
+      url: `https://v-bbackend.vercel.app/api/property?keyword=${searchQuery}`,
       withCredentials: true,
     }
 
@@ -169,7 +169,7 @@ const Property = () => {
       .filter((param) => param !== '')
       .join('&');
 
-    const filterUrl = `http://localhost:3000/api/property?${queryParams}`;
+    const filterUrl = `https://v-bbackend.vercel.app/api/property?${queryParams}`;
     console.log(filterUrl);
 
     let config = {

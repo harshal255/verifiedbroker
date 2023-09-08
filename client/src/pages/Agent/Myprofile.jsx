@@ -61,7 +61,7 @@ const Myprofile = () => {
         let config = {
             method: 'put',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/update/broker/${user._id}`,
+            url: `https://v-bbackend.vercel.app/api/update/broker/${user._id}`,
             withCredentials: true,
             data: updatedUser,
             headers: {

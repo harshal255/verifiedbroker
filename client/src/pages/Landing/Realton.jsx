@@ -14,7 +14,7 @@ const Realton = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/property?status=${status}`,
+            url: `https://v-bbackend.vercel.app/api/property?status=${status}`,
         };
 
         await axios.request(config)

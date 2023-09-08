@@ -505,7 +505,7 @@ const AddBrokerDetails = () => {
         }
         try {
             const res = await axios.post(
-                `http://localhost:3000/api/add/property/${bId}`,
+                `https://v-bbackend.vercel.app/api/add/property/${bId}`,
                 formData,
                 {
                     withCredentials: true,
@@ -539,7 +539,7 @@ const AddBrokerDetails = () => {
         const config = {
             method: 'put',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/amenities/${pId}`,
+            url: `https://v-bbackend.vercel.app/api/amenities/${pId}`,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -570,7 +570,7 @@ const AddBrokerDetails = () => {
         let config = {
             method: 'delete',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/amenities/${pId}`,
+            url: `https://v-bbackend.vercel.app/api/amenities/${pId}`,
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json'

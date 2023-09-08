@@ -60,18 +60,18 @@ const Singleproperty = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const propertyResponse = await axios.get(`http://localhost:3000/api/property/${pId}`, { withCredentials: true });
+                const propertyResponse = await axios.get(`https://v-bbackend.vercel.app/api/property/${pId}`, { withCredentials: true });
                 const currentProperty = propertyResponse.data.data;
                 console.log(currentProperty);
                 setProperty(currentProperty);
 
                 if (propertyResponse.data.data.broker_id) {
-                    const brokerResponse = await axios.get(`http://localhost:3000/api/broker/${propertyResponse.data.data.broker_id}`);
+                    const brokerResponse = await axios.get(`https://v-bbackend.vercel.app/api/broker/${propertyResponse.data.data.broker_id}`);
                     setBroker(brokerResponse.data);
                 }
 
                 if (propertyResponse) {
-                    const NearbyProp = await axios.get(`http://localhost:3000/api/property?city=${propertyResponse.data.data.city}`);
+                    const NearbyProp = await axios.get(`https://v-bbackend.vercel.app/api/property?city=${propertyResponse.data.data.city}`);
                     const filteredNearbyProp = NearbyProp.data.property.filter(prop => prop._id !== currentProperty._id);
                     setNearByProp(filteredNearbyProp);
                 }
@@ -88,7 +88,7 @@ const Singleproperty = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `http://localhost:3000/api/latlng/${property.Address},${property.city}`,
+                url: `https://v-bbackend.vercel.app/api/latlng/${property.Address},${property.city}`,
                 withCredentials: true,
             };
 
@@ -113,7 +113,7 @@ const Singleproperty = () => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/${user._id}/review/${pId}`,
+            url: `https://v-bbackend.vercel.app/api/${user._id}/review/${pId}`,
             withCredentials: true,
             data: selectRating,
         }
@@ -133,7 +133,7 @@ const Singleproperty = () => {
         let config = {
             method: 'delete',
             maxBodyLength: Infinity,
-            url: `http://localhost:3000/api/${uId}/review/${pId}`,
+            url: `https://v-bbackend.vercel.app/api/${uId}/review/${pId}`,
             withCredentials: true,
         };
 

@@ -23,7 +23,7 @@ export default function Register() {
 
         try {
             console.log(name, email, password);
-            const response = await axios.post('http://localhost:3000/api/register', {
+            const response = await axios.post('https://v-bbackend.vercel.app/api/register', {
                 name,
                 email,
                 password,

@@ -57,7 +57,7 @@ const Myproperty = () => {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `http://localhost:3000/api/properties/${uId}?page=${page}`,
+        url: `https://v-bbackend.vercel.app/api/properties/${uId}?page=${page}`,
         withCredentials: true,
       };
 
@@ -77,7 +77,7 @@ const Myproperty = () => {
 
   const handleDeleteProperty = async (pId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/api/property/${pId}`, {
+      const response = await axios.delete(`https://v-bbackend.vercel.app/api/property/${pId}`, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ const Myproperty = () => {
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/update/property/${propertyTobeModify._id}`,
+      url: `https://v-bbackend.vercel.app/api/update/property/${propertyTobeModify._id}`,
       withCredentials: true,
       data: propertyTobeModify,
     }
@@ -129,7 +129,7 @@ const Myproperty = () => {
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/update/images/${propertyTobeModify._id}`,
+      url: `https://v-bbackend.vercel.app/api/update/images/${propertyTobeModify._id}`,
       withCredentials: true,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -159,7 +159,7 @@ const Myproperty = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/properties/${uId}?keyword=${searchQuery}`,
+      url: `https://v-bbackend.vercel.app/api/properties/${uId}?keyword=${searchQuery}`,
       withCredentials: true,
     }
 
@@ -184,7 +184,7 @@ const Myproperty = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/property/${pId}`,
+      url: `https://v-bbackend.vercel.app/api/property/${pId}`,
       withCredentials: true,
     };
 

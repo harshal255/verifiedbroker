@@ -19,7 +19,7 @@ const DashboardAnalitics = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `http://localhost:3000/api/properties/${user._id}`,
+                url: `https://v-bbackend.vercel.app/api/properties/${user._id}`,
                 withCredentials: true,
             };
 

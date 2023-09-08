@@ -27,7 +27,7 @@ export default function Login() {
 
 
         try {
-            const response = await axios.post('http://localhost:3000/api/login', {
+            const response = await axios.post('https://v-bbackend.vercel.app/api/login', {
                 email,
                 password,
             });
@@ -92,7 +92,7 @@ export default function Login() {
                             />
                         </div>
                         <Typography color="gray" className="mt-2 mx-auto font-normal">
-                            <a href="http://localhost:3000/api/forgot-password" className=" underline font-medium transition-colors hover:text-orange-700">
+                            <a href="https://v-bbackend.vercel.app/api/forgot-password" className=" underline font-medium transition-colors hover:text-orange-700">
                                 Forgot your password?
                             </a>
                         </Typography>

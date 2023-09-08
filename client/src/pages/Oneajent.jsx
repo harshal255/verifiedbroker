@@ -61,7 +61,7 @@ const Oneajent = () => {
   useEffect(() => {
     async function fetchBrokerData() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/broker/${brokerId}`, { withCredentials: true });
+        const response = await axios.get(`https://v-bbackend.vercel.app/api/broker/${brokerId}`, { withCredentials: true });
         setSingleBroker(response.data.broker);
       } catch (error) {
         console.log(error);
@@ -70,7 +70,7 @@ const Oneajent = () => {
 
     async function fetchPropertiesData() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/properties/${brokerId}`, { withCredentials: true });
+        const response = await axios.get(`https://v-bbackend.vercel.app/api/properties/${brokerId}`, { withCredentials: true });
         setProperties(response.data.property);
       } catch (error) {
         console.log(error);
@@ -110,7 +110,7 @@ const Oneajent = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/${user._id}/reviewBroker/${singleBroker._id}`,
+      url: `https://v-bbackend.vercel.app/api/${user._id}/reviewBroker/${singleBroker._id}`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -137,7 +137,7 @@ const Oneajent = () => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/${user._id}/reviewBroker/${singleBroker._id}`,
+      url: `https://v-bbackend.vercel.app/api/${user._id}/reviewBroker/${singleBroker._id}`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -171,7 +171,7 @@ const Oneajent = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/sendMail`,
+      url: `https://v-bbackend.vercel.app/api/sendMail`,
       headers: {
         'Content-Type': 'application/json'
       },
