@@ -47,27 +47,34 @@ const Header = () => {
         }
     }
 
-    const handleLogout = () => {
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'https://v-bbackend.vercel.app/api/logout',
-            withCredentials: true
-        };
-
-        axios.request(config)
-            .then((response) => {
-                setTimeout(() => {
-                    toast.success(response.data.message);
-                })
-                setUser(null);
-                navigate('/');
-            })
-            .catch((error) => {
-                console.log(error);
+    const handleLogout = async () => {
+        try {
+            const response = await axios.get('https://v-bbackend.vercel.app/api/logout', {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
-
-    }
+            if (response && response.status === 200) {
+                toast.success(response.data.message);
+                localStorage.clear();
+                Cookies.remove('tokenjwt');
+                setTimeout(() => {
+                    setUser(null) // Remove the token from the cookie
+                    navigate("/");
+                }, 2000);
+            } else {
+                toast.error("Logout failed. Please try again.");
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error("An error occurred. Please try again later.");
+            }
+            console.error(error);
+        }
+    };
 
     return (
         <>
