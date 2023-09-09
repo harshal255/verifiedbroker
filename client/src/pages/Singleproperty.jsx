@@ -5,7 +5,9 @@ import {
     Button,
     Typography,
     Rating,
-    Textarea
+    Textarea,
+    Card,
+    Avatar
 } from "@material-tailwind/react";
 import { BiBed, BiBath, BiHomeAlt2 } from 'react-icons/bi'
 import { TbRulerMeasure } from 'react-icons/tb'
@@ -21,13 +23,12 @@ import { toast, Toaster } from 'react-hot-toast'
 import { MdDateRange, MdOutlineBedroomParent } from 'react-icons/md';
 import { ImHome } from 'react-icons/im';
 import AuthContext from './AuthContext';
-
-
-
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
 
 const Singleproperty = () => {
 
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const [property, setProperty] = useState(null);
     const [nearByProp, setNearByProp] = useState([]);
@@ -44,6 +45,24 @@ const Singleproperty = () => {
         long: ''
     })
     console.log(latlng);
+
+    const [contact, setContact] = useState({
+        name: '',
+        userId: '',
+        brokerId: '',
+        message: '',
+      });
+    
+      useEffect(() => {
+        if (user && singleBroker) {
+          setContact((prev) => ({
+            ...prev,
+            userId: user.email,
+            brokerId: singleBroker.email
+          }))
+        }
+      }, [user])
+
     const location = useLocation();
     const navigate = useNavigate();
     const pId = location.state?.pId;
@@ -157,6 +176,43 @@ const Singleproperty = () => {
             <h1>Loading...</h1>
         )
     }
+
+    const handleContact = (e) => {
+        const { name, value } = e.target;
+        setContact((prev) => ({
+          ...prev,
+          [name]: value
+        }))
+      }
+
+    const handleContactSubmit = () => {
+        let config = {
+          method: 'post',
+          maxBodyLength: Infinity,
+          url: `http://localhost:3000/api/sendMail`,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true,
+          data: contact
+        };
+    
+        axios.request(config)
+          .then((response) => {
+            toast.success(response.data.message);
+            if (user && singleBroker) {
+              setContact(() => ({
+                name: '',
+                message: '',
+                userId: user.email,
+                brokerId: singleBroker.email
+              }))
+            }
+          })
+          .catch((error) => {
+            toast.error(error.response.data.message);
+          });
+      }
 
     return (
         <>
@@ -315,13 +371,19 @@ const Singleproperty = () => {
                                 <div className='flex'><span className='font-semibold basis-1/2'>State:</span>  <span className='basis-1/2'>{property.state}</span></div>
                                 <div className='flex'><span className='font-semibold basis-1/2'>Country:</span>  <span className='basis-1/2'>{property.country}</span></div>
                             </div>
-                            <div><iframe
-                                src={`https://maps.google.com/maps?q=${latlng.lat},${latlng.long}&hl=es;z=14&output=embed`}
-                                allowFullScreen=""
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when -downgrade"
-                                className='w-full h-full xl:w-[740px] xl:h-[250px]'
-                            ></iframe>
+                            <div>
+
+                                {latlng.lat && latlng.long && <MapContainer center={[latlng.lat, latlng.long]} zoom={13} style={{ width: '100%', height: '400px' }}>
+                                    <TileLayer
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                    />
+                                    <Marker position={[latlng.lat, latlng.long]}>
+                                        <Popup>
+                                            A sample marker!
+                                        </Popup>
+                                    </Marker>
+                                </MapContainer>}
                             </div>
                         </div>
                         <div className='filter shadow-xl rounded-2xl p-5 flex flex-col xl:gap-10'>
@@ -395,46 +457,32 @@ const Singleproperty = () => {
                         </div>
                     </div>
                     <div className="w-full xl:w-1/3 xl:sticky xl:bottom-0">
-                        <div className='filter shadow-xl rounded-2xl p-5'>
-                            <h1 className='font-bold text-xl my-3'>Contact</h1>
-                            <form className="mt-8 mb-2 max-w-screen-lg sm:w-96">
-                                <div className="mb-4 flex flex-col gap-6">
-                                    <Input size="lg" label="Name" color='orange' />
-                                    <Input size="lg" label="phone" type='tel' color='orange' />
-                                    <Input size="lg" label="Email" type='email' color='orange' />
-                                    <Input type="password" size="lg" label="Password" color='orange' />
+                        <Card color="transparent" shadow={false} className='border border-black w-[85vw] xl:w-fit xl:px-10 py-10 xl:-mt-28 bg-white'>
+                            <Typography variant="h4" color="blue-gray">
+                                Contact Form
+                            </Typography>
+
+                            <form className="mt-8 mb-2 max-w-fit xl:w-96 flex flex-col gap-3 ">
+                                <div className="mb-4 flex flex-col gap-2 xl:gap-6 items-center justify-center ml-10 xl:ml-0">
+                                    <div className="w-36 xl:w-72 text-center"><Input label="Name" name='name' value={contact.name} onChange={handleContact} /></div>
+                                    <div className="w-36 xl:w-72 text-center"><Input label="Email" value={user && user.email} /></div>
+                                    <div className="w-36 xl:w-72 text-center">
+                                        <Textarea label="Message" name='message' value={contact.message} onChange={handleContact} />
+                                    </div>
                                 </div>
-                                <Checkbox
-                                    color='orange'
-                                    label={
-                                        <Typography
-                                            variant="small"
-                                            color="gray"
-                                            className="flex items-center font-normal"
-                                        >
-                                            I agree the
-                                            <a
-                                                href="#"
-                                                className="font-medium transition-colors hover:text-gray-900"
-                                            >
-                                                &nbsp;Terms and Conditions
-                                            </a>
-                                        </Typography>
-                                    }
-                                    containerProps={{ className: "-ml-2.5" }}
-                                />
-                                <Button className="mt-6 bg-deep-orange-500" fullWidth>
-                                    Submit
+
+                                <Button className="mt-6 w-32 ml-10 xl:ml-0" onClick={handleContactSubmit} fullWidth>
+                                    Send Mail
                                 </Button>
                             </form>
-                        </div>
+                        </Card>
 
                         <div className='filter shadow-xl rounded-2xl p-5'>
                             <h1 className='font-bold text-xl my-3'>Get More Information</h1>
                             <div className="flex gap-2">
                                 {broker && (
                                     <div className="flex gap-2 items-center">
-                                        <img
+                                        <Avatar
                                             src={broker.broker.brokersDetails.photo.url}
                                             alt="avatar"
                                             className="h-20 w-20 rounded-full"
