@@ -27,6 +27,8 @@ export default function Login() {
 
 
         try {
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 7); // 7 days from now
             const response = await axios.post('https://v-bbackend.vercel.app/api/login', {
                 email,
                 password,
@@ -38,7 +40,7 @@ export default function Login() {
             localStorage.setItem("uId", response.data.user._id);
             localStorage.setItem("role", response.data.user.role);
             const Token = response.data.token;
-            Cookies.set('tokenjwt', Token);
+            Cookies.set('tokenjwt', Token, {expires:expirationDate});
 
             setTimeout(() => {
                 if (response.data.user.role === 'admin') {
