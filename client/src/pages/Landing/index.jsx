@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Typography,
@@ -11,14 +11,12 @@ import {
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaItunesNote } from 'react-icons/fa';
 import { BsSearch } from 'react-icons/bs';
-// import { useCountries } from "use-react-countries";
 import axios from "axios";
+import countryStateData from '../../api/countryStateData.json';
 import { toast, Toaster } from "react-hot-toast";
 
 
 const NavbarDefault = () => {
-
-  // const { countries } = useCountries();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -143,16 +141,12 @@ const NavbarDefault = () => {
                   onChange={(e) => setFilters({ ...filters, country: e.target.value })}
                   className="w-full border border-gray-500 px-4 py-2 rounded-lg bg-transparent"
                 >
-                  {/* {countries.map(({ name, flags }) => (
-                    <option key={name} value={name} className="flex items-center gap-2">
-                      <img
-                        src={flags.svg}
-                        alt={name}
-                        className="h-5 w-5 rounded-full object-cover"
-                      />
-                      {name}
+                  <option value="select country">Select country</option>
+                  {countryStateData.map((country) => (
+                    <option key={country.country_id} value={country.country_name}>
+                      {country.country_name}
                     </option>
-                  ))} */}
+                  ))}
                 </select>
               </div>
               <div>
@@ -230,30 +224,20 @@ const NavbarDefault = () => {
                 <option>Land</option>
               </select>
             </div>
-            <div className="hidden lg:block">
+            <div>
               <Typography className="text-md mb-3">Location</Typography>
               <select
                 size="lg"
                 label="Select Country"
                 onChange={(e) => setFilters({ ...filters, country: e.target.value })}
                 className="w-full border border-gray-500 px-4 py-2 rounded-lg bg-transparent"
-                selected={(element) =>
-                  element &&
-                  React.cloneElement(element, {
-                    className: "flex items-center px-0 gap-2 pointer-events-none w-20",
-                  })
-                }
               >
-                {/* {countries.map(({ name, flags }) => (
-                  <option key={name} value={name} className="flex items-center gap-2">
-                    <img
-                      src={flags.svg}
-                      alt={name}
-                      className="h-5 w-5 rounded-full object-cover"
-                    />
-                    {name}
+                <option value="select country">Select country</option>
+                {countryStateData.map((country) => (
+                  <option key={country.country_id} value={country.country_name}>
+                    {country.country_name}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
             <div className="hidden lg:block">
