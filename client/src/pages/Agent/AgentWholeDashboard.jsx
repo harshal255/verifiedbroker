@@ -6,7 +6,7 @@ import Myprofile from './Myprofile'
 import Myproperty from './Myproperty'
 import Reviews from './Reviews'
 import { useContext, useState } from 'react'
-import { Drawer, Typography, IconButton } from '@material-tailwind/react'
+import { Drawer, Typography, IconButton, select } from '@material-tailwind/react'
 import { useNavigate } from 'react-router-dom'
 import { LuMessagesSquare } from 'react-icons/lu'
 import { BsHouseAdd } from 'react-icons/bs'
@@ -21,6 +21,7 @@ import { toast, Toaster } from 'react-hot-toast'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import AuthContext from '../AuthContext'
+import Festivalcard from './FestivalCard'
 
 const AgentWholeDashboard = () => {
 
@@ -30,7 +31,7 @@ const AgentWholeDashboard = () => {
     const closeDrawer = () => setOpen(false);
     const navigate = useNavigate();
 
-    const {user,setUser} =useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
 
     const [selectedButton, setSelectedButton] = useState('Dashboard');
@@ -42,7 +43,7 @@ const AgentWholeDashboard = () => {
 
     };
 
-    const displayedComponent = selectedButton === 'Dashboard' ? <DashBoardBody /> : selectedButton === 'CTPVD' ? <CTPVD /> : selectedButton === 'AddNewProperties' ? <AddProfileDetails /> : selectedButton === 'Properties' ? <Myproperty /> : selectedButton === 'Reviews' ? <Reviews /> : selectedButton === 'Profile' ? <Myprofile /> : <DashBoardBody />
+    const displayedComponent = selectedButton === 'Dashboard' ? <DashBoardBody /> : selectedButton === 'CTPVD' ? <CTPVD /> : selectedButton === 'AddNewProperties' ? <AddProfileDetails /> : selectedButton === 'Properties' ? <Myproperty /> : selectedButton === 'Reviews' ? <Reviews /> : selectedButton === 'Profile' ? <Myprofile /> : selectedButton === 'FestivalCard' ? <Festivalcard /> : <DashBoardBody />
 
     const handleLogout = async () => {
         try {
@@ -182,6 +183,18 @@ const AgentWholeDashboard = () => {
                                 </span>
                             </span>
                         </button>
+                        <button className={`transition ease-in rounded-lg hover:bg-black hover:text-white p-5 border border-black ${selectedButton === 'FestivalCard' ? 'bg-black text-white duration-300' : 'bg-white text-black'}`}
+                            onClick={() => handleButtonClick('FestivalCard')}
+                        >
+                            <span className='flex justify-between gap-5 items-center '>
+                                <span>
+                                    <CgProfile className="h-5 w-5" />
+                                </span>
+                                <span className="mr-auto font-normal">
+                                    FestivalCard
+                                </span>
+                            </span>
+                        </button>
                         <button className={`transition ease-in rounded-lg hover:bg-black hover:text-white p-5 border border-black ${selectedButton === 'Logout' ? 'bg-black text-white duration-300' : 'bg-white text-black'}`}
                             onClick={handleLogout}
                         >
@@ -278,6 +291,18 @@ const AgentWholeDashboard = () => {
                                     </span>
                                     <span className="mr-auto font-normal">
                                         My Profile
+                                    </span>
+                                </span>
+                            </button>
+                            <button className={`transition ease-in rounded-lg hover:bg-black hover:text-white p-5 border border-black ${selectedButton === 'FestivalCard' ? 'bg-black text-white duration-300' : 'bg-white text-black'}`}
+                                onClick={() => handleButtonClick('FestivalCard')}
+                            >
+                                <span className='flex justify-between gap-5 items-center '>
+                                    <span>
+                                        <CgProfile className="h-5 w-5" />
+                                    </span>
+                                    <span className="mr-auto font-normal">
+                                        FestivalCard
                                     </span>
                                 </span>
                             </button>

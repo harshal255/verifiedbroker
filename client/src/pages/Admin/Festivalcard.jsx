@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import { Textarea, Button } from "@material-tailwind/react";
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from 'react-icons/ai'
 const Festivalcard = () => {
@@ -27,22 +27,13 @@ const Festivalcard = () => {
                         onChange={handleFileChange}
                     />
                     <img src="/images/festivalcard/2.jpg" alt="bg" className="xl:h-auto xl:w-auto  rounded-xl" />
-                    <img src="/images/festivalcard/logo.png" alt="festivalcard" className="absolute top-3 left-3 xl:top-5 xl:left-5 h-10 w-10 xl:h-20 xl:w-20 rounded-full p-1" />
-                    <div className="text-base xl:text-3xl absolute bottom-3 xl:bottom-5 left-0 right-0 mx-auto text-center font-semibold text-black">Good luck with your internship project!</div>
+
                 </div>
                 <div className="flex flex-col gap-5"><h1 className="text-xl xl:text-4xl">Click Poster to update Poster</h1>
-                    <Textarea color="orange" label="Enter text, that you want to display on your festival card" />
                     <div className="flex justify-evenly gap-3" >
                         <div>
                             <Button variant="gradient" color="orange" className="flex items-center gap-3">
-                                <AiOutlineCloudUpload className="h-6 w-6"/>
-                                Upload Logo
-                            </Button>
-                            <input type="file" className="hidden" />
-                        </div>
-                        <div>
-                            <Button variant="gradient" color="orange" className="flex items-center gap-3">
-                                <AiOutlineCloudDownload className="h-6 w-6"/>
+                                <AiOutlineCloudDownload className="h-6 w-6" />
                                 Download Poster
                             </Button>
                             <input type="file" className="hidden" />

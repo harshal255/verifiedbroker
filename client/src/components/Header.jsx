@@ -98,6 +98,11 @@ const Header = () => {
                         <Link to="/landing"> <li className='cursor-pointer'>Landing</li></Link>
 
                     </ul>
+                    <ul className="font-semibold xl:hidden flex justify-between gap-6 mx-5">
+                        <Link to="/login"><li className='cursor-pointer'> Login</li></Link>
+                        {user && <li className='cursor-pointer' onClick={handleLogout}>Logout</li>}
+                        <Link to="/signup"> <li className='cursor-pointer'>Signup</li></Link>
+                    </ul>
                     <span onClick={openDrawerRight} className='cursor-pointer'><RiMenuFoldFill></RiMenuFoldFill></span>
 
                 </div>
