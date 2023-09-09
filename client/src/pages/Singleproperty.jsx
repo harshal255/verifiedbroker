@@ -60,7 +60,7 @@ const Singleproperty = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const propertyResponse = await axios.get(`https://v-bbackend.vercel.app/api/property/${pId}`, { withCredentials: true });
+                const propertyResponse = await axios.get(`https://v-bbackend.vercel.app/api/property/${pId}`);
                 const currentProperty = propertyResponse.data.data;
                 console.log(currentProperty);
                 setProperty(currentProperty);
