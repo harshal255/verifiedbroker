@@ -1,4 +1,4 @@
-import { Textarea, Button, Card, Input } from "@material-tailwind/react";
+import { Button, Card, Input } from "@material-tailwind/react";
 import { AiOutlineCloudDownload } from 'react-icons/ai'
 const Festivalcard = () => {
 
@@ -16,7 +16,7 @@ const Festivalcard = () => {
                             <div className="mb-4 flex flex-col gap-6">
                                 <Input size="lg" label="Name" />
                                 <Input size="lg" label="Email" />
-                                <Textarea color="orange" label="Enter text" />
+                                <Input size="lg" label="Phone" />
                                 <input type="file" />
                                 <Button variant="gradient" color="orange" className="flex items-center gap-3 justify-center">
                                     <AiOutlineCloudDownload className="h-6 w-6" />
