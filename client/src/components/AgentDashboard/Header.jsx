@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
     Avatar,
     IconButton,
-    MobileNav,
+    Collapse,
     Typography
 } from "@material-tailwind/react";
 import { FaEnvelope, FaBell } from 'react-icons/fa';
@@ -53,7 +53,7 @@ const DashbordHeader = () => {
                         {user && user.brokersDetails && <Avatar src={user.brokersDetails.photo.url} alt="avatar" />}
                     </div>
                 </div>
-                <MobileNav open={openNav}>
+                <Collapse open={openNav}>
                     <div className="container mx-auto">
                         <div className="flex items-center justify-end">
                             <IconButton variant="outlined" className="rounded-full" style={{ backgroundColor: 'transparent' }}>
@@ -65,7 +65,7 @@ const DashbordHeader = () => {
                             {user && user.brokersDetails && <Avatar src={user.brokersDetails.photo.url} alt="avatar" />}
                         </div>
                     </div>
-                </MobileNav>
+                </Collapse>
             </nav>
 
         </div>
